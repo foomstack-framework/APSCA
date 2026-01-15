@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-APSCA is a requirements management repository that stores structured requirements, features, epics, stories, and releases as canonical JSON. It serves as the system of record for backlog definition, with execution tools (Jira) consuming by reference rather than duplicating content. Human-readable documentation is generated from this data and served via GitHub Pages.
+APSCA is a requirements management repository that stores structured requirements, features, epics, stories, and releases as canonical JSON. It serves as the system of record for backlog definition, with execution tools (Jira) consuming by reference rather than duplicating content. Human-readable documentation is generated from this data and served via GitLab Pages.
 
 ## Architecture
 
@@ -20,7 +20,7 @@ APSCA is a requirements management repository that stores structured requirement
 - Domain reference documents written by humans, not generated
 
 **Generated content**:
-- `docs/` (except `docs/domain/`) - GitHub Pages views rendered from JSON
+- `docs/` (except `docs/domain/`) - GitLab Pages views rendered from JSON
 - `reports/graph.json` - Structural relationship graph for traversal
 - `reports/index.json` - Denormalized lookup index
 
@@ -29,7 +29,7 @@ APSCA is a requirements management repository that stores structured requirement
 - `validate.py` - Schema and reference integrity checks
 - `build_graph.py` - Generates `reports/graph.json`
 - `build_index.py` - Generates `reports/index.json`
-- `render_docs.py` - Generates GitHub Pages views
+- `render_docs.py` - Generates GitLab Pages views
 
 Note: Scripts are currently stubs awaiting implementation.
 
@@ -110,6 +110,6 @@ Stories include test intent that separates concerns:
 
 This removes business reasoning burden from developers.
 
-## GitHub Pages
+## GitLab Pages
 
-Deployed from `docs/` via GitHub Actions (`.github/workflows/pages.yml`) on push to main.
+Deployed from `docs/` via GitLab CI (`.gitlab-ci.yml`) on push to the default branch.
