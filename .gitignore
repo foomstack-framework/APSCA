@@ -33,6 +33,10 @@ Gemfile.lock
 .env.local
 *.local
 
+# Cursor and Claude configuration
+.cursor/
+.claude/
+
 # Backup files
 *.bak
 *.backup
