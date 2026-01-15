@@ -28,7 +28,7 @@ from lib.io import load_json
 # ID patterns
 ID_PATTERNS = {
     "releases": re.compile(r"^REL-\d{4}-\d{2}-\d{2}(-[a-z])?$"),
-    "domain": re.compile(r"^DOM-\d{3,}$"),
+    "domain": re.compile(r"^ART-\d{3,}$"),
     "requirements": re.compile(r"^REQ-\d{3,}$"),
     "features": re.compile(r"^FEAT-\d{3,}$"),
     "epics": re.compile(r"^EPIC-\d{3,}$"),

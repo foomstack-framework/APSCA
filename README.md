@@ -64,38 +64,52 @@ repo-root/
 │   └── releases.json         # Delivery timeline
 │
 ├── docs/                     # GitLab Pages root
-│   ├── domain/               # Authored domain reference docs
-│   │   ├── eligibility.md
-│   │   ├── exam-catalog.md
-│   │   └── ...
-│   ├── requirements/         # Generated
-│   ├── features/             # Generated
-│   ├── epics/                # Generated
-│   ├── stories/              # Generated
-│   ├── releases/             # Generated
-│   ├── reports/              # Generated (human-facing)
-│   └── index.html            # Generated navigation/dashboard
+│   ├── domain/               # Generated domain reference pages (*.html)
+│   │   └── *.md              # Authored domain content (*.md)
+│   ├── requirements/         # Generated requirement pages
+│   ├── features/             # Generated feature pages
+│   ├── epics/                # Generated epic pages
+│   ├── stories/              # Generated story pages
+│   ├── releases/             # Generated release pages
+│   ├── index.html            # Dashboard landing page
+│   └── story-map.html        # Interactive story map visualization
 │
 ├── reports/                  # Generated (machine-facing)
 │   ├── graph.json            # Structural relationship graph
 │   └── index.json            # Convenience lookup index
 │
 ├── scripts/
-│   ├── mutate.py
-│   ├── validate.py
-│   ├── build_graph.py
-│   ├── build_index.py
-│   └── render_docs.py
+│   ├── lib/                  # Shared utilities
+│   │   ├── config.py         # Path constants
+│   │   ├── io.py             # JSON I/O
+│   │   └── versions.py       # Version helpers
+│   ├── mutate.py             # All canonical JSON modifications
+│   ├── validate.py           # Schema and reference integrity
+│   ├── build_graph.py        # Generate graph.json
+│   ├── build_index.py        # Generate index.json
+│   └── render_docs.py        # Generate HTML documentation
+│
+├── approvals/                # Approval files from /input-requirements
+│   └── *.txt                 # Structured approval files
+│
+├── work/                     # Working directory for AI workflows
+│   └── integrate/            # Integration working files
+│
+├── input/                    # User input files (transcripts, notes)
 │
 └── .claude/
     └── commands/
+        ├── input-requirements.md
+        └── integrate-changes.md
 ```
 
 Notes:
 
 -   GitLab Pages serves `docs/`.
--   `docs/domain/` is authored and never regenerated.
+-   `docs/domain/*.md` is authored prose; `docs/domain/*.html` is generated.
 -   Everything else under `docs/` is generated from `data/*.json`.
+-   `approvals/` holds structured output from `/input-requirements`.
+-   `work/` is used for intermediate artifacts during AI workflows.
 
 ---
 
@@ -153,9 +167,9 @@ The repository distinguishes between:
 
 Stable IDs are referenced everywhere. Format conventions:
 
-| Artifact     | Format                       |
-| ------------ | ---------------------------- |
-| Domain       | `ART-###`                    |
+| Artifact           | Format                       |
+| ------------------ | ---------------------------- |
+| Business Artifact  | `ART-###`                    |
 | Requirements | `REQ-###`                    |
 | Features     | `FEAT-###`                   |
 | Epics        | `EPIC-###`                   |
@@ -608,7 +622,7 @@ Two machine-facing reports are regenerated on every mutation:
         { "from": "STORY-017-v2", "to": "STORY-017", "type": "version_of" },
         {
             "from": "STORY-017-v2",
-            "to": "ART-001",
+            "to": "DOM-001",
             "type": "references_domain"
         },
         {
@@ -779,37 +793,43 @@ Domain docs are already authored at `docs/domain/*.md` and are linked from gener
 
 Claude Code performs investigation and proposal; mutation scripts remain the authority. AI never edits `data/*.json` directly.
 
-## Slash commands (minimum set)
+## Slash Commands
 
-**Targeted (scope locked upfront):**
+Two slash commands provide the requirements management workflow:
 
--   `/update-story STORY-###` — Propose changes to a specific story
--   `/create-story-version STORY-###` — Create a new version of a story
--   `/create-epic-version EPIC-###` — Create a new version of an epic
--   `/supersede-requirement REQ-###` — Supersede a requirement with a new one
--   `/add-requirement` — Add a new requirement
--   `/create-release` — Create a new planned release
--   `/release REL-###` — Mark a release as shipped
+**`/input-requirements <file_or_text> [| context]`**
 
-**Exploratory (AI determines scope):**
+Parse unstructured input (discovery transcripts, notes, inline text) and clarify requirements through interactive dialogue. Outputs a structured approval file to `approvals/<name>.txt`.
 
--   `/process-client-change <text|file>` — Analyze client input and propose updates
--   `/analyze-transcript <file>` — Extract requirements/changes from discovery transcript
--   `/release-summary REL-###` — Summarize what's included in a release
+**`/integrate-changes <approval_file>`**
 
-## High-level flow (master/clone architecture)
+Parse an approval file and execute mutations via `mutate.py`. Presents a summary for user approval before executing, then rebuilds all artifacts.
 
-1. **Investigation agent:** Semantic search across repo; identify potentially relevant artifacts.
-2. **Impact agent:** Assess scope using `graph.json`; identify affected records; flag missing links.
-3. **Proposal agent:** Produce structured mutation payloads (operation + payload JSON).
-4. **Parent agent:** Summarize proposed changes; request human confirmation; execute `mutate.py`; run `validate.py`; regenerate graph, index, and docs.
+## Workflow
 
-## Key constraints
+```
+User Input (transcript, notes, text)
+    ↓
+    /input-requirements
+    ↓
+Approval File (approvals/*.txt)
+    ↓
+    /integrate-changes
+    ↓
+Canonical Data (data/*.json)
+    ↓
+    Build Scripts
+    ↓
+Reports (reports/*.json) + Docs (docs/*.html)
+```
+
+## Key Constraints
 
 -   AI proposes; human confirms; scripts execute.
 -   AI uses `graph.json` for traversal, `index.json` for summaries.
 -   AI may read any file; AI may only write via mutation scripts.
 -   When creating new versions, AI must specify a valid `release_ref`.
+-   User must approve mutations before execution (approval gate in `/integrate-changes`).
 
 ---
 
@@ -847,16 +867,16 @@ No external database is required for v1.
 
 # Engineering Readiness Checklist
 
-Engineering can begin when:
+All items are implemented:
 
--   [ ] `data/` files exist with valid (empty or seeded) JSON
--   [ ] JSON schemas exist for all artifact types (including releases)
--   [ ] `mutate.py` implements the minimum operations (including release operations)
--   [ ] `validate.py` blocks structural violations (including release-related validations)
--   [ ] `build_graph.py` generates `reports/graph.json` (including release nodes and edges)
--   [ ] `build_index.py` generates `reports/index.json` (including release summaries)
--   [ ] `render_docs.py` generates GitLab Pages views (including release views)
--   [ ] One end-to-end vertical slice exists:
+-   [x] `data/` files exist with valid JSON (seeded with test data)
+-   [x] JSON schemas enforced via `validate.py`
+-   [x] `mutate.py` implements all operations (including release operations)
+-   [x] `validate.py` blocks structural violations (including release-related validations)
+-   [x] `build_graph.py` generates `reports/graph.json` (including release nodes and edges)
+-   [x] `build_index.py` generates `reports/index.json` (including release summaries)
+-   [x] `render_docs.py` generates HTML views (including release views)
+-   [x] End-to-end vertical slice exists:
     -   REL-#### created (planned)
     -   DOM entry + authored doc
     -   REQ referencing the DOM

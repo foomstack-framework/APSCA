@@ -9,7 +9,7 @@ APSCA is a requirements management repository that stores structured requirement
 ## Architecture
 
 **Canonical data** (`data/*.json`):
-- `domain.json` - Registry for authored domain reference docs (DOM-###)
+- `domain.json` - Registry for business artifacts (ART-###)
 - `requirements.json` - Declarative obligations (REQ-###)
 - `features.json` - Top-level capability boundaries (FEAT-###)
 - `epics.json` - Versioned groups of stories (EPIC-###)
@@ -29,9 +29,12 @@ APSCA is a requirements management repository that stores structured requirement
 - `validate.py` - Schema and reference integrity checks
 - `build_graph.py` - Generates `reports/graph.json`
 - `build_index.py` - Generates `reports/index.json`
-- `render_docs.py` - Generates GitLab Pages views
+- `render_docs.py` - Generates HTML documentation
 
-Note: Scripts are currently stubs awaiting implementation.
+**Shared utilities** (`scripts/lib/`):
+- `config.py` - Shared path constants (DATA_FILES, DATA_DIR, etc.)
+- `io.py` - JSON I/O utilities (load_json, save_json)
+- `versions.py` - Version utilities (get_current_version)
 
 ## Key Principles
 
@@ -60,7 +63,7 @@ Releases are not part of the core hierarchy. They bind specific versions to deli
 
 | Artifact    | Format         |
 |-------------|----------------|
-| Domain      | DOM-###        |
+| Business Artifact | ART-###   |
 | Requirement | REQ-###        |
 | Feature     | FEAT-###       |
 | Epic        | EPIC-###       |
@@ -113,3 +116,25 @@ This removes business reasoning burden from developers.
 ## GitLab Pages
 
 Deployed from `docs/` via GitLab CI (`.gitlab-ci.yml`) on push to the default branch.
+
+Key pages:
+- `docs/index.html` - Dashboard landing page
+- `docs/story-map.html` - Interactive story map visualization
+- `docs/releases/*.html` - Release detail pages
+- `docs/features/*.html` - Feature detail pages
+- `docs/epics/*.html` - Epic detail pages
+- `docs/stories/*.html` - Story detail pages
+- `docs/requirements/*.html` - Requirement detail pages
+- `docs/domain/*.html` - Generated domain reference pages
+
+## AI Workflow Commands
+
+Two slash commands exist for requirements management:
+
+- `/input-requirements <file_or_text>` - Parse and clarify requirements interactively
+- `/integrate-changes <approval_file>` - Execute mutations from approval files
+
+Workflow:
+1. Use `/input-requirements` to parse input and generate an approval file in `approvals/`
+2. Review and edit the approval file as needed
+3. Use `/integrate-changes` to execute mutations and rebuild artifacts
