@@ -1,0 +1,15 @@
+[
+  {
+    "id": "REL-2026-01-13",
+    "title": "REL-2026-01-13",
+    "status": "planned",
+    "release_date": "2026-01-13",
+    "description": "Test release for script validation",
+    "git_tag": null,
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-13T08:31:06Z",
+    "updated_at": "2026-01-13T08:31:06Z"
+  }
+]

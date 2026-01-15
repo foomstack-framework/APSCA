@@ -11,6 +11,8 @@ pages:
     - python scripts/render_docs.py
     - mkdir -p public
     - cp -r docs/. public/
+    - cp -r data public/
+    - cp -r reports public/
   artifacts:
     paths:
       - public

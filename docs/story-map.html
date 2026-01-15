@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Map - APSCA</title>
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --accent-color: #3b82f6;
+
+            /* Status colors */
+            --status-draft: #f59e0b;
+            --status-approved: #3b82f6;
+            --status-ready: #8b5cf6;
+            --status-in-build: #ec4899;
+            --status-built: #10b981;
+            --status-superseded: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .header-nav a:hover {
+            background: var(--bg-primary);
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        .stats-left {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            color: var(--text-secondary);
+        }
+
+        .stat strong {
+            color: var(--text-primary);
+        }
+
+        /* Story Map Container */
+        .story-map {
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        /* Feature columns */
+        .features-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-column {
+            min-width: 280px;
+            flex-shrink: 0;
+        }
+
+        .feature-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 1.25rem;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        .feature-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-header .feature-id {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Epic sections */
+        .epic-section {
+            background: rgba(255, 255, 255, 0.85);
+            margin-top: 2px;
+        }
+
+        .epic-header {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-left: 3px solid var(--accent-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .epic-header h3 {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .epic-header .epic-id {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* Story cards */
+        .stories-container {
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            border-left: 4px solid transparent;
+        }
+
+        .story-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .story-card.status-draft {
+            border-left-color: var(--status-draft);
+        }
+
+        .story-card.status-approved {
+            border-left-color: var(--status-approved);
+        }
+
+        .story-card.status-ready_to_build {
+            border-left-color: var(--status-ready);
+        }
+
+        .story-card.status-in_build {
+            border-left-color: var(--status-in-build);
+        }
+
+        .story-card.status-built {
+            border-left-color: var(--status-built);
+        }
+
+        .story-status {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-status.draft { background: var(--status-draft); }
+        .story-status.approved { background: var(--status-approved); }
+        .story-status.ready_to_build { background: var(--status-ready); }
+        .story-status.in_build { background: var(--status-in-build); }
+        .story-status.built { background: var(--status-built); }
+        .story-status.superseded { background: var(--status-superseded); }
+
+        .story-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .story-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .story-tag {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: white;
+        }
+
+        .empty-state h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            opacity: 0.9;
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Unassigned column */
+        .unassigned-column .feature-header {
+            background: rgba(239, 68, 68, 0.1);
+            border-bottom-color: #ef4444;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-dot.draft { background: var(--status-draft); }
+        .legend-dot.approved { background: var(--status-approved); }
+        .legend-dot.ready_to_build { background: var(--status-ready); }
+        .legend-dot.in_build { background: var(--status-in-build); }
+        .legend-dot.built { background: var(--status-built); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>User Story Map</h1>
+        <nav class="header-nav">
+            <a href="index.html">Dashboard</a>
+            <a href="features/index.html">Features</a>
+            <a href="epics/index.html">Epics</a>
+            <a href="stories/index.html">Stories</a>
+            <a href="releases/index.html">Releases</a>
+        </nav>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stats-left">
+            <span class="stat"><strong id="story-count">0</strong> Stories</span>
+            <span class="stat"><strong id="epic-count">0</strong> Epics</span>
+            <span class="stat"><strong id="feature-count">0</strong> Features</span>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><span class="legend-dot draft"></span> Draft</div>
+            <div class="legend-item"><span class="legend-dot approved"></span> Approved</div>
+            <div class="legend-item"><span class="legend-dot ready_to_build"></span> Ready</div>
+            <div class="legend-item"><span class="legend-dot in_build"></span> In Build</div>
+            <div class="legend-item"><span class="legend-dot built"></span> Built</div>
+        </div>
+    </div>
+
+    <div class="story-map" id="story-map">
+        <div class="loading">Loading story map...</div>
+    </div>
+
+    <script>
+        // Data storage
+        let features = [];
+        let epics = [];
+        let stories = [];
+
+        // Get current version from versioned artifact
+        function getCurrentVersion(versions) {
+            if (!versions || versions.length === 0) return null;
+            const active = versions.filter(v => v.status !== 'superseded');
+            if (active.length > 0) {
+                return active.reduce((a, b) => (a.version > b.version ? a : b));
+            }
+            return versions.reduce((a, b) => (a.version > b.version ? a : b));
+        }
+
+        // Load all data files
+        async function loadData() {
+            try {
+                const [featuresRes, epicsRes, storiesRes] = await Promise.all([
+                    fetch('data/features.json').catch(() => fetch('../data/features.json')),
+                    fetch('data/epics.json').catch(() => fetch('../data/epics.json')),
+                    fetch('data/stories.json').catch(() => fetch('../data/stories.json'))
+                ]);
+
+                features = await featuresRes.json();
+                epics = await epicsRes.json();
+                stories = await storiesRes.json();
+
+                // Update counts
+                document.getElementById('feature-count').textContent = features.length;
+                document.getElementById('epic-count').textContent = epics.length;
+                document.getElementById('story-count').textContent = stories.length;
+
+                renderStoryMap();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('story-map').innerHTML = `
+                    <div class="empty-state">
+                        <h2>Unable to load data</h2>
+                        <p>Make sure the data files exist in the data/ directory.</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Build the story map structure
+        function buildStoryMap() {
+            // Create a map of feature -> epics -> stories
+            const map = new Map();
+
+            // Initialize features
+            features.forEach(feature => {
+                map.set(feature.id, {
+                    feature: feature,
+                    epics: new Map()
+                });
+            });
+
+            // Add a bucket for unassigned epics
+            map.set('_unassigned', {
+                feature: { id: '_unassigned', title: 'Unassigned' },
+                epics: new Map()
+            });
+
+            // Map epics to features
+            epics.forEach(epic => {
+                const featureId = epic.feature_ref || '_unassigned';
+                const featureData = map.get(featureId) || map.get('_unassigned');
+
+                featureData.epics.set(epic.id, {
+                    epic: epic,
+                    stories: []
+                });
+            });
+
+            // Map stories to epics
+            stories.forEach(story => {
+                const epicId = story.epic_ref;
+                if (!epicId) return;
+
+                // Find which feature this epic belongs to
+                for (const [featureId, featureData] of map) {
+                    if (featureData.epics.has(epicId)) {
+                        featureData.epics.get(epicId).stories.push(story);
+                        break;
+                    }
+                }
+            });
+
+            return map;
+        }
+
+        // Render the story map
+        function renderStoryMap() {
+            const storyMapEl = document.getElementById('story-map');
+            const map = buildStoryMap();
+
+            if (features.length === 0) {
+                storyMapEl.innerHTML = `
+                    <div class="empty-state">
+                        <h2>No features defined yet</h2>
+                        <p>Add features using the mutation scripts to see them here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="features-row">';
+
+            for (const [featureId, featureData] of map) {
+                // Skip empty unassigned bucket
+                if (featureId === '_unassigned' && featureData.epics.size === 0) continue;
+
+                const feature = featureData.feature;
+                const isUnassigned = featureId === '_unassigned';
+
+                html += `
+                    <div class="feature-column ${isUnassigned ? 'unassigned-column' : ''}">
+                        <div class="feature-header">
+                            <div class="feature-id">${feature.id}</div>
+                            <h2>${escapeHtml(feature.title)}</h2>
+                        </div>
+                `;
+
+                // Render epics within this feature
+                for (const [epicId, epicData] of featureData.epics) {
+                    const epic = epicData.epic;
+                    const currentVersion = getCurrentVersion(epic.versions);
+                    const epicStatus = currentVersion ? currentVersion.status : 'unknown';
+
+                    html += `
+                        <div class="epic-section">
+                            <div class="epic-header">
+                                <h3>${escapeHtml(epic.title)}</h3>
+                                <span class="epic-id">${epic.id}</span>
+                            </div>
+                            <div class="stories-container">
+                    `;
+
+                    // Render stories within this epic
+                    if (epicData.stories.length === 0) {
+                        html += `<div style="padding: 1rem; color: var(--text-secondary); font-size: 0.8rem; text-align: center;">No stories yet</div>`;
+                    } else {
+                        epicData.stories.forEach(story => {
+                            const storyVersion = getCurrentVersion(story.versions);
+                            const status = storyVersion ? storyVersion.status : 'unknown';
+                            const releaseRef = storyVersion ? storyVersion.release_ref : null;
+
+                            html += `
+                                <div class="story-card status-${status}" onclick="window.location.href='stories/${story.id}.html'">
+                                    <span class="story-status ${status}">${formatStatus(status)}</span>
+                                    <div class="story-title">${escapeHtml(story.title)}</div>
+                                    <div class="story-meta">
+                                        <span class="story-tag">${story.id}</span>
+                                        ${releaseRef ? `<span class="story-tag">${releaseRef}</span>` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Handle features with no epics
+                if (featureData.epics.size === 0) {
+                    html += `
+                        <div class="epic-section">
+                            <div style="padding: 2rem 1rem; color: var(--text-secondary); font-size: 0.85rem; text-align: center;">
+                                No epics defined for this feature
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += '</div>'; // Close feature-column
+            }
+
+            html += '</div>'; // Close features-row
+            storyMapEl.innerHTML = html;
+        }
+
+        // Helper: escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Helper: format status for display
+        function formatStatus(status) {
+            const labels = {
+                'draft': 'Draft',
+                'approved': 'Approved',
+                'ready_to_build': 'Ready',
+                'in_build': 'Building',
+                'built': 'Done',
+                'superseded': 'Superseded'
+            };
+            return labels[status] || status;
+        }
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>

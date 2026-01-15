@@ -1,0 +1,117 @@
+{
+  "by_id": {
+    "REL-2026-01-13": {
+      "id": "REL-2026-01-13",
+      "type": "release",
+      "title": "REL-2026-01-13",
+      "status": "planned",
+      "release_date": "2026-01-13"
+    },
+    "REQ-001": {
+      "id": "REQ-001",
+      "type": "requirement",
+      "title": "User Authentication",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false,
+      "domain_refs": [],
+      "superseded_by": null
+    },
+    "FEAT-001": {
+      "id": "FEAT-001",
+      "type": "feature",
+      "title": "Login System",
+      "status": "active",
+      "requirement_refs": [
+        "REQ-001"
+      ],
+      "domain_refs": []
+    },
+    "EPIC-001": {
+      "id": "EPIC-001",
+      "type": "epic",
+      "title": "Basic Authentication Flow",
+      "feature_ref": "FEAT-001",
+      "version_count": 1,
+      "current_version": 1,
+      "current_status": "draft",
+      "current_release_ref": "REL-2026-01-13"
+    },
+    "STORY-001": {
+      "id": "STORY-001",
+      "type": "story",
+      "title": "Login Form",
+      "epic_ref": "EPIC-001",
+      "version_count": 1,
+      "current_version": 1,
+      "current_status": "draft",
+      "current_release_ref": "REL-2026-01-13",
+      "has_acceptance_criteria": true,
+      "has_test_intent": true
+    }
+  },
+  "by_type": {
+    "release": [
+      "REL-2026-01-13"
+    ],
+    "domain": [],
+    "requirement": [
+      "REQ-001"
+    ],
+    "feature": [
+      "FEAT-001"
+    ],
+    "epic": [
+      "EPIC-001"
+    ],
+    "story": [
+      "STORY-001"
+    ]
+  },
+  "by_status": {
+    "planned": [
+      "REL-2026-01-13"
+    ],
+    "active": [
+      "REQ-001",
+      "FEAT-001"
+    ],
+    "draft": [
+      "EPIC-001",
+      "STORY-001"
+    ]
+  },
+  "by_release": {
+    "REL-2026-01-13": {
+      "epics": [
+        "EPIC-001"
+      ],
+      "stories": [
+        "STORY-001"
+      ]
+    }
+  },
+  "summaries": {
+    "REL-2026-01-13": "REL-2026-01-13: Test release for script validation",
+    "REQ-001": "REQ-001: User Authentication",
+    "FEAT-001": "FEAT-001: Login System",
+    "EPIC-001": "EPIC-001: Basic Authentication Flow - Implement username/password authentication with se",
+    "STORY-001": "STORY-001: Login Form - As a user, I want to enter my credentials and auth"
+  },
+  "metadata": {
+    "total_count": 5,
+    "counts_by_type": {
+      "release": 1,
+      "domain": 0,
+      "requirement": 1,
+      "feature": 1,
+      "epic": 1,
+      "story": 1
+    },
+    "counts_by_status": {
+      "planned": 1,
+      "active": 2,
+      "draft": 2
+    }
+  }
+}

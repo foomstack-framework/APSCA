@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-render_docs.py - Generate GitHub Pages documentation for APSCA requirements repository.
+render_docs.py - Generate static HTML documentation for APSCA requirements repository.
 
-Generates Markdown files in docs/ from canonical JSON data.
+Generates HTML files in docs/ from canonical JSON data.
 Note: docs/domain/ contains authored content and is NOT overwritten.
 
 Usage:
@@ -12,12 +12,14 @@ Usage:
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from html import escape
 
 # Root directory
 SCRIPT_DIR = Path(__file__).parent
 ROOT_DIR = SCRIPT_DIR.parent
 DATA_DIR = ROOT_DIR / "data"
 DOCS_DIR = ROOT_DIR / "docs"
+REPORTS_DIR = ROOT_DIR / "reports"
 
 # Data files
 DATA_FILES = {
@@ -59,29 +61,280 @@ def get_current_version(versions: List[Dict]) -> Optional[Dict]:
     return max(versions, key=lambda v: v.get("version", 0))
 
 
-def format_refs(refs: List[str], prefix: str = "") -> str:
-    """Format a list of references as Markdown links."""
-    if not refs:
-        return "_None_"
-    # Use Jekyll link syntax for internal references
-    return ", ".join(f"[{ref}]({{% link {prefix}{ref}.md %}})" for ref in refs)
+# =============================================================================
+# HTML Helpers
+# =============================================================================
+
+def e(text: str) -> str:
+    """Escape HTML entities."""
+    return escape(str(text)) if text else ""
 
 
-def format_status_badge(status: str) -> str:
-    """Format status as a badge-style indicator."""
-    badges = {
-        "planned": "**[Planned]**",
-        "released": "**[Released]**",
-        "superseded": "~~[Superseded]~~",
-        "active": "**[Active]**",
-        "deprecated": "~~[Deprecated]~~",
-        "draft": "_[Draft]_",
-        "approved": "**[Approved]**",
-        "ready_to_build": "**[Ready to Build]**",
-        "in_build": "**[In Build]**",
-        "built": "**[Built]**",
+def status_badge(status: str) -> str:
+    """Generate status badge HTML."""
+    colors = {
+        "planned": "#6b7280",
+        "released": "#10b981",
+        "superseded": "#9ca3af",
+        "active": "#10b981",
+        "deprecated": "#ef4444",
+        "draft": "#f59e0b",
+        "approved": "#3b82f6",
+        "ready_to_build": "#8b5cf6",
+        "in_build": "#ec4899",
+        "built": "#10b981",
     }
-    return badges.get(status, f"[{status}]")
+    color = colors.get(status, "#6b7280")
+    return f'<span class="status-badge" style="background-color: {color}">{e(status)}</span>'
+
+
+def link(href: str, text: str) -> str:
+    """Generate a link."""
+    return f'<a href="{e(href)}">{e(text)}</a>'
+
+
+def format_refs_html(refs: List[str], prefix: str = "") -> str:
+    """Format a list of references as HTML links."""
+    if not refs:
+        return "<em>None</em>"
+    links = [f'<a href="{prefix}{ref}.html">{e(ref)}</a>' for ref in refs]
+    return ", ".join(links)
+
+
+# =============================================================================
+# HTML Layout
+# =============================================================================
+
+CSS = """
+:root {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --accent-color: #3b82f6;
+    --nav-width: 220px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+nav {
+    width: var(--nav-width);
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    padding: 1.5rem 1rem;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+nav h2 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+nav ul {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+nav a {
+    display: block;
+    padding: 0.4rem 0.75rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+nav a:hover, nav a.active {
+    background: var(--bg-primary);
+    color: var(--accent-color);
+}
+
+nav .brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    display: block;
+    text-decoration: none;
+}
+
+main {
+    margin-left: var(--nav-width);
+    flex: 1;
+    padding: 2rem 3rem;
+    max-width: 900px;
+}
+
+h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+h2 {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.75rem;
+    color: var(--text-primary);
+}
+
+h3 {
+    font-size: 1rem;
+    margin: 1rem 0 0.5rem;
+    color: var(--text-secondary);
+}
+
+p, ul, ol {
+    margin-bottom: 1rem;
+}
+
+ul, ol {
+    padding-left: 1.5rem;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.meta {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.meta strong {
+    color: var(--text-primary);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background: var(--bg-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background: var(--bg-primary);
+}
+
+.section {
+    margin: 1.5rem 0;
+}
+
+code {
+    background: var(--bg-primary);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+"""
+
+
+def html_page(title: str, content: str, active_section: str = "", depth: int = 1) -> str:
+    """Wrap content in full HTML page with navigation."""
+    prefix = "../" * depth
+
+    nav_items = [
+        ("", "Dashboard", "index.html"),
+        ("", "Story Map", "story-map.html"),
+        ("features", "Features", "features/index.html"),
+        ("epics", "Epics", "epics/index.html"),
+        ("stories", "Stories", "stories/index.html"),
+        ("requirements", "Requirements", "requirements/index.html"),
+        ("releases", "Releases", "releases/index.html"),
+    ]
+
+    nav_html = f'<a class="brand" href="{prefix}index.html">APSCA</a>\n'
+    nav_html += '<ul>\n'
+    for section, label, href in nav_items:
+        active_class = ' class="active"' if section == active_section else ""
+        nav_html += f'    <li><a href="{prefix}{href}"{active_class}>{label}</a></li>\n'
+    nav_html += '</ul>\n'
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{e(title)} - APSCA</title>
+    <style>{CSS}</style>
+</head>
+<body>
+    <div class="layout">
+        <nav>
+            {nav_html}
+        </nav>
+        <main>
+            {content}
+        </main>
+    </div>
+</body>
+</html>
+"""
 
 
 # =============================================================================
@@ -89,347 +342,289 @@ def format_status_badge(status: str) -> str:
 # =============================================================================
 
 def render_release(release: Dict) -> str:
-    """Render a release as Markdown."""
-    lines = [
-        "---",
-        f"title: \"{release.get('title', release['id'])}\"",
-        f"layout: default",
-        f"parent: Releases",
-        "---",
-        "",
-        f"# {release['id']}",
-        "",
-        f"**Status:** {format_status_badge(release.get('status', 'unknown'))}",
-        "",
-        f"**Release Date:** {release.get('release_date', 'TBD')}",
-        "",
-    ]
-
-    if release.get('git_tag'):
-        lines.append(f"**Git Tag:** `{release['git_tag']}`")
-        lines.append("")
-
-    lines.append("## Description")
-    lines.append("")
-    lines.append(release.get('description', '_No description_'))
-    lines.append("")
-
+    """Render a release as HTML."""
+    html = f"""
+<h1>{e(release['id'])}</h1>
+<div class="meta">
+    <strong>Status:</strong> {status_badge(release.get('status', 'unknown'))} &nbsp;
+    <strong>Release Date:</strong> {e(release.get('release_date', 'TBD'))}
+    {f' &nbsp; <strong>Git Tag:</strong> <code>{e(release.get("git_tag"))}</code>' if release.get('git_tag') else ''}
+</div>
+<div class="section">
+    <h2>Description</h2>
+    <p>{e(release.get('description', 'No description'))}</p>
+</div>
+"""
     if release.get('notes'):
-        lines.append("## Notes")
-        lines.append("")
-        lines.append(release['notes'])
-        lines.append("")
-
+        html += f"""
+<div class="section">
+    <h2>Notes</h2>
+    <p>{e(release['notes'])}</p>
+</div>
+"""
     if release.get('tags'):
-        lines.append(f"**Tags:** {', '.join(release['tags'])}")
-        lines.append("")
+        html += f'<p><strong>Tags:</strong> {", ".join(e(t) for t in release["tags"])}</p>'
 
-    return "\n".join(lines)
+    return html_page(release['id'], html, "releases", depth=1)
 
 
 def render_requirement(req: Dict) -> str:
-    """Render a requirement as Markdown."""
-    lines = [
-        "---",
-        f"title: \"{req.get('title', req['id'])}\"",
-        f"layout: default",
-        f"parent: Requirements",
-        "---",
-        "",
-        f"# {req['id']}: {req.get('title', '')}",
-        "",
-        f"**Status:** {format_status_badge(req.get('status', 'unknown'))}",
-        f"**Type:** {req.get('type', 'unknown')}",
-    ]
-
-    if req.get('invariant'):
-        lines.append("**Invariant:** Yes (non-negotiable)")
-
-    lines.extend(["", "## Statement", "", req.get('statement', '_No statement_'), ""])
-    lines.extend(["## Rationale", "", req.get('rationale', '_No rationale_'), ""])
-
+    """Render a requirement as HTML."""
+    html = f"""
+<h1>{e(req['id'])}: {e(req.get('title', ''))}</h1>
+<div class="meta">
+    <strong>Status:</strong> {status_badge(req.get('status', 'unknown'))} &nbsp;
+    <strong>Type:</strong> {e(req.get('type', 'unknown'))}
+    {' &nbsp; <strong>Invariant:</strong> Yes' if req.get('invariant') else ''}
+</div>
+<div class="section">
+    <h2>Statement</h2>
+    <p>{e(req.get('statement', 'No statement'))}</p>
+</div>
+<div class="section">
+    <h2>Rationale</h2>
+    <p>{e(req.get('rationale', 'No rationale'))}</p>
+</div>
+"""
     if req.get('domain_refs'):
-        lines.append("## Domain References")
-        lines.append("")
-        lines.append(format_refs(req['domain_refs'], "domain/"))
-        lines.append("")
-
+        html += f"""
+<div class="section">
+    <h2>Domain References</h2>
+    <p>{format_refs_html(req['domain_refs'], '../domain/')}</p>
+</div>
+"""
     if req.get('superseded_by'):
-        lines.append(f"**Superseded By:** [{req['superseded_by']}]({{% link requirements/{req['superseded_by']}.md %}})")
-        lines.append("")
-
+        html += f'<p><strong>Superseded By:</strong> <a href="{req["superseded_by"]}.html">{e(req["superseded_by"])}</a></p>'
     if req.get('notes'):
-        lines.append("## Notes")
-        lines.append("")
-        lines.append(req['notes'])
-        lines.append("")
+        html += f'<div class="section"><h2>Notes</h2><p>{e(req["notes"])}</p></div>'
 
-    return "\n".join(lines)
+    return html_page(f"{req['id']}: {req.get('title', '')}", html, "requirements", depth=1)
 
 
 def render_feature(feat: Dict) -> str:
-    """Render a feature as Markdown."""
-    lines = [
-        "---",
-        f"title: \"{feat.get('title', feat['id'])}\"",
-        f"layout: default",
-        f"parent: Features",
-        "---",
-        "",
-        f"# {feat['id']}: {feat.get('title', '')}",
-        "",
-        f"**Status:** {format_status_badge(feat.get('status', 'unknown'))}",
-        "",
-        "## Purpose",
-        "",
-        feat.get('purpose', '_No purpose defined_'),
-        "",
-        "## Business Value",
-        "",
-        feat.get('business_value', '_No business value defined_'),
-        "",
-    ]
-
+    """Render a feature as HTML."""
+    html = f"""
+<h1>{e(feat['id'])}: {e(feat.get('title', ''))}</h1>
+<div class="meta">
+    <strong>Status:</strong> {status_badge(feat.get('status', 'unknown'))}
+</div>
+<div class="section">
+    <h2>Purpose</h2>
+    <p>{e(feat.get('purpose', 'No purpose defined'))}</p>
+</div>
+<div class="section">
+    <h2>Business Value</h2>
+    <p>{e(feat.get('business_value', 'No business value defined'))}</p>
+</div>
+"""
     if feat.get('in_scope'):
-        lines.append("## In Scope")
-        lines.append("")
+        html += '<div class="section"><h2>In Scope</h2><ul>'
         for item in feat['in_scope']:
-            lines.append(f"- {item}")
-        lines.append("")
+            html += f'<li>{e(item)}</li>'
+        html += '</ul></div>'
 
     if feat.get('out_of_scope'):
-        lines.append("## Out of Scope")
-        lines.append("")
+        html += '<div class="section"><h2>Out of Scope</h2><ul>'
         for item in feat['out_of_scope']:
-            lines.append(f"- {item}")
-        lines.append("")
+            html += f'<li>{e(item)}</li>'
+        html += '</ul></div>'
 
     if feat.get('requirement_refs'):
-        lines.append("## Requirements")
-        lines.append("")
-        lines.append(format_refs(feat['requirement_refs'], "requirements/"))
-        lines.append("")
-
-    if feat.get('domain_refs'):
-        lines.append("## Domain References")
-        lines.append("")
-        lines.append(format_refs(feat['domain_refs'], "domain/"))
-        lines.append("")
-
-    return "\n".join(lines)
+        html += f"""
+<div class="section">
+    <h2>Requirements</h2>
+    <p>{format_refs_html(feat['requirement_refs'], '../requirements/')}</p>
+</div>
+"""
+    return html_page(f"{feat['id']}: {feat.get('title', '')}", html, "features", depth=1)
 
 
 def render_epic(epic: Dict) -> str:
-    """Render an epic as Markdown."""
+    """Render an epic as HTML."""
     current = get_current_version(epic.get('versions', []))
 
-    lines = [
-        "---",
-        f"title: \"{epic.get('title', epic['id'])}\"",
-        f"layout: default",
-        f"parent: Epics",
-        "---",
-        "",
-        f"# {epic['id']}: {epic.get('title', '')}",
-        "",
-    ]
-
+    html = f"""
+<h1>{e(epic['id'])}: {e(epic.get('title', ''))}</h1>
+"""
     if current:
-        lines.append(f"**Current Version:** {current.get('version')} {format_status_badge(current.get('status', 'unknown'))}")
-        lines.append("")
-        lines.append(f"**Release:** [{current.get('release_ref')}]({{% link releases/{current.get('release_ref')}.md %}})")
-        lines.append("")
-        lines.append("## Summary")
-        lines.append("")
-        lines.append(current.get('summary', '_No summary_'))
-        lines.append("")
-
+        html += f"""
+<div class="meta">
+    <strong>Version:</strong> {current.get('version')} {status_badge(current.get('status', 'unknown'))} &nbsp;
+    <strong>Release:</strong> <a href="../releases/{current.get('release_ref')}.html">{e(current.get('release_ref'))}</a>
+</div>
+<div class="section">
+    <h2>Summary</h2>
+    <p>{e(current.get('summary', 'No summary'))}</p>
+</div>
+"""
         if current.get('assumptions'):
-            lines.append("## Assumptions")
-            lines.append("")
+            html += '<div class="section"><h2>Assumptions</h2><ul>'
             for item in current['assumptions']:
-                lines.append(f"- {item}")
-            lines.append("")
+                html += f'<li>{e(item)}</li>'
+            html += '</ul></div>'
 
         if current.get('constraints'):
-            lines.append("## Constraints")
-            lines.append("")
+            html += '<div class="section"><h2>Constraints</h2><ul>'
             for item in current['constraints']:
-                lines.append(f"- {item}")
-            lines.append("")
+                html += f'<li>{e(item)}</li>'
+            html += '</ul></div>'
 
-        if current.get('requirement_refs'):
-            lines.append("## Requirements")
-            lines.append("")
-            lines.append(format_refs(current['requirement_refs'], "requirements/"))
-            lines.append("")
-
-        if current.get('domain_refs'):
-            lines.append("## Domain References")
-            lines.append("")
-            lines.append(format_refs(current['domain_refs'], "domain/"))
-            lines.append("")
-
-    # Feature reference
     if epic.get('feature_ref'):
-        lines.append("## Feature")
-        lines.append("")
-        lines.append(f"Part of [{epic['feature_ref']}]({{% link features/{epic['feature_ref']}.md %}})")
-        lines.append("")
+        html += f"""
+<div class="section">
+    <h2>Feature</h2>
+    <p>Part of <a href="../features/{epic['feature_ref']}.html">{e(epic['feature_ref'])}</a></p>
+</div>
+"""
 
-    # Version history
     versions = epic.get('versions', [])
     if len(versions) > 1:
-        lines.append("## Version History")
-        lines.append("")
-        lines.append("| Version | Status | Release |")
-        lines.append("|---------|--------|---------|")
+        html += '<div class="section"><h2>Version History</h2><table><thead><tr><th>Version</th><th>Status</th><th>Release</th></tr></thead><tbody>'
         for v in sorted(versions, key=lambda x: x.get('version', 0), reverse=True):
-            lines.append(f"| {v.get('version')} | {v.get('status')} | {v.get('release_ref')} |")
-        lines.append("")
+            html += f'<tr><td>{v.get("version")}</td><td>{v.get("status")}</td><td>{v.get("release_ref")}</td></tr>'
+        html += '</tbody></table></div>'
 
-    return "\n".join(lines)
+    return html_page(f"{epic['id']}: {epic.get('title', '')}", html, "epics", depth=1)
 
 
 def render_story(story: Dict) -> str:
-    """Render a story as Markdown."""
+    """Render a story as HTML."""
     current = get_current_version(story.get('versions', []))
 
-    lines = [
-        "---",
-        f"title: \"{story.get('title', story['id'])}\"",
-        f"layout: default",
-        f"parent: Stories",
-        "---",
-        "",
-        f"# {story['id']}: {story.get('title', '')}",
-        "",
-    ]
-
+    html = f"""
+<h1>{e(story['id'])}: {e(story.get('title', ''))}</h1>
+"""
     if current:
-        lines.append(f"**Current Version:** {current.get('version')} {format_status_badge(current.get('status', 'unknown'))}")
-        lines.append("")
-        lines.append(f"**Release:** [{current.get('release_ref')}]({{% link releases/{current.get('release_ref')}.md %}})")
-        lines.append("")
-        lines.append("## Description")
-        lines.append("")
-        lines.append(current.get('description', '_No description_'))
-        lines.append("")
-
+        html += f"""
+<div class="meta">
+    <strong>Version:</strong> {current.get('version')} {status_badge(current.get('status', 'unknown'))} &nbsp;
+    <strong>Release:</strong> <a href="../releases/{current.get('release_ref')}.html">{e(current.get('release_ref'))}</a>
+</div>
+<div class="section">
+    <h2>Description</h2>
+    <p>{e(current.get('description', 'No description'))}</p>
+</div>
+"""
         # Acceptance Criteria
         ac = current.get('acceptance_criteria', [])
         if ac:
-            lines.append("## Acceptance Criteria")
-            lines.append("")
+            html += '<div class="section"><h2>Acceptance Criteria</h2><ul>'
             for criterion in ac:
-                lines.append(f"- **{criterion.get('id', 'AC')}:** {criterion.get('statement', '')}")
+                html += f'<li><strong>{e(criterion.get("id", "AC"))}:</strong> {e(criterion.get("statement", ""))}'
                 if criterion.get('notes'):
-                    lines.append(f"  - _Note: {criterion['notes']}_")
-            lines.append("")
+                    html += f' <em>({e(criterion["notes"])})</em>'
+                html += '</li>'
+            html += '</ul></div>'
 
         # Test Intent
         ti = current.get('test_intent', {})
         if ti.get('failure_modes') or ti.get('guarantees'):
-            lines.append("## Test Intent")
-            lines.append("")
+            html += '<div class="section"><h2>Test Intent</h2>'
             if ti.get('failure_modes'):
-                lines.append("### Failure Modes (must not happen)")
-                lines.append("")
+                html += '<h3>Failure Modes (must not happen)</h3><ul>'
                 for item in ti['failure_modes']:
-                    lines.append(f"- {item}")
-                lines.append("")
+                    html += f'<li>{e(item)}</li>'
+                html += '</ul>'
             if ti.get('guarantees'):
-                lines.append("### Guarantees (must always be true)")
-                lines.append("")
+                html += '<h3>Guarantees (must always be true)</h3><ul>'
                 for item in ti['guarantees']:
-                    lines.append(f"- {item}")
-                lines.append("")
+                    html += f'<li>{e(item)}</li>'
+                html += '</ul>'
             if ti.get('exclusions'):
-                lines.append("### Exclusions (not tested)")
-                lines.append("")
+                html += '<h3>Exclusions (not tested)</h3><ul>'
                 for item in ti['exclusions']:
-                    lines.append(f"- {item}")
-                lines.append("")
+                    html += f'<li>{e(item)}</li>'
+                html += '</ul>'
+            html += '</div>'
 
-        if current.get('requirement_refs'):
-            lines.append("## Requirements")
-            lines.append("")
-            lines.append(format_refs(current['requirement_refs'], "requirements/"))
-            lines.append("")
-
-        if current.get('domain_refs'):
-            lines.append("## Domain References")
-            lines.append("")
-            lines.append(format_refs(current['domain_refs'], "domain/"))
-            lines.append("")
-
-    # Epic reference
     if story.get('epic_ref'):
-        lines.append("## Epic")
-        lines.append("")
-        lines.append(f"Part of [{story['epic_ref']}]({{% link epics/{story['epic_ref']}.md %}})")
-        lines.append("")
+        html += f"""
+<div class="section">
+    <h2>Epic</h2>
+    <p>Part of <a href="../epics/{story['epic_ref']}.html">{e(story['epic_ref'])}</a></p>
+</div>
+"""
 
-    # Version history
     versions = story.get('versions', [])
     if len(versions) > 1:
-        lines.append("## Version History")
-        lines.append("")
-        lines.append("| Version | Status | Release |")
-        lines.append("|---------|--------|---------|")
+        html += '<div class="section"><h2>Version History</h2><table><thead><tr><th>Version</th><th>Status</th><th>Release</th></tr></thead><tbody>'
         for v in sorted(versions, key=lambda x: x.get('version', 0), reverse=True):
-            lines.append(f"| {v.get('version')} | {v.get('status')} | {v.get('release_ref')} |")
-        lines.append("")
+            html += f'<tr><td>{v.get("version")}</td><td>{v.get("status")}</td><td>{v.get("release_ref")}</td></tr>'
+        html += '</tbody></table></div>'
 
-    return "\n".join(lines)
+    return html_page(f"{story['id']}: {story.get('title', '')}", html, "stories", depth=1)
 
 
 def render_index(artifact_type: str, items: List[Dict], title: str) -> str:
     """Render an index page for a collection."""
-    lines = [
-        "---",
-        f"title: \"{title}\"",
-        f"layout: default",
-        "has_children: true",
-        "nav_order: 2",
-        "---",
-        "",
-        f"# {title}",
-        "",
-    ]
+    html = f'<h1>{e(title)}</h1>\n'
 
     if not items:
-        lines.append("_No items yet._")
-        return "\n".join(lines)
+        html += '<p><em>No items yet.</em></p>'
+        return html_page(title, html, artifact_type.lower(), depth=1)
 
-    # Group by status for better organization
-    by_status: Dict[str, List[Dict]] = {}
-    for item in items:
-        status = item.get('status', 'unknown')
-        # For versioned items, get current version status
-        if 'versions' in item:
-            current = get_current_version(item.get('versions', []))
-            status = current.get('status', 'unknown') if current else 'unknown'
-        by_status.setdefault(status, []).append(item)
-
-    # Render table
-    lines.append("| ID | Title | Status |")
-    lines.append("|----|-------|--------|")
+    html += '<table><thead><tr><th>ID</th><th>Title</th><th>Status</th></tr></thead><tbody>'
 
     for item in sorted(items, key=lambda x: x.get('id', '')):
         item_id = item['id']
-        title = item.get('title', item_id)
+        item_title = item.get('title', item_id)
         status = item.get('status', 'unknown')
         if 'versions' in item:
             current = get_current_version(item.get('versions', []))
             status = current.get('status', 'unknown') if current else 'unknown'
 
-        folder = artifact_type.lower()
-        lines.append(f"| [{item_id}]({{% link {folder}/{item_id}.md %}}) | {title} | {status} |")
+        html += f'<tr><td><a href="{item_id}.html">{e(item_id)}</a></td><td>{e(item_title)}</td><td>{status_badge(status)}</td></tr>'
 
-    lines.append("")
+    html += '</tbody></table>'
 
-    return "\n".join(lines)
+    return html_page(title, html, artifact_type.lower(), depth=1)
+
+
+def render_landing_page(counts: Dict[str, int]) -> str:
+    """Render the main landing page."""
+    html = """
+<h1>APSCA Requirements Dashboard</h1>
+<p>System of record for requirements, features, epics, and user stories.</p>
+
+<div class="section">
+    <h2>Quick Links</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <a href="story-map.html" class="card" style="text-decoration: none; color: inherit;">
+            <h3 style="margin: 0 0 0.5rem;">Story Map</h3>
+            <p style="margin: 0; color: var(--text-secondary);">Visual hierarchy of features, epics, and stories</p>
+        </a>
+        <a href="features/index.html" class="card" style="text-decoration: none; color: inherit;">
+            <h3 style="margin: 0 0 0.5rem;">Features</h3>
+            <p style="margin: 0; color: var(--text-secondary);">Top-level capability boundaries</p>
+        </a>
+        <a href="releases/index.html" class="card" style="text-decoration: none; color: inherit;">
+            <h3 style="margin: 0 0 0.5rem;">Releases</h3>
+            <p style="margin: 0; color: var(--text-secondary);">Delivery timeline events</p>
+        </a>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Artifact Counts</h2>
+    <table>
+        <thead><tr><th>Type</th><th>Count</th></tr></thead>
+        <tbody>
+"""
+    for key, count in counts.items():
+        html += f'<tr><td>{key.title()}</td><td>{count}</td></tr>'
+
+    html += """
+        </tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>How It Works</h2>
+    <p>This repository stores structured requirements as canonical JSON. Documentation is auto-generated from this data.</p>
+    <p><strong>Hierarchy:</strong> Requirements → Features → Epics → Stories → Acceptance Criteria</p>
+</div>
+"""
+    return html_page("Dashboard", html, "", depth=0)
 
 
 def main():
@@ -449,52 +644,69 @@ def main():
     # Render releases
     for release in releases:
         content = render_release(release)
-        (OUTPUT_DIRS["releases"] / f"{release['id']}.md").write_text(content, encoding="utf-8")
+        (OUTPUT_DIRS["releases"] / f"{release['id']}.html").write_text(content, encoding="utf-8")
         counts["releases"] += 1
 
-    # Render index for releases
     index_content = render_index("releases", releases, "Releases")
-    (OUTPUT_DIRS["releases"] / "index.md").write_text(index_content, encoding="utf-8")
+    (OUTPUT_DIRS["releases"] / "index.html").write_text(index_content, encoding="utf-8")
 
     # Render requirements
     for req in requirements:
         content = render_requirement(req)
-        (OUTPUT_DIRS["requirements"] / f"{req['id']}.md").write_text(content, encoding="utf-8")
+        (OUTPUT_DIRS["requirements"] / f"{req['id']}.html").write_text(content, encoding="utf-8")
         counts["requirements"] += 1
 
     index_content = render_index("requirements", requirements, "Requirements")
-    (OUTPUT_DIRS["requirements"] / "index.md").write_text(index_content, encoding="utf-8")
+    (OUTPUT_DIRS["requirements"] / "index.html").write_text(index_content, encoding="utf-8")
 
     # Render features
     for feat in features:
         content = render_feature(feat)
-        (OUTPUT_DIRS["features"] / f"{feat['id']}.md").write_text(content, encoding="utf-8")
+        (OUTPUT_DIRS["features"] / f"{feat['id']}.html").write_text(content, encoding="utf-8")
         counts["features"] += 1
 
     index_content = render_index("features", features, "Features")
-    (OUTPUT_DIRS["features"] / "index.md").write_text(index_content, encoding="utf-8")
+    (OUTPUT_DIRS["features"] / "index.html").write_text(index_content, encoding="utf-8")
 
     # Render epics
     for epic in epics:
         content = render_epic(epic)
-        (OUTPUT_DIRS["epics"] / f"{epic['id']}.md").write_text(content, encoding="utf-8")
+        (OUTPUT_DIRS["epics"] / f"{epic['id']}.html").write_text(content, encoding="utf-8")
         counts["epics"] += 1
 
     index_content = render_index("epics", epics, "Epics")
-    (OUTPUT_DIRS["epics"] / "index.md").write_text(index_content, encoding="utf-8")
+    (OUTPUT_DIRS["epics"] / "index.html").write_text(index_content, encoding="utf-8")
 
     # Render stories
     for story in stories:
         content = render_story(story)
-        (OUTPUT_DIRS["stories"] / f"{story['id']}.md").write_text(content, encoding="utf-8")
+        (OUTPUT_DIRS["stories"] / f"{story['id']}.html").write_text(content, encoding="utf-8")
         counts["stories"] += 1
 
     index_content = render_index("stories", stories, "Stories")
-    (OUTPUT_DIRS["stories"] / "index.md").write_text(index_content, encoding="utf-8")
+    (OUTPUT_DIRS["stories"] / "index.html").write_text(index_content, encoding="utf-8")
+
+    # Render landing page
+    landing = render_landing_page(counts)
+    (DOCS_DIR / "index.html").write_text(landing, encoding="utf-8")
+
+    # Copy data and reports to docs for local testing and story map access
+    import shutil
+    docs_data = DOCS_DIR / "data"
+    docs_reports = DOCS_DIR / "reports"
+    docs_data.mkdir(exist_ok=True)
+    docs_reports.mkdir(exist_ok=True)
+
+    for json_file in DATA_DIR.glob("*.json"):
+        shutil.copy(json_file, docs_data / json_file.name)
+
+    for json_file in REPORTS_DIR.glob("*.json"):
+        shutil.copy(json_file, docs_reports / json_file.name)
 
     print("Documentation generated:")
     for key, count in counts.items():
         print(f"  {key}: {count} files")
+    print(f"  Landing page: index.html")
 
 
 if __name__ == "__main__":
