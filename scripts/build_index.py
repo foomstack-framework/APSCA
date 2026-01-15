@@ -13,46 +13,12 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-# Root directory
-SCRIPT_DIR = Path(__file__).parent
-ROOT_DIR = SCRIPT_DIR.parent
-DATA_DIR = ROOT_DIR / "data"
-REPORTS_DIR = ROOT_DIR / "reports"
+from lib.config import DATA_FILES, REPORTS_DIR
+from lib.io import load_json
+from lib.versions import get_current_version
 
-# Data files
-DATA_FILES = {
-    "releases": DATA_DIR / "releases.json",
-    "domain": DATA_DIR / "domain.json",
-    "requirements": DATA_DIR / "requirements.json",
-    "features": DATA_DIR / "features.json",
-    "epics": DATA_DIR / "epics.json",
-    "stories": DATA_DIR / "stories.json",
-}
-
-# Output file
+# Output file (script-specific)
 INDEX_FILE = REPORTS_DIR / "index.json"
-
-
-def load_json(file_path: Path) -> List[Dict]:
-    """Load JSON array from file."""
-    if not file_path.exists():
-        return []
-    content = file_path.read_text(encoding="utf-8").strip()
-    if not content:
-        return []
-    return json.loads(content)
-
-
-def get_current_version(versions: List[Dict]) -> Optional[Dict]:
-    """Get the current (non-superseded) version from a versions list."""
-    if not versions:
-        return None
-    # Find the highest version number that isn't superseded
-    active_versions = [v for v in versions if v.get("status") != "superseded"]
-    if active_versions:
-        return max(active_versions, key=lambda v: v.get("version", 0))
-    # If all are superseded, return the highest version
-    return max(versions, key=lambda v: v.get("version", 0))
 
 
 def build_index() -> Dict[str, Any]:

@@ -1223,23 +1223,23 @@
     "node_count": 56,
     "edge_count": 157,
     "node_types": [
-      "epic",
-      "release",
-      "domain",
-      "requirement",
-      "epic_version",
       "story",
       "feature",
-      "story_version"
+      "story_version",
+      "epic",
+      "requirement",
+      "epic_version",
+      "release",
+      "domain"
     ],
     "edge_types": [
-      "version_of",
-      "assigned_to_release",
       "supersedes",
-      "scoped_by",
-      "references_domain",
       "belongs_to",
-      "satisfies"
+      "satisfies",
+      "references_domain",
+      "assigned_to_release",
+      "version_of",
+      "scoped_by"
     ]
   }
 }

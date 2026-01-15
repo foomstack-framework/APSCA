@@ -14,34 +14,11 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Set
 
-# Root directory
-SCRIPT_DIR = Path(__file__).parent
-ROOT_DIR = SCRIPT_DIR.parent
-DATA_DIR = ROOT_DIR / "data"
-REPORTS_DIR = ROOT_DIR / "reports"
+from lib.config import DATA_FILES, REPORTS_DIR
+from lib.io import load_json
 
-# Data files
-DATA_FILES = {
-    "releases": DATA_DIR / "releases.json",
-    "domain": DATA_DIR / "domain.json",
-    "requirements": DATA_DIR / "requirements.json",
-    "features": DATA_DIR / "features.json",
-    "epics": DATA_DIR / "epics.json",
-    "stories": DATA_DIR / "stories.json",
-}
-
-# Output file
+# Output file (script-specific)
 GRAPH_FILE = REPORTS_DIR / "graph.json"
-
-
-def load_json(file_path: Path) -> List[Dict]:
-    """Load JSON array from file."""
-    if not file_path.exists():
-        return []
-    content = file_path.read_text(encoding="utf-8").strip()
-    if not content:
-        return []
-    return json.loads(content)
 
 
 def build_graph() -> Dict[str, Any]:

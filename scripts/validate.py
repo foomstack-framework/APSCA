@@ -22,21 +22,8 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-# Root directory
-SCRIPT_DIR = Path(__file__).parent
-ROOT_DIR = SCRIPT_DIR.parent
-DATA_DIR = ROOT_DIR / "data"
-DOCS_DIR = ROOT_DIR / "docs"
-
-# Data files
-DATA_FILES = {
-    "releases": DATA_DIR / "releases.json",
-    "domain": DATA_DIR / "domain.json",
-    "requirements": DATA_DIR / "requirements.json",
-    "features": DATA_DIR / "features.json",
-    "epics": DATA_DIR / "epics.json",
-    "stories": DATA_DIR / "stories.json",
-}
+from lib.config import DATA_FILES, DATA_DIR, DOCS_DIR
+from lib.io import load_json
 
 # ID patterns
 ID_PATTERNS = {
@@ -64,16 +51,6 @@ class ValidationResult:
 
     def is_valid(self) -> bool:
         return len(self.errors) == 0
-
-
-def load_json(file_path: Path) -> List[Dict]:
-    """Load JSON array from file."""
-    if not file_path.exists():
-        return []
-    content = file_path.read_text(encoding="utf-8").strip()
-    if not content:
-        return []
-    return json.loads(content)
 
 
 def build_id_set(data: List[Dict]) -> Set[str]:

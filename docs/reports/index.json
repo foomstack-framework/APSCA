@@ -89,8 +89,8 @@
       "domain_refs": [],
       "superseded_by": null
     },
-    "FEAT-002": {
-      "id": "FEAT-002",
+    "FEAT-001": {
+      "id": "FEAT-001",
       "type": "feature",
       "title": "Exam Purchasing System",
       "status": "active",
@@ -104,8 +104,8 @@
         "DOM-001"
       ]
     },
-    "FEAT-003": {
-      "id": "FEAT-003",
+    "FEAT-002": {
+      "id": "FEAT-002",
       "type": "feature",
       "title": "Credential Renewal Portal",
       "status": "confirmed",
@@ -117,8 +117,8 @@
         "DOM-002"
       ]
     },
-    "FEAT-004": {
-      "id": "FEAT-004",
+    "FEAT-003": {
+      "id": "FEAT-003",
       "type": "feature",
       "title": "Continuing Education Tracking",
       "status": "proposed",
@@ -133,7 +133,7 @@
       "id": "EPIC-002",
       "type": "epic",
       "title": "Exam Eligibility Verification",
-      "feature_ref": "FEAT-002",
+      "feature_ref": "FEAT-001",
       "version_count": 2,
       "current_version": 2,
       "current_status": "approved",
@@ -143,7 +143,7 @@
       "id": "EPIC-003",
       "type": "epic",
       "title": "Exam Invoice Purchase Flow",
-      "feature_ref": "FEAT-002",
+      "feature_ref": "FEAT-001",
       "version_count": 2,
       "current_version": 2,
       "current_status": "ready_to_build",
@@ -153,7 +153,7 @@
       "id": "EPIC-004",
       "type": "epic",
       "title": "Renewal Eligibility Checks",
-      "feature_ref": "FEAT-003",
+      "feature_ref": "FEAT-002",
       "version_count": 2,
       "current_version": 2,
       "current_status": "approved",
@@ -163,7 +163,7 @@
       "id": "EPIC-005",
       "type": "epic",
       "title": "Renewal Fee Invoicing",
-      "feature_ref": "FEAT-003",
+      "feature_ref": "FEAT-002",
       "version_count": 1,
       "current_version": 1,
       "current_status": "draft",
@@ -173,11 +173,21 @@
       "id": "EPIC-006",
       "type": "epic",
       "title": "CPE Credit Validation",
-      "feature_ref": "FEAT-004",
+      "feature_ref": "FEAT-003",
+      "version_count": 2,
+      "current_version": 2,
+      "current_status": "draft",
+      "current_release_ref": null
+    },
+    "EPIC-007": {
+      "id": "EPIC-007",
+      "type": "epic",
+      "title": "CPE Reporting Dashboard",
+      "feature_ref": "FEAT-003",
       "version_count": 1,
       "current_version": 1,
-      "current_status": "confirmed",
-      "current_release_ref": "REL-2026-05-01"
+      "current_status": "draft",
+      "current_release_ref": null
     },
     "STORY-002": {
       "id": "STORY-002",
@@ -280,10 +290,22 @@
       "type": "story",
       "title": "Log CPE Activity",
       "epic_ref": "EPIC-006",
+      "version_count": 2,
+      "current_version": 2,
+      "current_status": "draft",
+      "current_release_ref": null,
+      "has_acceptance_criteria": true,
+      "has_test_intent": true
+    },
+    "STORY-011": {
+      "id": "STORY-011",
+      "type": "story",
+      "title": "View CPE Compliance Status",
+      "epic_ref": "EPIC-007",
       "version_count": 1,
       "current_version": 1,
-      "current_status": "confirmed",
-      "current_release_ref": "REL-2026-05-01",
+      "current_status": "draft",
+      "current_release_ref": null,
       "has_acceptance_criteria": true,
       "has_test_intent": true
     }
@@ -306,16 +328,17 @@
       "REQ-005"
     ],
     "feature": [
+      "FEAT-001",
       "FEAT-002",
-      "FEAT-003",
-      "FEAT-004"
+      "FEAT-003"
     ],
     "epic": [
       "EPIC-002",
       "EPIC-003",
       "EPIC-004",
       "EPIC-005",
-      "EPIC-006"
+      "EPIC-006",
+      "EPIC-007"
     ],
     "story": [
       "STORY-002",
@@ -326,7 +349,8 @@
       "STORY-007",
       "STORY-008",
       "STORY-009",
-      "STORY-010"
+      "STORY-010",
+      "STORY-011"
     ]
   },
   "by_status": {
@@ -342,20 +366,22 @@
       "REQ-003",
       "REQ-004",
       "REQ-005",
-      "FEAT-002"
+      "FEAT-001"
     ],
     "draft": [
       "DOM-003",
       "EPIC-005",
-      "STORY-009"
+      "EPIC-006",
+      "EPIC-007",
+      "STORY-009",
+      "STORY-010",
+      "STORY-011"
     ],
     "confirmed": [
-      "FEAT-003",
-      "EPIC-006",
-      "STORY-010"
+      "FEAT-002"
     ],
     "proposed": [
-      "FEAT-004"
+      "FEAT-003"
     ],
     "approved": [
       "EPIC-002",
@@ -394,13 +420,11 @@
     "REL-2026-05-01": {
       "epics": [
         "EPIC-004",
-        "EPIC-005",
-        "EPIC-006"
+        "EPIC-005"
       ],
       "stories": [
         "STORY-007",
-        "STORY-009",
-        "STORY-010"
+        "STORY-009"
       ]
     }
   },
@@ -415,14 +439,15 @@
     "REQ-003": "REQ-003: Exam Eligibility Enforcement",
     "REQ-004": "REQ-004: Invoice Payment Clearance",
     "REQ-005": "REQ-005: Re-sit Designation and Pricing",
-    "FEAT-002": "FEAT-002: Exam Purchasing System",
-    "FEAT-003": "FEAT-003: Credential Renewal Portal",
-    "FEAT-004": "FEAT-004: Continuing Education Tracking",
+    "FEAT-001": "FEAT-001: Exam Purchasing System",
+    "FEAT-002": "FEAT-002: Credential Renewal Portal",
+    "FEAT-003": "FEAT-003: Continuing Education Tracking",
     "EPIC-002": "EPIC-002: Exam Eligibility Verification - Extend eligibility checks to include renewal statu",
     "EPIC-003": "EPIC-003: Exam Invoice Purchase Flow - Add invoice preview, pricing breakdown, and post-p",
     "EPIC-004": "EPIC-004: Renewal Eligibility Checks - Add conditional eligibility for auditors with pend",
     "EPIC-005": "EPIC-005: Renewal Fee Invoicing - Generate renewal fee invoices with tiered pricing ",
-    "EPIC-006": "EPIC-006: CPE Credit Validation - Validate CPE credits against policy rules and high",
+    "EPIC-006": "EPIC-006: CPE Credit Validation - Add automated CPE credit verification and bulk imp",
+    "EPIC-007": "EPIC-007: CPE Reporting Dashboard - Build dashboard for auditors to view CPE credit st",
     "STORY-002": "STORY-002: Check Good Standing Status - As an auditor, I want eligibility checks to includ",
     "STORY-003": "STORY-003: Verify Exam Progression - As an auditor, I want progression rules to account",
     "STORY-004": "STORY-004: Check Unpaid Invoices - As an auditor, I want unpaid invoice checks to inc",
@@ -431,23 +456,24 @@
     "STORY-007": "STORY-007: Submit Renewal Attestation - As an auditor, I want to upload supporting evidenc",
     "STORY-008": "STORY-008: Review Renewal Eligibility - As an auditor, I want to review my renewal eligibi",
     "STORY-009": "STORY-009: Generate Renewal Invoice - As an auditor, I want a renewal invoice generated ",
-    "STORY-010": "STORY-010: Log CPE Activity - As an auditor, I want to log CPE activities so tha"
+    "STORY-010": "STORY-010: Log CPE Activity - As an auditor, I want to bulk import CPE activitie",
+    "STORY-011": "STORY-011: View CPE Compliance Status - As an auditor, I want to view my CPE compliance st"
   },
   "metadata": {
-    "total_count": 27,
+    "total_count": 29,
     "counts_by_type": {
       "release": 3,
       "domain": 3,
       "requirement": 4,
       "feature": 3,
-      "epic": 5,
-      "story": 9
+      "epic": 6,
+      "story": 10
     },
     "counts_by_status": {
       "planned": 2,
       "active": 8,
-      "draft": 3,
-      "confirmed": 3,
+      "draft": 7,
+      "confirmed": 1,
       "proposed": 1,
       "approved": 8,
       "ready_to_build": 2

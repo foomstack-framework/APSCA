@@ -10,28 +10,16 @@ Usage:
 """
 
 import json
+import shutil
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from html import escape
 
-# Root directory
-SCRIPT_DIR = Path(__file__).parent
-ROOT_DIR = SCRIPT_DIR.parent
-DATA_DIR = ROOT_DIR / "data"
-DOCS_DIR = ROOT_DIR / "docs"
-REPORTS_DIR = ROOT_DIR / "reports"
+from lib.config import DATA_FILES, DATA_DIR, DOCS_DIR, REPORTS_DIR, ROOT_DIR
+from lib.io import load_json
+from lib.versions import get_current_version
 
-# Data files
-DATA_FILES = {
-    "releases": DATA_DIR / "releases.json",
-    "domain": DATA_DIR / "domain.json",
-    "requirements": DATA_DIR / "requirements.json",
-    "features": DATA_DIR / "features.json",
-    "epics": DATA_DIR / "epics.json",
-    "stories": DATA_DIR / "stories.json",
-}
-
-# Output directories (NOT domain/ - that's authored content)
+# Output directories (script-specific, NOT domain/ - that's authored content)
 OUTPUT_DIRS = {
     "releases": DOCS_DIR / "releases",
     "requirements": DOCS_DIR / "requirements",
@@ -39,26 +27,6 @@ OUTPUT_DIRS = {
     "epics": DOCS_DIR / "epics",
     "stories": DOCS_DIR / "stories",
 }
-
-
-def load_json(file_path: Path) -> List[Dict]:
-    """Load JSON array from file."""
-    if not file_path.exists():
-        return []
-    content = file_path.read_text(encoding="utf-8").strip()
-    if not content:
-        return []
-    return json.loads(content)
-
-
-def get_current_version(versions: List[Dict]) -> Optional[Dict]:
-    """Get the current (non-superseded) version from a versions list."""
-    if not versions:
-        return None
-    active_versions = [v for v in versions if v.get("status") != "superseded"]
-    if active_versions:
-        return max(active_versions, key=lambda v: v.get("version", 0))
-    return max(versions, key=lambda v: v.get("version", 0))
 
 
 # =============================================================================
@@ -96,11 +64,6 @@ def status_badge(status: str) -> str:
     color = colors.get(status, "#6b7280")
     label = format_status_label(status)
     return f'<span class="status-badge" style="background-color: {color}">{e(label)}</span>'
-
-
-def link(href: str, text: str) -> str:
-    """Generate a link."""
-    return f'<a href="{e(href)}">{e(text)}</a>'
 
 
 def format_refs_html(refs: List[str], prefix: str = "") -> str:
@@ -560,12 +523,11 @@ code {
 """
 
 
-def html_page(title: str, content: str, active_section: str = "", depth: int = 1) -> str:
-    """Wrap content in full HTML page with navigation."""
+def generate_navbar(active_section: str = "", depth: int = 1) -> str:
+    """Generate standardized navbar HTML."""
     prefix = "../" * depth
 
     nav_items = [
-        ("", "Dashboard", "index.html"),
         ("", "Story Map", "story-map.html"),
         ("features", "Features", "features/index.html"),
         ("epics", "Epics", "epics/index.html"),
@@ -579,9 +541,10 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
     for section, label, href in nav_items:
         active_class = ' class="active"' if section == active_section else ""
         nav_links.append(f'<a href="{prefix}{href}"{active_class}>{label}</a>')
-    nav_html = f"""
+    
+    return f"""
 <header class="topbar">
-    <a class="brand" href="{prefix}index.html">
+    <a class="brand" href="{prefix}story-map.html">
         <img class="brand-logo" src="{prefix}images/apsca_logo_primary.jpg" alt="APSCA" />
         <span class="brand-name">APSCA</span>
     </a>
@@ -590,6 +553,11 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
     </nav>
 </header>
 """
+
+
+def html_page(title: str, content: str, active_section: str = "", depth: int = 1) -> str:
+    """Wrap content in full HTML page with navigation."""
+    nav_html = generate_navbar(active_section, depth)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -1340,78 +1308,20 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
     return html_page("Domain", html, "domain", depth=1)
 
 
-def render_landing_page(counts: Dict[str, int]) -> str:
-    """Render the main landing page."""
-    html = """
-<div class="page-header">
-    <div>
-        <div class="eyebrow">Overview</div>
-        <h1>APSCA Requirements Dashboard</h1>
-        <p class="page-subtitle">System of record for requirements, features, epics, user stories, and release snapshots.</p>
-    </div>
-    <div class="page-actions">
-        <a class="button primary" href="story-map.html">Open Story Map</a>
-        <a class="button" href="requirements/index.html">Browse Requirements</a>
-    </div>
-</div>
-
-<div class="section">
-    <h2>Quick Links</h2>
-    <div class="quick-links">
-        <a href="story-map.html" class="card card-link">
-            <h3 style="margin: 0 0 0.5rem;">Story Map</h3>
-            <p class="muted" style="margin: 0;">Visual hierarchy of features, epics, and stories</p>
-        </a>
-        <a href="features/index.html" class="card card-link">
-            <h3 style="margin: 0 0 0.5rem;">Features</h3>
-            <p class="muted" style="margin: 0;">Top-level capability boundaries</p>
-        </a>
-        <a href="releases/index.html" class="card card-link">
-            <h3 style="margin: 0 0 0.5rem;">Releases</h3>
-            <p class="muted" style="margin: 0;">Release snapshots across versioned records</p>
-        </a>
-        <a href="stories/index.html" class="card card-link">
-            <h3 style="margin: 0 0 0.5rem;">Stories</h3>
-            <p class="muted" style="margin: 0;">Atomic user capabilities with criteria</p>
-        </a>
-    </div>
-</div>
-
-<div class="section">
-    <h2>At a Glance</h2>
-    <div class="stat-grid">
-"""
-    count_order = [
-        ("releases", "Releases"),
-        ("domain", "Domain"),
-        ("requirements", "Requirements"),
-        ("features", "Features"),
-        ("epics", "Epics"),
-        ("stories", "Stories"),
-    ]
-    for key, label in count_order:
-        html += f"""
-        <div class="stat-card">
-            <div class="stat-label">{e(label)}</div>
-            <div class="stat-value">{counts.get(key, 0)}</div>
-        </div>
-        """
-
-    html += """
-    </div>
-</div>
-
-<div class="section">
-    <h2>How It Works</h2>
-    <div class="card">
-        <p>This repository stores structured requirements as canonical JSON. Documentation is auto-generated from this data.</p>
-        <p><strong>Hierarchy:</strong> Features → Epics → Stories (persistent)</p>
-        <p><strong>Orthogonal lenses:</strong> Releases bind versions; requirements filter across the map.</p>
-        <p class="muted" style="margin-bottom: 0;">Tip: Use search and filters on list pages and the story map to focus reviews.</p>
-    </div>
-</div>
-"""
-    return html_page("Dashboard", html, "", depth=0)
+def render_index_redirect() -> str:
+    """Render a simple redirect page that sends users to the Story Map."""
+    return """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=story-map.html">
+    <title>Redirecting to Story Map...</title>
+    <script>window.location.href = "story-map.html";</script>
+</head>
+<body>
+    <p>Redirecting to <a href="story-map.html">Story Map</a>...</p>
+</body>
+</html>"""
 
 
 def main():
@@ -1508,12 +1418,27 @@ def main():
     index_content = render_index("stories", stories, "Stories")
     (OUTPUT_DIRS["stories"] / "index.html").write_text(index_content, encoding="utf-8")
 
-    # Render landing page
-    landing = render_landing_page(counts)
-    (DOCS_DIR / "index.html").write_text(landing, encoding="utf-8")
+    # Render index.html as redirect to Story Map
+    index_redirect = render_index_redirect()
+    (DOCS_DIR / "index.html").write_text(index_redirect, encoding="utf-8")
+
+    # Update story-map.html navbar to match standardized navbar
+    story_map_path = DOCS_DIR / "story-map.html"
+    if story_map_path.exists():
+        story_map_content = story_map_path.read_text(encoding="utf-8")
+        # Generate navbar with active section set to "" (Story Map is active)
+        new_navbar = generate_navbar(active_section="", depth=0)
+        # Replace the navbar section (from <header class="topbar"> to </header>)
+        import re
+        story_map_content = re.sub(
+            r'<header class="topbar">.*?</header>',
+            new_navbar.strip(),
+            story_map_content,
+            flags=re.DOTALL
+        )
+        story_map_path.write_text(story_map_content, encoding="utf-8")
 
     # Copy data and reports to docs for local testing and story map access
-    import shutil
     docs_data = DOCS_DIR / "data"
     docs_reports = DOCS_DIR / "reports"
     docs_data.mkdir(exist_ok=True)
@@ -1536,7 +1461,7 @@ def main():
     print("Documentation generated:")
     for key, count in counts.items():
         print(f"  {key}: {count} files")
-    print(f"  Landing page: index.html")
+    print(f"  Index redirect: index.html -> story-map.html")
 
 
 if __name__ == "__main__":

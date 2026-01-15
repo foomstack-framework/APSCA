@@ -18,20 +18,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-# Root directory (script location is scripts/, so go up one level)
-SCRIPT_DIR = Path(__file__).parent
-ROOT_DIR = SCRIPT_DIR.parent
-DATA_DIR = ROOT_DIR / "data"
-
-# Canonical data files
-DATA_FILES = {
-    "releases": DATA_DIR / "releases.json",
-    "domain": DATA_DIR / "domain.json",
-    "requirements": DATA_DIR / "requirements.json",
-    "features": DATA_DIR / "features.json",
-    "epics": DATA_DIR / "epics.json",
-    "stories": DATA_DIR / "stories.json",
-}
+from lib.config import DATA_FILES, DATA_DIR
+from lib.io import load_json, save_json
 
 # ID prefixes
 ID_PREFIXES = {
@@ -47,24 +35,6 @@ ID_PREFIXES = {
 # =============================================================================
 # Core Helper Functions
 # =============================================================================
-
-def load_json(file_path: Path) -> List[Dict]:
-    """Load JSON array from file. Returns empty list if file is empty or missing."""
-    if not file_path.exists():
-        return []
-    content = file_path.read_text(encoding="utf-8").strip()
-    if not content:
-        return []
-    return json.loads(content)
-
-
-def save_json(file_path: Path, data: List[Dict]) -> None:
-    """Save JSON array to file with consistent formatting."""
-    file_path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8"
-    )
-
 
 def now_iso() -> str:
     """Return current UTC timestamp in ISO8601 format."""
