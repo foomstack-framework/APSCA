@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REL-2026-02-01 - APSCA</title>
+    <style>
+:root {
+    --bg-primary: #f3f4f6;
+    --bg-secondary: #ffffff;
+    --bg-muted: #eef2f6;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #9aa4b2;
+    --border-color: #d7dee8;
+    --accent-color: #2563eb;
+    --accent-soft: rgba(37, 99, 235, 0.12);
+    --success-color: #16a34a;
+    --warning-color: #d97706;
+    --danger-color: #dc2626;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.06);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.45;
+    font-size: 14px;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+}
+
+.brand-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-size: 0.95rem;
+}
+
+.topbar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.topbar-nav a {
+    padding: 0.35rem 0.55rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.topbar-nav a:hover,
+.topbar-nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.18);
+}
+
+main {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 2rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+h2 {
+    font-size: 1.1rem;
+    margin: 1rem 0 0.5rem;
+    color: var(--text-primary);
+}
+
+h3 {
+    font-size: 0.95rem;
+    margin: 0.75rem 0 0.4rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+p,
+ul,
+ol {
+    margin-bottom: 0.6rem;
+}
+
+ul,
+ol {
+    padding-left: 1.2rem;
+}
+
+.muted {
+    color: var(--text-secondary);
+}
+
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.9rem;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    margin-bottom: 0.8rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.5rem 0.75rem;
+    box-shadow: var(--shadow-xs);
+}
+
+.meta strong {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.18rem 0.45rem;
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    box-shadow: none;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.page-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    box-shadow: var(--shadow-xs);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.button.primary {
+    background: var(--accent-color);
+    color: white;
+    border-color: transparent;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 0.9rem;
+    margin-bottom: 0.75rem;
+    box-shadow: var(--shadow-xs);
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card-link:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    border-color: rgba(37, 99, 235, 0.2);
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.65rem;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.65rem;
+}
+
+.stat-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    box-shadow: var(--shadow-xs);
+}
+
+.stat-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.index-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-end;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.75rem;
+    margin: 0.75rem 0 1rem;
+    box-shadow: var(--shadow-xs);
+}
+
+.toolbar-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 160px;
+    flex: 1 1 200px;
+}
+
+.toolbar-field label {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.toolbar-field input,
+.toolbar-field select {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.82rem;
+    background: #ffffff;
+    color: var(--text-primary);
+}
+
+.toolbar-meta {
+    margin-left: auto;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-xs);
+    border: 1px solid var(--border-color);
+}
+
+th,
+td {
+    text-align: left;
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background: var(--bg-primary);
+    font-weight: 600;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+}
+
+tbody tr:nth-child(even) {
+    background: rgba(248, 250, 252, 0.6);
+}
+
+tbody tr:hover {
+    background: rgba(226, 232, 240, 0.6);
+}
+
+td a {
+    font-weight: 600;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.section {
+    margin: 1rem 0;
+}
+
+code {
+    background: var(--bg-primary);
+    padding: 0.15rem 0.35rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85em;
+}
+
+.version-select {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.3rem 0.55rem;
+    font-size: 0.82rem;
+    background: #ffffff;
+    color: var(--text-primary);
+}
+
+.version-panel {
+    display: none;
+}
+
+.version-panel.active {
+    display: block;
+}
+
+.version-meta {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 960px) {
+    .topbar {
+        padding: 0.5rem 0.75rem;
+    }
+
+    main {
+        padding: 0.75rem 1rem 1.5rem;
+    }
+}
+</style>
+</head>
+<body>
+    
+<header class="topbar">
+    <a class="brand" href="../index.html">
+        <img class="brand-logo" src="../images/apsca_logo_primary.jpg" alt="APSCA" />
+        <span class="brand-name">APSCA</span>
+    </a>
+    <nav class="topbar-nav" aria-label="Primary">
+        <a href="../index.html">Dashboard</a> <a href="../story-map.html">Story Map</a> <a href="../features/index.html">Features</a> <a href="../epics/index.html">Epics</a> <a href="../stories/index.html">Stories</a> <a href="../requirements/index.html">Requirements</a> <a href="../domain/index.html">Domain</a> <a href="../releases/index.html" class="active">Releases</a>
+    </nav>
+</header>
+
+    <main>
+        
+<h1>REL-2026-02-01</h1>
+<div class="meta">
+    <strong>Status:</strong> <span class="status-badge" style="background-color: #64748b">Planned</span> &nbsp;
+    <strong>Release Date:</strong> 2026-02-01
+    
+</div>
+<div class="section">
+    <h2>Description</h2>
+    <p>Initial release of exam purchasing functionality for auditors</p>
+</div>
+
+<div class="section">
+    <h2>Epic Versions</h2>
+<table><thead><tr><th>Epic</th><th>Version</th><th>Summary</th></tr></thead><tbody><tr><td><a href="../epics/EPIC-002.html">EPIC-002</a><div class="muted">Exam Eligibility Verification</div></td><td>v1</td><td>Implement eligibility checking logic to determine which exams an auditor can purchase based on their standing, progression, and payment status</td></tr><tr><td><a href="../epics/EPIC-003.html">EPIC-003</a><div class="muted">Exam Invoice Purchase Flow</div></td><td>v1</td><td>Build the account page UI and purchase workflow for auditors to select and purchase exam invoices</td></tr></tbody></table></div>
+<div class="section">
+    <h2>Story Versions</h2>
+<table><thead><tr><th>Story</th><th>Version</th><th>Description</th></tr></thead><tbody><tr><td><a href="../stories/STORY-002.html">STORY-002</a><div class="muted">Check Good Standing Status</div></td><td>v1</td><td>As an auditor, I want the system to verify my good standing status so that I can only purchase exams if I meet the membership and ethics requirements</td></tr><tr><td><a href="../stories/STORY-003.html">STORY-003</a><div class="muted">Verify Exam Progression</div></td><td>v1</td><td>As an auditor, I want the system to check my exam progression so that I can only purchase the next exam in sequence after passing the previous one</td></tr><tr><td><a href="../stories/STORY-004.html">STORY-004</a><div class="muted">Check Unpaid Invoices</div></td><td>v1</td><td>As an auditor, I want to be notified of any unpaid invoices so that I can clear them before purchasing new exam invoices</td></tr><tr><td><a href="../stories/STORY-005.html">STORY-005</a><div class="muted">Display Available Exams</div></td><td>v1</td><td>As an auditor, I want to see a list of exams I am eligible to purchase so that I can select the one I want</td></tr><tr><td><a href="../stories/STORY-006.html">STORY-006</a><div class="muted">Purchase Exam Invoice</div></td><td>v1</td><td>As an auditor, I want to complete the purchase of an exam invoice so that I can register for the exam</td></tr></tbody></table></div>
+    </main>
+</body>
+</html>

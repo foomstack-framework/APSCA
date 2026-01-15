@@ -1,1 +1,73 @@
-[]
+[
+  {
+    "id": "DOM-001",
+    "title": "Exam Eligibility Rules",
+    "status": "active",
+    "type": "rule",
+    "source": "authored",
+    "effective_date": null,
+    "doc_path": "docs/domain/exam-eligibility-rules.md",
+    "description": "Defines the eligibility rules that govern which exams an auditor can purchase. Eligibility depends on good standing, progression requirements, unpaid invoice status, and renewal compliance. The system must provide a clear, auditable explanation for why a particular exam is available or blocked.",
+    "anchors": [
+      "Good standing verification",
+      "Progression requirements",
+      "Unpaid invoice blocking",
+      "Renewal status gating"
+    ],
+    "tags": [
+      "eligibility",
+      "exam"
+    ],
+    "owner": "",
+    "notes": "Use this as the canonical reference for eligibility logic and audit explanations.",
+    "created_at": "2026-01-15T04:18:31Z",
+    "updated_at": "2026-02-18T09:00:00Z"
+  },
+  {
+    "id": "DOM-002",
+    "title": "Credential Renewal Policy",
+    "status": "active",
+    "type": "policy",
+    "source": "authored",
+    "effective_date": "2026-01-01",
+    "doc_path": "docs/domain/credential-renewal-policy.md",
+    "description": "Specifies renewal windows, required attestations, grace periods, and late fee policy. Renewal eligibility is driven by credential status, CPE compliance, and attestation completion. This policy is used to determine whether auditors can renew or continue purchasing exams.",
+    "anchors": [
+      "Renewal windows",
+      "Grace period definition",
+      "Attestation requirements",
+      "Late fee triggers"
+    ],
+    "tags": [
+      "renewal",
+      "policy"
+    ],
+    "owner": "",
+    "notes": "Applies to all credentialed auditors and is referenced across renewal workflows.",
+    "created_at": "2026-01-20T12:05:00Z",
+    "updated_at": "2026-02-10T10:25:00Z"
+  },
+  {
+    "id": "DOM-003",
+    "title": "CPE Credit Rules",
+    "status": "draft",
+    "type": "rule",
+    "source": "authored",
+    "effective_date": "2026-02-01",
+    "doc_path": "docs/domain/cpe-credit-rules.md",
+    "description": "Defines how continuing education credits are calculated, categorized, and validated. Credits are grouped by category with minimum thresholds for renewal. Activities must include audit metadata, provider information, and completion dates.",
+    "anchors": [
+      "Credit categories",
+      "Minimum thresholds",
+      "Activity audit metadata"
+    ],
+    "tags": [
+      "cpe",
+      "compliance"
+    ],
+    "owner": "",
+    "notes": "Draft policy pending final approval from compliance committee.",
+    "created_at": "2026-01-22T15:10:00Z",
+    "updated_at": "2026-02-12T09:40:00Z"
+  }
+]

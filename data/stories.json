@@ -1,40 +1,757 @@
 [
   {
-    "id": "STORY-001",
-    "title": "Login Form",
-    "epic_ref": "EPIC-001",
+    "id": "STORY-002",
+    "title": "Check Good Standing Status",
+    "epic_ref": "EPIC-002",
     "tags": [],
     "owner": "",
-    "created_at": "2026-01-13T08:37:11Z",
+    "created_at": "2026-01-15T04:30:06Z",
     "versions": [
       {
         "version": 1,
         "status": "draft",
-        "release_ref": "REL-2026-01-13",
-        "description": "As a user, I want to enter my credentials and authenticate",
-        "requirement_refs": [],
-        "domain_refs": [],
+        "release_ref": "REL-2026-02-01",
+        "description": "As an auditor, I want the system to verify my good standing status so that I can only purchase exams if I meet the membership and ethics requirements",
+        "requirement_refs": [
+          "REQ-003"
+        ],
+        "domain_refs": [
+          "DOM-001"
+        ],
         "acceptance_criteria": [
           {
             "id": "AC-001",
-            "statement": "User can enter username and password"
+            "statement": "System checks active APSCA membership status"
           },
           {
             "id": "AC-002",
-            "statement": "Invalid credentials show error message"
+            "statement": "System checks for any ethics violations on record"
+          },
+          {
+            "id": "AC-003",
+            "statement": "Auditor is blocked from purchasing if not in good standing"
+          },
+          {
+            "id": "AC-004",
+            "statement": "Clear error message displayed when not in good standing"
           }
         ],
         "test_intent": {
           "failure_modes": [
-            "User can access protected resource without logging in"
+            "Auditor with expired membership can purchase exam",
+            "Auditor with ethics violation can purchase exam"
           ],
           "guarantees": [
-            "Valid credentials always grant access"
+            "Good standing check runs before any purchase attempt",
+            "Membership status is verified against current data"
           ]
         },
         "supersedes": null,
-        "created_at": "2026-01-13T08:37:11Z",
-        "updated_at": "2026-01-13T08:37:11Z",
+        "created_at": "2026-01-15T04:30:06Z",
+        "updated_at": "2026-01-15T04:30:06Z",
+        "owner": "",
+        "notes": ""
+      },
+      {
+        "version": 2,
+        "status": "approved",
+        "release_ref": "REL-2026-03-15",
+        "description": "As an auditor, I want eligibility checks to include renewal status so I can only purchase exams when my credentials are current",
+        "requirement_refs": [
+          "REQ-003",
+          "REQ-004"
+        ],
+        "domain_refs": [
+          "DOM-001",
+          "DOM-002"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "System verifies credential renewal status"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Auditors in renewal grace period are flagged"
+          },
+          {
+            "id": "AC-003",
+            "statement": "Purchase is blocked when renewal is overdue"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Auditor with expired credential can purchase exam"
+          ],
+          "guarantees": [
+            "Renewal status check runs before purchase attempt"
+          ]
+        },
+        "supersedes": 1,
+        "created_at": "2026-02-12T09:25:00Z",
+        "updated_at": "2026-02-18T11:55:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-003",
+    "title": "Verify Exam Progression",
+    "epic_ref": "EPIC-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-15T04:30:15Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "ready_to_build",
+        "release_ref": "REL-2026-02-01",
+        "description": "As an auditor, I want the system to check my exam progression so that I can only purchase the next exam in sequence after passing the previous one",
+        "requirement_refs": [
+          "REQ-003"
+        ],
+        "domain_refs": [
+          "DOM-001"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Part 1 is available to all auditors in good standing"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Part 2 requires Part 1 passed"
+          },
+          {
+            "id": "AC-003",
+            "statement": "Part 3 requires Part 2 passed"
+          },
+          {
+            "id": "AC-004",
+            "statement": "Passed exams cannot be re-purchased"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Auditor can purchase Part 2 without passing Part 1",
+            "Auditor can re-purchase a passed exam"
+          ],
+          "guarantees": [
+            "Exam sequence is enforced strictly",
+            "Pass status is verified before showing available exams"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-01-15T04:30:15Z",
+        "updated_at": "2026-01-15T04:31:08Z",
+        "owner": "",
+        "notes": ""
+      },
+      {
+        "version": 2,
+        "status": "approved",
+        "release_ref": "REL-2026-03-15",
+        "description": "As an auditor, I want progression rules to account for retakes and exemptions so eligibility is accurate",
+        "requirement_refs": [
+          "REQ-003"
+        ],
+        "domain_refs": [
+          "DOM-001"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Retake attempts are limited by policy"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Exemptions bypass progression checks"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Exempt auditor blocked from exam purchase"
+          ],
+          "guarantees": [
+            "Progression rules honor exemptions"
+          ]
+        },
+        "supersedes": 1,
+        "created_at": "2026-02-14T12:10:00Z",
+        "updated_at": "2026-02-21T08:50:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-004",
+    "title": "Check Unpaid Invoices",
+    "epic_ref": "EPIC-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-15T04:30:24Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "in_build",
+        "release_ref": "REL-2026-02-01",
+        "description": "As an auditor, I want to be notified of any unpaid invoices so that I can clear them before purchasing new exam invoices",
+        "requirement_refs": [
+          "REQ-004"
+        ],
+        "domain_refs": [],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "System checks for unpaid invoices of all types"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Unpaid invoices block new exam purchases"
+          },
+          {
+            "id": "AC-003",
+            "statement": "List of unpaid invoices is displayed to auditor"
+          },
+          {
+            "id": "AC-004",
+            "statement": "Paid invoices for untaken exams do not block purchases"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Auditor with unpaid invoice can purchase new exam"
+          ],
+          "guarantees": [
+            "All invoice types are checked",
+            "Only unpaid status blocks, not untaken status"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-01-15T04:30:24Z",
+        "updated_at": "2026-01-15T04:31:09Z",
+        "owner": "",
+        "notes": ""
+      },
+      {
+        "version": 2,
+        "status": "approved",
+        "release_ref": "REL-2026-03-15",
+        "description": "As an auditor, I want unpaid invoice checks to include renewal fees so I can clear all obligations",
+        "requirement_refs": [
+          "REQ-004"
+        ],
+        "domain_refs": [
+          "DOM-002"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Renewal invoices are included in unpaid checks"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Outstanding renewal fees block exam purchases"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Auditor can purchase exam with unpaid renewal fee"
+          ],
+          "guarantees": [
+            "Unpaid renewal fees are treated as blocking"
+          ]
+        },
+        "supersedes": 1,
+        "created_at": "2026-02-15T10:30:00Z",
+        "updated_at": "2026-02-20T15:40:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-005",
+    "title": "Display Available Exams",
+    "epic_ref": "EPIC-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-15T04:30:33Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "built",
+        "release_ref": "REL-2026-02-01",
+        "description": "As an auditor, I want to see a list of exams I am eligible to purchase so that I can select the one I want",
+        "requirement_refs": [
+          "REQ-002"
+        ],
+        "domain_refs": [
+          "DOM-001"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Account page shows exam purchasing section"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Only eligible exams are displayed as purchasable"
+          },
+          {
+            "id": "AC-003",
+            "statement": "Exam name, price, and attempt number are shown"
+          },
+          {
+            "id": "AC-004",
+            "statement": "Re-sit pricing is shown for failed exams"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Ineligible exam is shown as purchasable"
+          ],
+          "guarantees": [
+            "Eligibility is checked before displaying exams",
+            "Pricing reflects first attempt vs re-sit"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-01-15T04:30:33Z",
+        "updated_at": "2026-01-15T04:31:11Z",
+        "owner": "",
+        "notes": ""
+      },
+      {
+        "version": 2,
+        "status": "approved",
+        "release_ref": "REL-2026-03-15",
+        "description": "As an auditor, I want to see pricing breakdowns and invoice previews before purchase",
+        "requirement_refs": [
+          "REQ-002",
+          "REQ-005"
+        ],
+        "domain_refs": [
+          "DOM-001"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Exam cards include total price and tax"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Invoice preview is available before purchase"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Invoice preview shows incorrect pricing"
+          ],
+          "guarantees": [
+            "Pricing matches invoice system calculations"
+          ]
+        },
+        "supersedes": 1,
+        "created_at": "2026-02-16T09:05:00Z",
+        "updated_at": "2026-02-24T12:35:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-006",
+    "title": "Purchase Exam Invoice",
+    "epic_ref": "EPIC-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-15T04:30:43Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "draft",
+        "release_ref": "REL-2026-02-01",
+        "description": "As an auditor, I want to complete the purchase of an exam invoice so that I can register for the exam",
+        "requirement_refs": [
+          "REQ-002",
+          "REQ-005"
+        ],
+        "domain_refs": [
+          "DOM-001"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Auditor can select an exam and click Purchase"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Invoice is created in the invoice system"
+          },
+          {
+            "id": "AC-003",
+            "statement": "Re-sit designation is recorded for failed exams"
+          },
+          {
+            "id": "AC-004",
+            "statement": "Attempt count is incremented"
+          },
+          {
+            "id": "AC-005",
+            "statement": "Confirmation is displayed with invoice details"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Invoice created without eligibility check",
+            "Re-sit not designated for failed exam retry"
+          ],
+          "guarantees": [
+            "Invoice is only created after all checks pass",
+            "Attempt history is accurately tracked"
+          ],
+          "exclusions": [
+            "Payment processing (handled by invoice system)"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-01-15T04:30:43Z",
+        "updated_at": "2026-01-15T04:30:43Z",
+        "owner": "",
+        "notes": ""
+      },
+      {
+        "version": 2,
+        "status": "ready_to_build",
+        "release_ref": "REL-2026-03-15",
+        "description": "As an auditor, I want a clear post-purchase confirmation so I know what to do next",
+        "requirement_refs": [
+          "REQ-002"
+        ],
+        "domain_refs": [
+          "DOM-001"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Confirmation page shows invoice number"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Confirmation includes next steps for scheduling"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Confirmation page missing invoice number"
+          ],
+          "guarantees": [
+            "Confirmation displayed after invoice creation"
+          ]
+        },
+        "supersedes": 1,
+        "created_at": "2026-02-18T14:10:00Z",
+        "updated_at": "2026-02-26T09:35:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-007",
+    "title": "Submit Renewal Attestation",
+    "epic_ref": "EPIC-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T13:05:00Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "approved",
+        "release_ref": "REL-2026-03-15",
+        "description": "As an auditor, I want to submit required attestations so that I can complete credential renewal",
+        "requirement_refs": [
+          "REQ-003"
+        ],
+        "domain_refs": [
+          "DOM-002"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Attestation checklist is displayed with required items"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Submitted attestations are timestamped"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Attestation submission not saved"
+          ],
+          "guarantees": [
+            "Attestations are stored with audit trail"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-02-06T10:40:00Z",
+        "updated_at": "2026-02-15T11:25:00Z",
+        "owner": "",
+        "notes": ""
+      },
+      {
+        "version": 2,
+        "status": "approved",
+        "release_ref": "REL-2026-05-01",
+        "description": "As an auditor, I want to upload supporting evidence for attestations when required",
+        "requirement_refs": [
+          "REQ-003",
+          "REQ-004"
+        ],
+        "domain_refs": [
+          "DOM-002"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Evidence upload is required for flagged attestations"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Uploaded evidence is linked to attestation"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Required evidence not enforced"
+          ],
+          "guarantees": [
+            "Evidence requirement is enforced when flagged"
+          ]
+        },
+        "supersedes": 1,
+        "created_at": "2026-03-12T09:30:00Z",
+        "updated_at": "2026-03-28T13:15:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-008",
+    "title": "Review Renewal Eligibility",
+    "epic_ref": "EPIC-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T13:20:00Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "approved",
+        "release_ref": "REL-2026-03-15",
+        "description": "As an auditor, I want to review my renewal eligibility so that I understand any gaps",
+        "requirement_refs": [
+          "REQ-003"
+        ],
+        "domain_refs": [
+          "DOM-002"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Eligibility status is displayed with clear explanations"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Requirements needed for renewal are listed"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Eligibility details not displayed"
+          ],
+          "guarantees": [
+            "Eligibility information is available on dashboard"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-02-06T12:00:00Z",
+        "updated_at": "2026-02-16T14:20:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-009",
+    "title": "Generate Renewal Invoice",
+    "epic_ref": "EPIC-005",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-21T10:30:00Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "draft",
+        "release_ref": "REL-2026-05-01",
+        "description": "As an auditor, I want a renewal invoice generated so I can pay my renewal fee",
+        "requirement_refs": [
+          "REQ-002",
+          "REQ-004"
+        ],
+        "domain_refs": [
+          "DOM-002"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Invoice is generated with correct pricing tier"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Invoice reflects late penalties when applicable"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Invoice pricing tier incorrect"
+          ],
+          "guarantees": [
+            "Invoice reflects configured pricing rules"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-03-16T08:30:00Z",
+        "updated_at": "2026-03-16T08:30:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-010",
+    "title": "Log CPE Activity",
+    "epic_ref": "EPIC-006",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-22T16:00:00Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "confirmed",
+        "release_ref": "REL-2026-05-01",
+        "description": "As an auditor, I want to log CPE activities so that my credits are tracked accurately",
+        "requirement_refs": [
+          "REQ-002"
+        ],
+        "domain_refs": [
+          "DOM-003"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Auditor can add CPE activity with date and credit value"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Activity list totals credits for the reporting period"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "CPE credits not totaled correctly"
+          ],
+          "guarantees": [
+            "Credits total equals sum of activities"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-03-07T10:05:00Z",
+        "updated_at": "2026-03-18T09:15:00Z",
+        "owner": "",
+        "notes": ""
+      },
+      {
+        "version": 2,
+        "status": "draft",
+        "release_ref": null,
+        "description": "As an auditor, I want to bulk import CPE activities from provider transcripts",
+        "requirement_refs": [
+          "REQ-002"
+        ],
+        "domain_refs": [
+          "DOM-003"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Auditor can upload CSV file with CPE activities"
+          },
+          {
+            "id": "AC-002",
+            "statement": "System validates imported activities against policy rules"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Invalid CPE activities imported without validation"
+          ],
+          "guarantees": [
+            "All imported activities are validated before saving"
+          ]
+        },
+        "supersedes": 1,
+        "created_at": "2026-04-12T08:15:00Z",
+        "updated_at": "2026-04-18T10:45:00Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-011",
+    "title": "View CPE Compliance Status",
+    "epic_ref": "EPIC-007",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-04-02T10:00:00Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "draft",
+        "release_ref": null,
+        "description": "As an auditor, I want to view my CPE compliance status so I know if I'm meeting renewal requirements",
+        "requirement_refs": [
+          "REQ-002"
+        ],
+        "domain_refs": [
+          "DOM-003"
+        ],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "Dashboard shows current reporting period progress"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Compliance gaps are highlighted with clear explanations"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "Compliance status shows incorrect totals"
+          ],
+          "guarantees": [
+            "Compliance calculations match policy rules"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-04-02T10:00:00Z",
+        "updated_at": "2026-04-08T13:20:00Z",
         "owner": "",
         "notes": ""
       }

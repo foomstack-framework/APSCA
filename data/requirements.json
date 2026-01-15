@@ -1,18 +1,70 @@
 [
   {
-    "id": "REQ-001",
-    "title": "User Authentication",
+    "id": "REQ-002",
+    "title": "Exam Invoice Purchasing",
     "status": "active",
     "type": "functional",
     "invariant": false,
-    "statement": "Users must authenticate before accessing protected resources",
-    "rationale": "Security requirement for data protection",
+    "statement": "Auditors must be able to purchase exam invoices from their account based on eligibility rules",
+    "rationale": "Enable auditors to self-service exam registration and payment",
+    "domain_refs": [
+      "DOM-001"
+    ],
+    "superseded_by": null,
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-15T04:18:36Z",
+    "updated_at": "2026-01-15T04:18:36Z"
+  },
+  {
+    "id": "REQ-003",
+    "title": "Exam Eligibility Enforcement",
+    "status": "active",
+    "type": "functional",
+    "invariant": false,
+    "statement": "System must enforce exam eligibility rules strictly, preventing purchase of ineligible exams",
+    "rationale": "Ensure compliance with exam progression requirements and good standing criteria",
+    "domain_refs": [
+      "DOM-001"
+    ],
+    "superseded_by": null,
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-15T04:18:42Z",
+    "updated_at": "2026-01-15T04:18:42Z"
+  },
+  {
+    "id": "REQ-004",
+    "title": "Invoice Payment Clearance",
+    "status": "active",
+    "type": "functional",
+    "invariant": false,
+    "statement": "Auditors with unpaid invoices must clear all outstanding payments before purchasing new exam invoices",
+    "rationale": "Prevent accumulation of unpaid invoices and ensure financial accountability",
     "domain_refs": [],
     "superseded_by": null,
     "tags": [],
     "owner": "",
     "notes": "",
-    "created_at": "2026-01-13T08:36:45Z",
-    "updated_at": "2026-01-13T08:36:45Z"
+    "created_at": "2026-01-15T04:18:47Z",
+    "updated_at": "2026-01-15T04:18:47Z"
+  },
+  {
+    "id": "REQ-005",
+    "title": "Re-sit Designation and Pricing",
+    "status": "active",
+    "type": "functional",
+    "invariant": false,
+    "statement": "Failed exams must be designated as re-sits with appropriate pricing and attempt tracking when re-purchased",
+    "rationale": "Differentiate pricing between first attempts and re-sits; track attempt history per exam type",
+    "domain_refs": [],
+    "superseded_by": null,
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-15T04:18:54Z",
+    "updated_at": "2026-01-15T04:18:54Z"
   }
 ]

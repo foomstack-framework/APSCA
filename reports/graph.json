@@ -1,16 +1,75 @@
 {
   "nodes": [
     {
-      "id": "REL-2026-01-13",
+      "id": "REL-2026-02-01",
       "type": "release",
-      "title": "REL-2026-01-13",
+      "title": "Exam Purchasing MVP",
       "status": "planned",
-      "release_date": "2026-01-13"
+      "release_date": "2026-02-01"
     },
     {
-      "id": "REQ-001",
+      "id": "REL-2026-03-15",
+      "type": "release",
+      "title": "Eligibility Expansion",
+      "status": "active",
+      "release_date": "2026-03-15"
+    },
+    {
+      "id": "REL-2026-05-01",
+      "type": "release",
+      "title": "Renewal & CPE Foundations",
+      "status": "planned",
+      "release_date": "2026-05-01"
+    },
+    {
+      "id": "DOM-001",
+      "type": "domain",
+      "title": "Exam Eligibility Rules",
+      "status": "active",
+      "domain_type": "rule"
+    },
+    {
+      "id": "DOM-002",
+      "type": "domain",
+      "title": "Credential Renewal Policy",
+      "status": "active",
+      "domain_type": "policy"
+    },
+    {
+      "id": "DOM-003",
+      "type": "domain",
+      "title": "CPE Credit Rules",
+      "status": "draft",
+      "domain_type": "rule"
+    },
+    {
+      "id": "REQ-002",
       "type": "requirement",
-      "title": "User Authentication",
+      "title": "Exam Invoice Purchasing",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-003",
+      "type": "requirement",
+      "title": "Exam Eligibility Enforcement",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-004",
+      "type": "requirement",
+      "title": "Invoice Payment Clearance",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-005",
+      "type": "requirement",
+      "title": "Re-sit Designation and Pricing",
       "status": "active",
       "req_type": "functional",
       "invariant": false
@@ -18,100 +77,1169 @@
     {
       "id": "FEAT-001",
       "type": "feature",
-      "title": "Login System",
+      "title": "Exam Purchasing System",
       "status": "active"
     },
     {
-      "id": "EPIC-001",
+      "id": "FEAT-002",
+      "type": "feature",
+      "title": "Credential Renewal Portal",
+      "status": "confirmed"
+    },
+    {
+      "id": "FEAT-003",
+      "type": "feature",
+      "title": "Continuing Education Tracking",
+      "status": "proposed"
+    },
+    {
+      "id": "EPIC-002",
       "type": "epic",
-      "title": "Basic Authentication Flow",
+      "title": "Exam Eligibility Verification",
       "feature_ref": "FEAT-001"
     },
     {
-      "id": "EPIC-001:v1",
+      "id": "EPIC-002:v1",
       "type": "epic_version",
-      "epic_id": "EPIC-001",
+      "epic_id": "EPIC-002",
       "version": 1,
-      "status": "draft",
-      "release_ref": "REL-2026-01-13",
-      "summary": "Implement username/password authentication with session management"
+      "status": "approved",
+      "release_ref": "REL-2026-02-01",
+      "summary": "Implement eligibility checking logic to determine which exams an auditor can purchase based on their standing, progression, and payment status"
     },
     {
-      "id": "STORY-001",
+      "id": "EPIC-002:v2",
+      "type": "epic_version",
+      "epic_id": "EPIC-002",
+      "version": 2,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "summary": "Extend eligibility checks to include renewal status, outstanding invoices, and required attestations"
+    },
+    {
+      "id": "EPIC-003",
+      "type": "epic",
+      "title": "Exam Invoice Purchase Flow",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-003:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-003",
+      "version": 1,
+      "status": "draft",
+      "release_ref": "REL-2026-02-01",
+      "summary": "Build the account page UI and purchase workflow for auditors to select and purchase exam invoices"
+    },
+    {
+      "id": "EPIC-003:v2",
+      "type": "epic_version",
+      "epic_id": "EPIC-003",
+      "version": 2,
+      "status": "ready_to_build",
+      "release_ref": "REL-2026-03-15",
+      "summary": "Add invoice preview, pricing breakdown, and post-purchase confirmation with next steps"
+    },
+    {
+      "id": "EPIC-004",
+      "type": "epic",
+      "title": "Renewal Eligibility Checks",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-004:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-004",
+      "version": 1,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "summary": "Verify renewal eligibility based on credential status, CPE credits, and attestations"
+    },
+    {
+      "id": "EPIC-004:v2",
+      "type": "epic_version",
+      "epic_id": "EPIC-004",
+      "version": 2,
+      "status": "approved",
+      "release_ref": "REL-2026-05-01",
+      "summary": "Add conditional eligibility for auditors with pending documentation and grace periods"
+    },
+    {
+      "id": "EPIC-005",
+      "type": "epic",
+      "title": "Renewal Fee Invoicing",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-005:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-005",
+      "version": 1,
+      "status": "draft",
+      "release_ref": "REL-2026-05-01",
+      "summary": "Generate renewal fee invoices with tiered pricing and late penalties"
+    },
+    {
+      "id": "EPIC-006",
+      "type": "epic",
+      "title": "CPE Credit Validation",
+      "feature_ref": "FEAT-003"
+    },
+    {
+      "id": "EPIC-006:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-006",
+      "version": 1,
+      "status": "confirmed",
+      "release_ref": "REL-2026-05-01",
+      "summary": "Validate CPE credits against policy rules and highlight gaps"
+    },
+    {
+      "id": "EPIC-006:v2",
+      "type": "epic_version",
+      "epic_id": "EPIC-006",
+      "version": 2,
+      "status": "draft",
+      "release_ref": null,
+      "summary": "Add automated CPE credit verification and bulk import capabilities"
+    },
+    {
+      "id": "EPIC-007",
+      "type": "epic",
+      "title": "CPE Reporting Dashboard",
+      "feature_ref": "FEAT-003"
+    },
+    {
+      "id": "EPIC-007:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-007",
+      "version": 1,
+      "status": "draft",
+      "release_ref": null,
+      "summary": "Build dashboard for auditors to view CPE credit status, compliance gaps, and reporting period summaries"
+    },
+    {
+      "id": "STORY-002",
       "type": "story",
-      "title": "Login Form",
-      "epic_ref": "EPIC-001"
+      "title": "Check Good Standing Status",
+      "epic_ref": "EPIC-002"
     },
     {
-      "id": "STORY-001:v1",
+      "id": "STORY-002:v1",
       "type": "story_version",
-      "story_id": "STORY-001",
+      "story_id": "STORY-002",
       "version": 1,
       "status": "draft",
-      "release_ref": "REL-2026-01-13",
-      "description": "As a user, I want to enter my credentials and authenticate"
+      "release_ref": "REL-2026-02-01",
+      "description": "As an auditor, I want the system to verify my good standing status so that I can only purchase exams if I meet the membership and ethics requirements"
+    },
+    {
+      "id": "STORY-002:v2",
+      "type": "story_version",
+      "story_id": "STORY-002",
+      "version": 2,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "description": "As an auditor, I want eligibility checks to include renewal status so I can only purchase exams when my credentials are current"
+    },
+    {
+      "id": "STORY-003",
+      "type": "story",
+      "title": "Verify Exam Progression",
+      "epic_ref": "EPIC-002"
+    },
+    {
+      "id": "STORY-003:v1",
+      "type": "story_version",
+      "story_id": "STORY-003",
+      "version": 1,
+      "status": "ready_to_build",
+      "release_ref": "REL-2026-02-01",
+      "description": "As an auditor, I want the system to check my exam progression so that I can only purchase the next exam in sequence after passing the previous one"
+    },
+    {
+      "id": "STORY-003:v2",
+      "type": "story_version",
+      "story_id": "STORY-003",
+      "version": 2,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "description": "As an auditor, I want progression rules to account for retakes and exemptions so eligibility is accurate"
+    },
+    {
+      "id": "STORY-004",
+      "type": "story",
+      "title": "Check Unpaid Invoices",
+      "epic_ref": "EPIC-002"
+    },
+    {
+      "id": "STORY-004:v1",
+      "type": "story_version",
+      "story_id": "STORY-004",
+      "version": 1,
+      "status": "in_build",
+      "release_ref": "REL-2026-02-01",
+      "description": "As an auditor, I want to be notified of any unpaid invoices so that I can clear them before purchasing new exam invoices"
+    },
+    {
+      "id": "STORY-004:v2",
+      "type": "story_version",
+      "story_id": "STORY-004",
+      "version": 2,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "description": "As an auditor, I want unpaid invoice checks to include renewal fees so I can clear all obligations"
+    },
+    {
+      "id": "STORY-005",
+      "type": "story",
+      "title": "Display Available Exams",
+      "epic_ref": "EPIC-003"
+    },
+    {
+      "id": "STORY-005:v1",
+      "type": "story_version",
+      "story_id": "STORY-005",
+      "version": 1,
+      "status": "built",
+      "release_ref": "REL-2026-02-01",
+      "description": "As an auditor, I want to see a list of exams I am eligible to purchase so that I can select the one I want"
+    },
+    {
+      "id": "STORY-005:v2",
+      "type": "story_version",
+      "story_id": "STORY-005",
+      "version": 2,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "description": "As an auditor, I want to see pricing breakdowns and invoice previews before purchase"
+    },
+    {
+      "id": "STORY-006",
+      "type": "story",
+      "title": "Purchase Exam Invoice",
+      "epic_ref": "EPIC-003"
+    },
+    {
+      "id": "STORY-006:v1",
+      "type": "story_version",
+      "story_id": "STORY-006",
+      "version": 1,
+      "status": "draft",
+      "release_ref": "REL-2026-02-01",
+      "description": "As an auditor, I want to complete the purchase of an exam invoice so that I can register for the exam"
+    },
+    {
+      "id": "STORY-006:v2",
+      "type": "story_version",
+      "story_id": "STORY-006",
+      "version": 2,
+      "status": "ready_to_build",
+      "release_ref": "REL-2026-03-15",
+      "description": "As an auditor, I want a clear post-purchase confirmation so I know what to do next"
+    },
+    {
+      "id": "STORY-007",
+      "type": "story",
+      "title": "Submit Renewal Attestation",
+      "epic_ref": "EPIC-004"
+    },
+    {
+      "id": "STORY-007:v1",
+      "type": "story_version",
+      "story_id": "STORY-007",
+      "version": 1,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "description": "As an auditor, I want to submit required attestations so that I can complete credential renewal"
+    },
+    {
+      "id": "STORY-007:v2",
+      "type": "story_version",
+      "story_id": "STORY-007",
+      "version": 2,
+      "status": "approved",
+      "release_ref": "REL-2026-05-01",
+      "description": "As an auditor, I want to upload supporting evidence for attestations when required"
+    },
+    {
+      "id": "STORY-008",
+      "type": "story",
+      "title": "Review Renewal Eligibility",
+      "epic_ref": "EPIC-004"
+    },
+    {
+      "id": "STORY-008:v1",
+      "type": "story_version",
+      "story_id": "STORY-008",
+      "version": 1,
+      "status": "approved",
+      "release_ref": "REL-2026-03-15",
+      "description": "As an auditor, I want to review my renewal eligibility so that I understand any gaps"
+    },
+    {
+      "id": "STORY-009",
+      "type": "story",
+      "title": "Generate Renewal Invoice",
+      "epic_ref": "EPIC-005"
+    },
+    {
+      "id": "STORY-009:v1",
+      "type": "story_version",
+      "story_id": "STORY-009",
+      "version": 1,
+      "status": "draft",
+      "release_ref": "REL-2026-05-01",
+      "description": "As an auditor, I want a renewal invoice generated so I can pay my renewal fee"
+    },
+    {
+      "id": "STORY-010",
+      "type": "story",
+      "title": "Log CPE Activity",
+      "epic_ref": "EPIC-006"
+    },
+    {
+      "id": "STORY-010:v1",
+      "type": "story_version",
+      "story_id": "STORY-010",
+      "version": 1,
+      "status": "confirmed",
+      "release_ref": "REL-2026-05-01",
+      "description": "As an auditor, I want to log CPE activities so that my credits are tracked accurately"
+    },
+    {
+      "id": "STORY-010:v2",
+      "type": "story_version",
+      "story_id": "STORY-010",
+      "version": 2,
+      "status": "draft",
+      "release_ref": null,
+      "description": "As an auditor, I want to bulk import CPE activities from provider transcripts"
+    },
+    {
+      "id": "STORY-011",
+      "type": "story",
+      "title": "View CPE Compliance Status",
+      "epic_ref": "EPIC-007"
+    },
+    {
+      "id": "STORY-011:v1",
+      "type": "story_version",
+      "story_id": "STORY-011",
+      "version": 1,
+      "status": "draft",
+      "release_ref": null,
+      "description": "As an auditor, I want to view my CPE compliance status so I know if I'm meeting renewal requirements"
     }
   ],
   "edges": [
     {
+      "source": "REQ-002",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "REQ-003",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
       "source": "FEAT-001",
-      "target": "REQ-001",
+      "target": "REQ-002",
       "type": "satisfies"
     },
     {
-      "source": "EPIC-001",
+      "source": "FEAT-001",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-005",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "FEAT-002",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-002",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-002",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "FEAT-003",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-003",
+      "target": "DOM-003",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-002",
       "target": "FEAT-001",
       "type": "scoped_by"
     },
     {
-      "source": "EPIC-001:v1",
-      "target": "EPIC-001",
+      "source": "EPIC-002:v1",
+      "target": "EPIC-002",
       "type": "version_of"
     },
     {
-      "source": "EPIC-001:v1",
-      "target": "REL-2026-01-13",
+      "source": "EPIC-002:v1",
+      "target": "REL-2026-02-01",
       "type": "assigned_to_release"
     },
     {
-      "source": "EPIC-001:v1",
-      "target": "REQ-001",
+      "source": "EPIC-002:v1",
+      "target": "REQ-003",
       "type": "satisfies"
     },
     {
-      "source": "STORY-001",
-      "target": "EPIC-001",
-      "type": "belongs_to"
+      "source": "EPIC-002:v1",
+      "target": "DOM-001",
+      "type": "references_domain"
     },
     {
-      "source": "STORY-001:v1",
-      "target": "STORY-001",
+      "source": "EPIC-002:v2",
+      "target": "EPIC-002",
       "type": "version_of"
     },
     {
-      "source": "STORY-001:v1",
-      "target": "REL-2026-01-13",
+      "source": "EPIC-002:v2",
+      "target": "REL-2026-03-15",
       "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-002:v2",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-002:v2",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-002:v2",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-002:v2",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-002:v2",
+      "target": "EPIC-002:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "EPIC-003",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "EPIC-003",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REL-2026-02-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-003:v2",
+      "target": "EPIC-003",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-003:v2",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-003:v2",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v2",
+      "target": "REQ-005",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v2",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-003:v2",
+      "target": "EPIC-003:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "EPIC-004",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "EPIC-004",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "DOM-003",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-004:v2",
+      "target": "EPIC-004",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-004:v2",
+      "target": "REL-2026-05-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-004:v2",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v2",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v2",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-004:v2",
+      "target": "EPIC-004:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "EPIC-005",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "EPIC-005",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REL-2026-05-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-006",
+      "target": "FEAT-003",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "EPIC-006",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REL-2026-05-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "DOM-003",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-006:v2",
+      "target": "EPIC-006",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-006:v2",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006:v2",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006:v2",
+      "target": "DOM-003",
+      "type": "references_domain"
+    },
+    {
+      "source": "EPIC-006:v2",
+      "target": "EPIC-006:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "EPIC-007",
+      "target": "FEAT-003",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "EPIC-007",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "DOM-003",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-002",
+      "target": "EPIC-002",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-002:v1",
+      "target": "STORY-002",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-002:v1",
+      "target": "REL-2026-02-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-002:v1",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-002:v1",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-002:v2",
+      "target": "STORY-002",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-002:v2",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-002:v2",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-002:v2",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-002:v2",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-002:v2",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-002:v2",
+      "target": "STORY-002:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "STORY-003",
+      "target": "EPIC-002",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-003:v1",
+      "target": "STORY-003",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-003:v1",
+      "target": "REL-2026-02-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-003:v1",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-003:v1",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-003:v2",
+      "target": "STORY-003",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-003:v2",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-003:v2",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-003:v2",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-003:v2",
+      "target": "STORY-003:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "STORY-004",
+      "target": "EPIC-002",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-004:v1",
+      "target": "STORY-004",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-004:v1",
+      "target": "REL-2026-02-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-004:v1",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-004:v2",
+      "target": "STORY-004",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-004:v2",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-004:v2",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-004:v2",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-004:v2",
+      "target": "STORY-004:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "STORY-005",
+      "target": "EPIC-003",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-005:v1",
+      "target": "STORY-005",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-005:v1",
+      "target": "REL-2026-02-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-005:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-005:v1",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-005:v2",
+      "target": "STORY-005",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-005:v2",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-005:v2",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-005:v2",
+      "target": "REQ-005",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-005:v2",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-005:v2",
+      "target": "STORY-005:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "STORY-006",
+      "target": "EPIC-003",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-006:v1",
+      "target": "STORY-006",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-006:v1",
+      "target": "REL-2026-02-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-006:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-006:v1",
+      "target": "REQ-005",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-006:v1",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-006:v2",
+      "target": "STORY-006",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-006:v2",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-006:v2",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-006:v2",
+      "target": "DOM-001",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-006:v2",
+      "target": "STORY-006:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "STORY-007",
+      "target": "EPIC-004",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-007:v1",
+      "target": "STORY-007",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-007:v1",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-007:v1",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-007:v1",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-007:v2",
+      "target": "STORY-007",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-007:v2",
+      "target": "REL-2026-05-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-007:v2",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-007:v2",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-007:v2",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-007:v2",
+      "target": "STORY-007:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "STORY-008",
+      "target": "EPIC-004",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-008:v1",
+      "target": "STORY-008",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-008:v1",
+      "target": "REL-2026-03-15",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-008:v1",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-008:v1",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-009",
+      "target": "EPIC-005",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-009:v1",
+      "target": "STORY-009",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-009:v1",
+      "target": "REL-2026-05-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-009:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-009:v1",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-009:v1",
+      "target": "DOM-002",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-010",
+      "target": "EPIC-006",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-010:v1",
+      "target": "STORY-010",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-010:v1",
+      "target": "REL-2026-05-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "STORY-010:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-010:v1",
+      "target": "DOM-003",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-010:v2",
+      "target": "STORY-010",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-010:v2",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-010:v2",
+      "target": "DOM-003",
+      "type": "references_domain"
+    },
+    {
+      "source": "STORY-010:v2",
+      "target": "STORY-010:v1",
+      "type": "supersedes"
+    },
+    {
+      "source": "STORY-011",
+      "target": "EPIC-007",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-011:v1",
+      "target": "STORY-011",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-011:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-011:v1",
+      "target": "DOM-003",
+      "type": "references_domain"
     }
   ],
   "metadata": {
-    "node_count": 7,
-    "edge_count": 8,
+    "node_count": 56,
+    "edge_count": 157,
     "node_types": [
-      "release",
       "epic",
-      "story_version",
-      "epic_version",
+      "release",
+      "domain",
       "requirement",
+      "epic_version",
       "story",
-      "feature"
+      "feature",
+      "story_version"
     ],
     "edge_types": [
       "version_of",
-      "scoped_by",
       "assigned_to_release",
-      "satisfies",
-      "belongs_to"
+      "supersedes",
+      "scoped_by",
+      "references_domain",
+      "belongs_to",
+      "satisfies"
     ]
   }
 }

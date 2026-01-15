@@ -1,20 +1,95 @@
 [
   {
     "id": "FEAT-001",
-    "title": "Login System",
+    "title": "Exam Purchasing System",
     "status": "active",
-    "purpose": "Enable users to authenticate into the system",
-    "business_value": "Protects user data and enables personalized experiences",
-    "in_scope": [],
-    "out_of_scope": [],
-    "requirement_refs": [
-      "REQ-001"
+    "purpose": "Enable auditors to purchase exam invoices based on eligibility",
+    "business_value": "Streamlines exam registration, enforces progression requirements, ensures payment compliance, and provides self-service capability",
+    "in_scope": [
+      "Account page for exam invoice purchasing",
+      "Eligibility validation and enforcement",
+      "Integration with good standing status verification",
+      "Unpaid invoice detection and blocking",
+      "Re-sit designation, pricing, and attempt tracking",
+      "Support for three exam parts (Part 1, 2, 3)"
     ],
-    "domain_refs": [],
+    "out_of_scope": [
+      "Exam scheduling and administration",
+      "Exam content and delivery",
+      "Payment processing implementation (uses existing invoice system)",
+      "Membership management",
+      "Good standing status determination (consumes existing data)"
+    ],
+    "requirement_refs": [
+      "REQ-002",
+      "REQ-003",
+      "REQ-004",
+      "REQ-005"
+    ],
+    "domain_refs": [
+      "DOM-001"
+    ],
     "tags": [],
     "owner": "",
     "notes": "",
-    "created_at": "2026-01-13T08:36:52Z",
-    "updated_at": "2026-01-13T08:36:52Z"
+    "created_at": "2026-01-15T04:19:04Z",
+    "updated_at": "2026-01-15T04:19:04Z"
+  },
+  {
+    "id": "FEAT-002",
+    "title": "Credential Renewal Portal",
+    "status": "confirmed",
+    "purpose": "Enable auditors to renew credentials, submit attestations, and pay renewal fees",
+    "business_value": "Reduces manual renewal processing, improves compliance visibility, and gives auditors a self-service renewal experience",
+    "in_scope": [
+      "Renewal eligibility checks",
+      "Attestation submission and storage",
+      "Renewal fee invoicing",
+      "Renewal status dashboard for auditors"
+    ],
+    "out_of_scope": [
+      "Credential issuance and revocation",
+      "External audit scheduling",
+      "Accounting reconciliation"
+    ],
+    "requirement_refs": [
+      "REQ-003",
+      "REQ-004"
+    ],
+    "domain_refs": [
+      "DOM-002"
+    ],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T12:00:00Z",
+    "updated_at": "2026-02-10T09:45:00Z"
+  },
+  {
+    "id": "FEAT-003",
+    "title": "Continuing Education Tracking",
+    "status": "proposed",
+    "purpose": "Track continuing education credits and surface compliance gaps",
+    "business_value": "Improves compliance reporting and reduces renewal delays due to missing CPE credits",
+    "in_scope": [
+      "CPE activity logging",
+      "Credit calculation rules",
+      "Compliance status reporting"
+    ],
+    "out_of_scope": [
+      "Third-party course delivery",
+      "Accreditation program management"
+    ],
+    "requirement_refs": [
+      "REQ-002"
+    ],
+    "domain_refs": [
+      "DOM-003"
+    ],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-22T15:20:00Z",
+    "updated_at": "2026-02-05T10:10:00Z"
   }
 ]

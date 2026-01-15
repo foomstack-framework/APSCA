@@ -6,20 +6,26 @@
     <title>Story Map - APSCA</title>
     <style>
         :root {
-            --bg-primary: #f8fafc;
+            --bg-primary: #f3f4f6;
             --bg-secondary: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --accent-color: #3b82f6;
-
-            /* Status colors */
-            --status-draft: #f59e0b;
-            --status-approved: #3b82f6;
-            --status-ready: #8b5cf6;
-            --status-in-build: #ec4899;
-            --status-built: #10b981;
-            --status-superseded: #9ca3af;
+            --bg-muted: #eef2f6;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #9aa4b2;
+            --border-color: #d7dee8;
+            --accent-color: #2563eb;
+            --accent-soft: rgba(37, 99, 235, 0.12);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --feature-bg: #e7efff;
+            --feature-border: #b7ccff;
+            --epic-bg: #efe7ff;
+            --epic-border: #cbb6ff;
+            --story-border: #8fd9a8;
+            --release-bg: #f1f3f6;
+            --release-border: #d6dbe3;
         }
 
         * {
@@ -29,300 +35,638 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-primary);
             min-height: 100vh;
             color: var(--text-primary);
+            line-height: 1.45;
+            font-size: 14px;
         }
 
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .header h1 {
-            font-size: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .header-nav {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .header-nav a {
+        a {
             color: var(--accent-color);
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
         }
 
-        .header-nav a:hover {
-            background: var(--bg-primary);
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        /* Stats bar */
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+
+        .brand-logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 0.95rem;
+        }
+
+        .topbar-nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .topbar-nav a {
+            padding: 0.35rem 0.55rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .topbar-nav a:hover,
+        .topbar-nav a.active {
+            background: var(--accent-soft);
+            color: var(--accent-color);
+            border-color: rgba(37, 99, 235, 0.18);
+        }
+
         .stats-bar {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 0.75rem 2rem;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 0.5rem 1.25rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
+            flex-wrap: wrap;
         }
 
         .stats-left {
             display: flex;
-            gap: 2rem;
-        }
-
-        .stat {
-            color: var(--text-secondary);
-        }
-
-        .stat strong {
-            color: var(--text-primary);
-        }
-
-        /* Story Map Container */
-        .story-map {
-            padding: 2rem;
-            overflow-x: auto;
-        }
-
-        /* Feature columns */
-        .features-row {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-column {
-            min-width: 280px;
-            flex-shrink: 0;
-        }
-
-        .feature-header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1rem 1.25rem;
-            border-radius: 12px 12px 0 0;
-            border-bottom: 3px solid var(--accent-color);
-        }
-
-        .feature-header h2 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .feature-header .feature-id {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        /* Epic sections */
-        .epic-section {
-            background: rgba(255, 255, 255, 0.85);
-            margin-top: 2px;
-        }
-
-        .epic-header {
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-left: 3px solid var(--accent-color);
-            display: flex;
-            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
             align-items: center;
         }
 
-        .epic-header h3 {
-            font-size: 0.85rem;
-            font-weight: 500;
+        .stats-prefix {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            padding-right: 0.25rem;
+        }
+
+        .stat-block {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-block.features { background: var(--feature-bg); border-color: var(--feature-border); }
+        .stat-block.epics { background: var(--epic-bg); border-color: var(--epic-border); }
+        .stat-block.stories { background: #ecf8f1; border-color: var(--story-border); }
+        .stat-block.releases { background: var(--release-bg); border-color: var(--release-border); }
+
+        .stat-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .stat-value {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .stats-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .stats-filters .ghost-button {
+            padding: 0.32rem 0.6rem;
+            font-size: 0.78rem;
+        }
+
+        .toggle-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.24rem 0.55rem;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            background: #ffffff;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+        }
+
+        .toggle-control input {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--accent-color);
+        }
+
+        .controls-bar {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 0.6rem 1.25rem 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 200px;
+            flex: 1 1 240px;
+        }
+
+        .filter-field label {
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .filter-field input,
+        .filter-field select {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.35rem 0.6rem;
+            font-size: 0.82rem;
+            background: #ffffff;
             color: var(--text-primary);
         }
 
-        .epic-header .epic-id {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            background: var(--bg-primary);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-        }
-
-        /* Story cards */
-        .stories-container {
-            padding: 0.5rem;
+        .requirements-panel {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.35rem;
+            min-width: 240px;
+            flex: 1 1 280px;
+        }
+
+        .requirements-dropdown,
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .requirements-trigger,
+        .filter-trigger {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.35rem 0.6rem;
+            font-size: 0.82rem;
+            background: #ffffff;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .requirements-menu,
+        .filter-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-xs);
+            padding: 0.5rem;
+            z-index: 30;
+            display: none;
+        }
+
+        .requirements-dropdown.open .requirements-menu,
+        .filter-dropdown.open .filter-menu {
+            display: block;
+        }
+
+        .requirements-search,
+        .filter-search {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.3rem 0.5rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .requirements-list,
+        .filter-list {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: #ffffff;
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 0.35rem 0.5rem;
+        }
+
+        .requirement-item,
+        .filter-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            padding: 0.25rem 0.1rem;
+        }
+
+        .requirement-item input {
+            margin-top: 0.2rem;
+        }
+
+        .requirement-title {
+            color: var(--text-primary);
+        }
+
+        .filter-help {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .filter-actions {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-count {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+        }
+
+        .ghost-button {
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            color: var(--text-secondary);
+            border-radius: var(--radius-sm);
+            padding: 0.35rem 0.6rem;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .ghost-button:hover {
+            border-color: rgba(37, 99, 235, 0.3);
+            color: var(--accent-color);
+        }
+
+        .story-map {
+            padding: 1rem 1.5rem 2rem;
+            overflow-x: auto;
+        }
+
+        .map-grid {
+            width: max-content;
+            min-width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .map-grid th,
+        .map-grid td {
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.4rem 0.5rem;
+            vertical-align: top;
+            background: #ffffff;
+        }
+
+        .map-grid tr:last-child td,
+        .map-grid tr:last-child th {
+            border-bottom: none;
+        }
+
+        .map-grid th:last-child,
+        .map-grid td:last-child {
+            border-right: none;
+        }
+
+        .map-grid thead th {
+            background: var(--bg-muted);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+        }
+
+        .corner-cell {
+            background: var(--bg-muted);
+            min-width: 140px;
+            width: 140px;
+        }
+
+        .feature-group {
+            text-align: left;
+            background: var(--feature-bg);
+            border-left: 3px solid var(--feature-border);
+        }
+
+        .feature-id {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .feature-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .epic-header {
+            text-align: left;
+            background: var(--epic-bg);
+            border-left: 3px solid var(--epic-border);
+        }
+
+        .epic-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .epic-id {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .release-header {
+            background: var(--release-bg);
+            min-width: 140px;
+            width: 140px;
+            text-align: left;
+            padding: 0.35rem 0.4rem;
+            border-left: 3px solid var(--release-border);
+        }
+
+        .release-label {
+            background: var(--release-bg);
+            min-width: 140px;
+            width: 140px;
+            max-width: 160px;
+            padding: 0.35rem 0.4rem;
+            word-break: break-word;
+            border-left: 3px solid var(--release-border);
+        }
+
+        .release-id {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .release-title {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+            line-height: 1.2;
+        }
+
+        .release-date {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .story-cell {
+            min-width: 180px;
         }
 
         .story-card {
-            background: white;
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background: #ffffff;
+            border-radius: var(--radius-sm);
+            padding: 0.35rem 0.5rem;
             cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-            border-left: 4px solid transparent;
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--story-border);
+            margin-bottom: 0.35rem;
+            transition: border-color 0.15s ease;
         }
 
         .story-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: rgba(37, 99, 235, 0.35);
         }
-
-        .story-card.status-draft {
-            border-left-color: var(--status-draft);
-        }
-
-        .story-card.status-approved {
-            border-left-color: var(--status-approved);
-        }
-
-        .story-card.status-ready_to_build {
-            border-left-color: var(--status-ready);
-        }
-
-        .story-card.status-in_build {
-            border-left-color: var(--status-in-build);
-        }
-
-        .story-card.status-built {
-            border-left-color: var(--status-built);
-        }
-
-        .story-status {
-            display: inline-block;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .story-status.draft { background: var(--status-draft); }
-        .story-status.approved { background: var(--status-approved); }
-        .story-status.ready_to_build { background: var(--status-ready); }
-        .story-status.in_build { background: var(--status-in-build); }
-        .story-status.built { background: var(--status-built); }
-        .story-status.superseded { background: var(--status-superseded); }
 
         .story-title {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             line-height: 1.3;
         }
 
         .story-meta {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
             flex-wrap: wrap;
-        }
-
-        .story-tag {
             font-size: 0.7rem;
             color: var(--text-secondary);
-            background: var(--bg-primary);
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
         }
 
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: white;
-        }
-
-        .empty-state h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state p {
-            opacity: 0.9;
-        }
-
-        /* Loading state */
-        .loading {
-            text-align: center;
-            padding: 4rem;
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        /* Unassigned column */
-        .unassigned-column .feature-header {
-            background: rgba(239, 68, 68, 0.1);
-            border-bottom-color: #ef4444;
-        }
-
-        /* Legend */
-        .legend {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
+        .story-id,
+        .story-version {
+            background: var(--bg-muted);
+            padding: 0.15rem 0.3rem;
             border-radius: 3px;
         }
 
-        .legend-dot.draft { background: var(--status-draft); }
-        .legend-dot.approved { background: var(--status-approved); }
-        .legend-dot.ready_to_build { background: var(--status-ready); }
-        .legend-dot.in_build { background: var(--status-in-build); }
-        .legend-dot.built { background: var(--status-built); }
+        .empty-cell {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 0.4rem 0;
+        }
+
+        /* Tooltip container */
+        .story-tooltip {
+            position: fixed;
+            z-index: 1000;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 0.75rem;
+            max-width: 320px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+
+        .story-tooltip.visible {
+            opacity: 1;
+        }
+
+        .story-tooltip-content {
+            margin: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 900px) {
+            .topbar,
+            .stats-bar,
+            .controls-bar {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .story-map {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1>User Story Map</h1>
-        <nav class="header-nav">
+    <header class="topbar">
+        <a class="brand" href="index.html">
+            <img class="brand-logo" src="images/apsca_logo_primary.jpg" alt="APSCA" />
+            <span class="brand-name">APSCA</span>
+        </a>
+        <nav class="topbar-nav" aria-label="Primary">
             <a href="index.html">Dashboard</a>
+            <a href="story-map.html" class="active">Story Map</a>
             <a href="features/index.html">Features</a>
             <a href="epics/index.html">Epics</a>
             <a href="stories/index.html">Stories</a>
+            <a href="requirements/index.html">Requirements</a>
+            <a href="domain/index.html">Domain</a>
             <a href="releases/index.html">Releases</a>
         </nav>
     </header>
 
     <div class="stats-bar">
         <div class="stats-left">
-            <span class="stat"><strong id="story-count">0</strong> Stories</span>
-            <span class="stat"><strong id="epic-count">0</strong> Epics</span>
-            <span class="stat"><strong id="feature-count">0</strong> Features</span>
+            <div class="stats-prefix">Displaying</div>
+            <div class="stat-block features">
+                <div class="stat-label">Features</div>
+                <div class="stat-value" id="feature-count">0/0</div>
+            </div>
+            <div class="stat-block epics">
+                <div class="stat-label">Epics</div>
+                <div class="stat-value" id="epic-count">0/0</div>
+            </div>
+            <div class="stat-block stories">
+                <div class="stat-label">Stories</div>
+                <div class="stat-value" id="story-count">0/0</div>
+            </div>
+            <div class="stat-block releases">
+                <div class="stat-label">Releases</div>
+                <div class="stat-value" id="release-count">0/0</div>
+            </div>
         </div>
-        <div class="legend">
-            <div class="legend-item"><span class="legend-dot draft"></span> Draft</div>
-            <div class="legend-item"><span class="legend-dot approved"></span> Approved</div>
-            <div class="legend-item"><span class="legend-dot ready_to_build"></span> Ready</div>
-            <div class="legend-item"><span class="legend-dot in_build"></span> In Build</div>
-            <div class="legend-item"><span class="legend-dot built"></span> Built</div>
+        <div class="stats-filters">
+            <button class="ghost-button" id="clear-filters" type="button">Clear filters</button>
+            <label class="toggle-control" for="hide-empty-toggle">
+                <input type="checkbox" id="hide-empty-toggle" checked />
+                Hide empty groups
+            </label>
+            <label class="toggle-control" for="current-versions-toggle">
+                <input type="checkbox" id="current-versions-toggle" checked />
+                Current versions only
+            </label>
+            <div class="filter-dropdown" id="features-dropdown">
+                <input type="text" class="filter-trigger" id="features-trigger" placeholder="Features: All" readonly />
+                <div class="filter-menu" id="features-menu">
+                    <input type="search" id="features-search" class="filter-search" placeholder="Filter features..." />
+                    <div class="filter-list" id="features-list"></div>
+                </div>
+            </div>
+            <div class="filter-dropdown" id="epics-dropdown">
+                <input type="text" class="filter-trigger" id="epics-trigger" placeholder="Epics: All" readonly />
+                <div class="filter-menu" id="epics-menu">
+                    <input type="search" id="epics-search" class="filter-search" placeholder="Filter epics..." />
+                    <div class="filter-list" id="epics-list"></div>
+                </div>
+            </div>
+            <div class="filter-dropdown" id="releases-dropdown">
+                <input type="text" class="filter-trigger" id="releases-trigger" placeholder="Releases: All" readonly />
+                <div class="filter-menu" id="releases-menu">
+                    <input type="search" id="releases-search" class="filter-search" placeholder="Filter releases..." />
+                    <div class="filter-list" id="releases-list"></div>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <div class="controls-bar">
+        <div class="filter-field">
+            <label for="story-search">Search</label>
+            <input type="search" id="story-search" placeholder="Search by story, epic, feature, release..." />
+        </div>
+        <div class="requirements-panel">
+            <label for="requirements-trigger">Requirements</label>
+            <div class="requirements-dropdown" id="requirements-dropdown">
+                <input type="text" id="requirements-trigger" class="requirements-trigger" placeholder="Select requirements..." readonly />
+                <div class="requirements-menu" id="requirements-menu">
+                    <input type="search" id="requirements-search" class="requirements-search" placeholder="Filter requirements..." />
+                    <div class="requirements-list" id="requirements-list"></div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-actions"></div>
     </div>
 
     <div class="story-map" id="story-map">
@@ -330,12 +674,16 @@
     </div>
 
     <script>
-        // Data storage
         let features = [];
         let epics = [];
         let stories = [];
+        let releases = [];
+        let requirements = [];
+        let requirementLookup = new Map();
+        let filters = { term: '', requirements: [], features: [], epics: [], releases: [] };
+        let hideEmptyGroups = true;
+        let currentVersionsOnly = true;
 
-        // Get current version from versioned artifact
         function getCurrentVersion(versions) {
             if (!versions || versions.length === 0) return null;
             const active = versions.filter(v => v.status !== 'superseded');
@@ -345,178 +693,13 @@
             return versions.reduce((a, b) => (a.version > b.version ? a : b));
         }
 
-        // Load all data files
-        async function loadData() {
-            try {
-                const [featuresRes, epicsRes, storiesRes] = await Promise.all([
-                    fetch('data/features.json').catch(() => fetch('../data/features.json')),
-                    fetch('data/epics.json').catch(() => fetch('../data/epics.json')),
-                    fetch('data/stories.json').catch(() => fetch('../data/stories.json'))
-                ]);
-
-                features = await featuresRes.json();
-                epics = await epicsRes.json();
-                stories = await storiesRes.json();
-
-                // Update counts
-                document.getElementById('feature-count').textContent = features.length;
-                document.getElementById('epic-count').textContent = epics.length;
-                document.getElementById('story-count').textContent = stories.length;
-
-                renderStoryMap();
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('story-map').innerHTML = `
-                    <div class="empty-state">
-                        <h2>Unable to load data</h2>
-                        <p>Make sure the data files exist in the data/ directory.</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">Error: ${error.message}</p>
-                    </div>
-                `;
-            }
+        function getVersionForRelease(versions, releaseId) {
+            if (!versions || versions.length === 0) return null;
+            const matches = versions.filter(v => v.release_ref === releaseId);
+            if (matches.length === 0) return null;
+            return matches.reduce((a, b) => (a.version > b.version ? a : b));
         }
 
-        // Build the story map structure
-        function buildStoryMap() {
-            // Create a map of feature -> epics -> stories
-            const map = new Map();
-
-            // Initialize features
-            features.forEach(feature => {
-                map.set(feature.id, {
-                    feature: feature,
-                    epics: new Map()
-                });
-            });
-
-            // Add a bucket for unassigned epics
-            map.set('_unassigned', {
-                feature: { id: '_unassigned', title: 'Unassigned' },
-                epics: new Map()
-            });
-
-            // Map epics to features
-            epics.forEach(epic => {
-                const featureId = epic.feature_ref || '_unassigned';
-                const featureData = map.get(featureId) || map.get('_unassigned');
-
-                featureData.epics.set(epic.id, {
-                    epic: epic,
-                    stories: []
-                });
-            });
-
-            // Map stories to epics
-            stories.forEach(story => {
-                const epicId = story.epic_ref;
-                if (!epicId) return;
-
-                // Find which feature this epic belongs to
-                for (const [featureId, featureData] of map) {
-                    if (featureData.epics.has(epicId)) {
-                        featureData.epics.get(epicId).stories.push(story);
-                        break;
-                    }
-                }
-            });
-
-            return map;
-        }
-
-        // Render the story map
-        function renderStoryMap() {
-            const storyMapEl = document.getElementById('story-map');
-            const map = buildStoryMap();
-
-            if (features.length === 0) {
-                storyMapEl.innerHTML = `
-                    <div class="empty-state">
-                        <h2>No features defined yet</h2>
-                        <p>Add features using the mutation scripts to see them here.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            let html = '<div class="features-row">';
-
-            for (const [featureId, featureData] of map) {
-                // Skip empty unassigned bucket
-                if (featureId === '_unassigned' && featureData.epics.size === 0) continue;
-
-                const feature = featureData.feature;
-                const isUnassigned = featureId === '_unassigned';
-
-                html += `
-                    <div class="feature-column ${isUnassigned ? 'unassigned-column' : ''}">
-                        <div class="feature-header">
-                            <div class="feature-id">${feature.id}</div>
-                            <h2>${escapeHtml(feature.title)}</h2>
-                        </div>
-                `;
-
-                // Render epics within this feature
-                for (const [epicId, epicData] of featureData.epics) {
-                    const epic = epicData.epic;
-                    const currentVersion = getCurrentVersion(epic.versions);
-                    const epicStatus = currentVersion ? currentVersion.status : 'unknown';
-
-                    html += `
-                        <div class="epic-section">
-                            <div class="epic-header">
-                                <h3>${escapeHtml(epic.title)}</h3>
-                                <span class="epic-id">${epic.id}</span>
-                            </div>
-                            <div class="stories-container">
-                    `;
-
-                    // Render stories within this epic
-                    if (epicData.stories.length === 0) {
-                        html += `<div style="padding: 1rem; color: var(--text-secondary); font-size: 0.8rem; text-align: center;">No stories yet</div>`;
-                    } else {
-                        epicData.stories.forEach(story => {
-                            const storyVersion = getCurrentVersion(story.versions);
-                            const status = storyVersion ? storyVersion.status : 'unknown';
-                            const releaseRef = storyVersion ? storyVersion.release_ref : null;
-
-                            html += `
-                                <div class="story-card status-${status}" onclick="window.location.href='stories/${story.id}.html'">
-                                    <span class="story-status ${status}">${formatStatus(status)}</span>
-                                    <div class="story-title">${escapeHtml(story.title)}</div>
-                                    <div class="story-meta">
-                                        <span class="story-tag">${story.id}</span>
-                                        ${releaseRef ? `<span class="story-tag">${releaseRef}</span>` : ''}
-                                    </div>
-                                </div>
-                            `;
-                        });
-                    }
-
-                    html += `
-                            </div>
-                        </div>
-                    `;
-                }
-
-                // Handle features with no epics
-                if (featureData.epics.size === 0) {
-                    html += `
-                        <div class="epic-section">
-                            <div style="padding: 2rem 1rem; color: var(--text-secondary); font-size: 0.85rem; text-align: center;">
-                                No epics defined for this feature
-                            </div>
-                        </div>
-                    `;
-                }
-
-                html += '</div>'; // Close feature-column
-            }
-
-            html += '</div>'; // Close features-row
-            storyMapEl.innerHTML = html;
-        }
-
-        // Helper: escape HTML
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
@@ -524,20 +707,728 @@
             return div.innerHTML;
         }
 
-        // Helper: format status for display
-        function formatStatus(status) {
-            const labels = {
-                'draft': 'Draft',
-                'approved': 'Approved',
-                'ready_to_build': 'Ready',
-                'in_build': 'Building',
-                'built': 'Done',
-                'superseded': 'Superseded'
-            };
-            return labels[status] || status;
+        function collectRequirementRefs(feature, epicVersion, storyVersion) {
+            const refs = new Set();
+            if (epicVersion && Array.isArray(epicVersion.requirement_refs)) {
+                epicVersion.requirement_refs.forEach(ref => refs.add(ref));
+            }
+            if (storyVersion && Array.isArray(storyVersion.requirement_refs)) {
+                storyVersion.requirement_refs.forEach(ref => refs.add(ref));
+            }
+            if (refs.size === 0 && feature && Array.isArray(feature.requirement_refs)) {
+                feature.requirement_refs.forEach(ref => refs.add(ref));
+            }
+            return refs;
         }
 
-        // Initialize
+        function buildFeatureGroups(activeFeatures, activeEpics) {
+            const featureMap = new Map();
+            activeFeatures.forEach(feature => {
+                featureMap.set(feature.id, { feature: feature, epics: [] });
+            });
+
+            const unassigned = { feature: { id: 'UNASSIGNED', title: 'Unassigned' }, epics: [] };
+
+            activeEpics.forEach(epic => {
+                const featureId = epic.feature_ref;
+                const group = featureMap.get(featureId) || unassigned;
+                group.epics.push({ epic, placeholder: false });
+            });
+
+            const groups = [];
+            activeFeatures.forEach(feature => {
+                const group = featureMap.get(feature.id);
+                if (!group) {
+                    return;
+                }
+                if (group.epics.length === 0) {
+                    group.epics.push({ epic: { id: '', title: 'No epics' }, placeholder: true });
+                }
+                groups.push(group);
+            });
+
+            if (unassigned.epics.length > 0) {
+                groups.push(unassigned);
+            }
+
+            const epicColumns = [];
+            groups.forEach(group => {
+                group.epics.forEach(entry => {
+                    epicColumns.push({ ...entry, feature: group.feature });
+                });
+            });
+
+            return { groups, epicColumns };
+        }
+
+        function getReleaseEpicKey(releaseId, epicId) {
+            return `${releaseId}::${epicId}`;
+        }
+
+        function getUnreleasedVersion(versions) {
+            if (!versions || versions.length === 0) return null;
+            const matches = versions.filter(version => !version.release_ref);
+            if (matches.length === 0) return null;
+            return matches.reduce((a, b) => (a.version > b.version ? a : b));
+        }
+
+        function getVersionForLane(versions, releaseId) {
+            if (!versions || versions.length === 0) return null;
+            if (currentVersionsOnly) {
+                const current = getCurrentVersion(versions);
+                if (!current) return null;
+                const currentRelease = current.release_ref || null;
+                if (releaseId === null) {
+                    return currentRelease ? null : current;
+                }
+                return currentRelease === releaseId ? current : null;
+            }
+            if (releaseId === null) {
+                return getUnreleasedVersion(versions);
+            }
+            return getVersionForRelease(versions, releaseId);
+        }
+
+        function matchesFilters(story, storyVersion, epic, feature, release, requirementRefs) {
+            const term = (filters.term || '').toLowerCase();
+            const requirementText = Array.from(requirementRefs).map(ref => {
+                const title = requirementLookup.get(ref) || '';
+                return `${ref} ${title}`;
+            }).join(' ');
+            const text = [
+                story.id,
+                story.title,
+                epic?.id,
+                epic?.title,
+                feature?.id,
+                feature?.title,
+                release?.id,
+                release?.title,
+                requirementText
+            ].filter(Boolean).join(' ').toLowerCase();
+            const matchesTerm = !term || text.includes(term);
+
+            if (!filters.requirements.length) {
+                return matchesTerm;
+            }
+            const selected = new Set(filters.requirements);
+            const matchesRequirement = Array.from(requirementRefs).some(ref => selected.has(ref));
+            return matchesTerm && matchesRequirement;
+        }
+
+        function renderStoryMap() {
+            const storyMapEl = document.getElementById('story-map');
+            const selectedFeatures = new Set(filters.features || []);
+            const selectedEpics = new Set(filters.epics || []);
+            const selectedReleases = new Set(filters.releases || []);
+            const activeFeatures = selectedFeatures.size
+                ? features.filter(feature => selectedFeatures.has(feature.id))
+                : features;
+            let activeEpics = selectedEpics.size
+                ? epics.filter(epic => selectedEpics.has(epic.id))
+                : epics;
+            if (selectedFeatures.size) {
+                activeEpics = activeEpics.filter(epic => selectedFeatures.has(epic.feature_ref));
+            }
+            const sortedReleases = [...releases]
+                .filter(release => !selectedReleases.size || selectedReleases.has(release.id))
+                .sort((a, b) => {
+                const dateCompare = (b.release_date || '').localeCompare(a.release_date || '');
+                if (dateCompare !== 0) return dateCompare;
+                return (b.id || '').localeCompare(a.id || '');
+            });
+
+            const totalStories = stories.length;
+            const totalEpics = epics.length;
+            const totalFeatures = features.length;
+            const totalReleases = releases.length;
+            const updateEmptyStats = () => {
+                updateStats({
+                    features: { visible: 0, total: totalFeatures },
+                    epics: { visible: 0, total: totalEpics },
+                    stories: { visible: 0, total: totalStories },
+                    releases: { visible: 0, total: totalReleases }
+                });
+            };
+
+            const hasUnreleasedStories = stories.some(story => getVersionForLane(story.versions || [], null));
+            const featureLookup = new Map(features.map(feature => [feature.id, feature]));
+            if (features.length === 0) {
+                storyMapEl.innerHTML = `
+                    <div class="empty-state">
+                        <h2>No features defined yet</h2>
+                        <p>Add features using the mutation scripts to see them here.</p>
+                    </div>
+                `;
+                updateEmptyStats();
+                return;
+            }
+
+            if (sortedReleases.length === 0 && !hasUnreleasedStories) {
+                storyMapEl.innerHTML = `
+                    <div class="empty-state">
+                        <h2>No releases defined yet</h2>
+                        <p>Add releases to visualize versioned stories across time.</p>
+                    </div>
+                `;
+                updateEmptyStats();
+                return;
+            }
+
+            const releaseLanes = sortedReleases.map(release => ({
+                key: release.id,
+                releaseId: release.id,
+                release: release,
+                isUnreleased: false
+            }));
+            const lanes = [...releaseLanes];
+            if (!selectedReleases.size) {
+                lanes.unshift({
+                    key: 'UNRELEASED',
+                    releaseId: null,
+                    release: { id: 'UNRELEASED', title: 'Unreleased', release_date: '—' },
+                    isUnreleased: true
+                });
+            }
+
+            const storiesByEpic = new Map();
+            stories.forEach(story => {
+                if (!story.epic_ref) return;
+                if (!storiesByEpic.has(story.epic_ref)) {
+                    storiesByEpic.set(story.epic_ref, []);
+                }
+                storiesByEpic.get(story.epic_ref).push(story);
+            });
+
+            const visibleFeatures = new Set();
+            const visibleEpics = new Set();
+            const visibleStories = new Set();
+            const visibleReleases = new Set();
+
+            const matchesByReleaseEpic = new Map();
+            lanes.forEach(lane => {
+                activeEpics.forEach(epic => {
+                    const feature = featureLookup.get(epic.feature_ref);
+                    const epicVersion = getVersionForLane(epic.versions || [], lane.releaseId);
+                    const epicStories = storiesByEpic.get(epic.id) || [];
+                    const matchingStories = [];
+                    epicStories.forEach(story => {
+                        const storyVersion = getVersionForLane(story.versions || [], lane.releaseId);
+                        if (!storyVersion) return;
+                        const requirementRefs = collectRequirementRefs(feature, epicVersion, storyVersion);
+                        const matches = matchesFilters(story, storyVersion, epic, feature, lane.release, requirementRefs);
+                        if (matches) {
+                            visibleStories.add(story.id);
+                            visibleEpics.add(epic.id);
+                            if (feature && feature.id) {
+                                visibleFeatures.add(feature.id);
+                            }
+                            if (!lane.isUnreleased && lane.release && lane.release.id) {
+                                visibleReleases.add(lane.release.id);
+                            }
+                            matchingStories.push({ story, storyVersion });
+                        }
+                    });
+                    if (matchingStories.length) {
+                        matchesByReleaseEpic.set(getReleaseEpicKey(lane.key, epic.id), matchingStories);
+                    }
+                });
+            });
+
+            const filteredEpics = hideEmptyGroups
+                ? activeEpics.filter(epic => visibleEpics.has(epic.id))
+                : activeEpics;
+            const filteredFeatures = hideEmptyGroups
+                ? activeFeatures.filter(feature => filteredEpics.some(epic => epic.feature_ref === feature.id))
+                : activeFeatures;
+
+            const { groups, epicColumns } = buildFeatureGroups(filteredFeatures, filteredEpics);
+
+            let html = '<table class="map-grid"><thead>';
+            html += '<tr class="feature-row"><th class="corner-cell"></th>';
+            groups.forEach(group => {
+                const feature = group.feature;
+                const colSpan = group.epics.length || 1;
+                const featureLabel = `
+                    <div class="feature-id">${escapeHtml(feature.id || '')}</div>
+                    <div class="feature-title">${escapeHtml(feature.title || feature.id || '')}</div>
+                `;
+                const featureLink = feature.id && feature.id !== 'UNASSIGNED'
+                    ? `<a href="features/${escapeHtml(feature.id)}.html">${featureLabel}</a>`
+                    : featureLabel;
+                html += `<th class="feature-group" colspan="${colSpan}">${featureLink}</th>`;
+            });
+            html += '</tr>';
+
+            html += '<tr class="epic-row"><th class="release-header">Release</th>';
+            epicColumns.forEach(entry => {
+                const epic = entry.epic;
+                if (entry.placeholder) {
+                    html += `<th class="epic-header"><div class="epic-title">No epics</div></th>`;
+                    return;
+                }
+                const epicLabel = `
+                    <div class="epic-title">${escapeHtml(epic.title || epic.id || '')}</div>
+                    <div class="epic-id">${escapeHtml(epic.id || '')}</div>
+                `;
+                html += `<th class="epic-header"><a href="epics/${escapeHtml(epic.id)}.html">${epicLabel}</a></th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            lanes.forEach(lane => {
+                let releaseHasVisibleStory = false;
+                const showEmptyReleaseRow = !hideEmptyGroups || (selectedReleases.size && selectedReleases.has(lane.releaseId));
+                let rowHtml = `<tr class="release-row">
+                    <th class="release-label">
+                        <div class="release-id">${escapeHtml(lane.release.id || '')}</div>
+                        <div class="release-title">${escapeHtml(lane.release.title || '')}</div>
+                        <div class="release-date">${escapeHtml(lane.release.release_date || 'TBD')}</div>
+                    </th>
+                `;
+
+                epicColumns.forEach(entry => {
+                    if (entry.placeholder) {
+                        rowHtml += `<td class="story-cell"><div class="empty-cell">—</div></td>`;
+                        return;
+                    }
+                    const epic = entry.epic;
+                    const feature = entry.feature;
+                    const matchingStories = matchesByReleaseEpic.get(getReleaseEpicKey(lane.key, epic.id)) || [];
+                    if (matchingStories.length) {
+                        releaseHasVisibleStory = true;
+                    }
+
+                    if (matchingStories.length === 0) {
+                        rowHtml += `<td class="story-cell"></td>`;
+                        return;
+                    }
+
+                    rowHtml += `<td class="story-cell">`;
+                    matchingStories.forEach(item => {
+                        const storyId = escapeHtml(item.story.id);
+                        const description = item.storyVersion.description || '';
+                        const hasDescription = description.trim() !== '';
+                        
+                        rowHtml += `
+                            <div class="story-card" 
+                                 data-story-id="${storyId}"
+                                 data-story-version="${escapeHtml(item.storyVersion.version || '')}"
+                                 ${hasDescription ? `data-description="${escapeHtml(description)}"` : ''}
+                                 onclick="window.location.href='stories/${storyId}.html'"
+                                 ${hasDescription ? `onmouseenter="showTooltip(this)" onmouseleave="scheduleHideTooltip()"` : ''}>
+                                <div class="story-title">${escapeHtml(item.story.title || item.story.id)}</div>
+                                <div class="story-meta">
+                                    <span class="story-id">${storyId}</span>
+                                    <span class="story-version">v${escapeHtml(item.storyVersion.version || '')}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    rowHtml += '</td>';
+                });
+                rowHtml += '</tr>';
+                if (releaseHasVisibleStory || showEmptyReleaseRow) {
+                    html += rowHtml;
+                }
+            });
+
+            html += '</tbody></table>';
+            storyMapEl.innerHTML = html;
+            const visibleFeatureCount = selectedFeatures.size ? selectedFeatures.size : visibleFeatures.size;
+            const visibleEpicCount = selectedEpics.size ? selectedEpics.size : visibleEpics.size;
+            const visibleReleaseCount = selectedReleases.size ? selectedReleases.size : totalReleases;
+            updateStats({
+                features: { visible: visibleFeatureCount, total: totalFeatures },
+                epics: { visible: visibleEpicCount, total: totalEpics },
+                stories: { visible: visibleStories.size, total: totalStories },
+                releases: { visible: visibleReleaseCount, total: totalReleases }
+            });
+        }
+
+        function updateStats({ features, epics, stories, releases }) {
+            const featureEl = document.getElementById('feature-count');
+            const epicEl = document.getElementById('epic-count');
+            const storyEl = document.getElementById('story-count');
+            const releaseEl = document.getElementById('release-count');
+            if (featureEl) featureEl.textContent = `${features.visible}/${features.total}`;
+            if (epicEl) epicEl.textContent = `${epics.visible}/${epics.total}`;
+            if (storyEl) storyEl.textContent = `${stories.visible}/${stories.total}`;
+            if (releaseEl) releaseEl.textContent = `${releases.visible}/${releases.total}`;
+        }
+
+        // Tooltip state management
+        let tooltipElement = null;
+        let tooltipTimeout = null;
+
+        function createTooltip() {
+            if (tooltipElement) return tooltipElement;
+            tooltipElement = document.createElement('div');
+            tooltipElement.className = 'story-tooltip';
+            tooltipElement.id = 'story-tooltip';
+            document.body.appendChild(tooltipElement);
+            return tooltipElement;
+        }
+
+        function showTooltip(storyCard) {
+            // Cancel any pending hide timeout when showing a new tooltip
+            if (tooltipTimeout) {
+                clearTimeout(tooltipTimeout);
+                tooltipTimeout = null;
+            }
+            
+            const description = storyCard.dataset.description;
+            if (!description || description.trim() === '') return;
+            
+            const tooltip = createTooltip();
+            tooltip.innerHTML = `<div class="story-tooltip-content">${escapeHtml(description)}</div>`;
+            tooltip.classList.add('visible');
+            
+            // Position tooltip relative to story card (using viewport coordinates for fixed positioning)
+            const rect = storyCard.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            // Default: position below and left-aligned
+            let top = rect.bottom + 8;
+            let left = rect.left;
+            
+            // Adjust if tooltip would overflow right edge
+            if (left + tooltipRect.width > viewportWidth - 16) {
+                left = viewportWidth - tooltipRect.width - 16;
+            }
+            
+            // Adjust if tooltip would overflow left edge
+            if (left < 16) {
+                left = 16;
+            }
+            
+            // If tooltip would overflow bottom, position above instead
+            if (top + tooltipRect.height > viewportHeight - 16) {
+                top = rect.top - tooltipRect.height - 8;
+            }
+            
+            tooltip.style.top = `${top}px`;
+            tooltip.style.left = `${left}px`;
+        }
+
+        function hideTooltip() {
+            if (tooltipElement) {
+                tooltipElement.classList.remove('visible');
+            }
+            if (tooltipTimeout) {
+                clearTimeout(tooltipTimeout);
+                tooltipTimeout = null;
+            }
+        }
+
+        function scheduleHideTooltip() {
+            if (tooltipTimeout) clearTimeout(tooltipTimeout);
+            tooltipTimeout = setTimeout(hideTooltip, 100);
+        }
+
+        function populateRequirementFilter() {
+            const list = document.getElementById('requirements-list');
+            if (!list) return;
+            if (!requirements.length) {
+                list.innerHTML = '<div class="requirement-item">No requirements loaded</div>';
+                return;
+            }
+            const items = requirements
+                .slice()
+                .sort((a, b) => (a.id || '').localeCompare(b.id || ''))
+                .map(req => `
+                    <label class="requirement-item">
+                        <input type="checkbox" value="${escapeHtml(req.id)}" />
+                        <span><strong>${escapeHtml(req.id)}</strong>: <span class="requirement-title">${escapeHtml(req.title || '')}</span></span>
+                    </label>
+                `)
+                .join('');
+            list.innerHTML = items;
+        }
+
+        function updateRequirementTrigger() {
+            const trigger = document.getElementById('requirements-trigger');
+            if (!trigger) return;
+            const selected = getSelectedRequirements();
+            if (selected.length === 0) {
+                trigger.value = '';
+                trigger.placeholder = 'Select requirements...';
+                return;
+            }
+            if (selected.length === 1) {
+                trigger.value = selected[0];
+                return;
+            }
+            trigger.value = `${selected.length} requirements selected`;
+        }
+
+        function populateGenericFilter(listId, items, labelBuilder) {
+            const list = document.getElementById(listId);
+            if (!list) return;
+            if (!items.length) {
+                list.innerHTML = '<div class="filter-item">No items</div>';
+                return;
+            }
+            list.innerHTML = items
+                .map(item => `
+                    <label class="filter-item">
+                        <input type="checkbox" value="${escapeHtml(item.id)}" />
+                        <span>${labelBuilder(item)}</span>
+                    </label>
+                `)
+                .join('');
+        }
+
+        function getSelectedFromList(listId) {
+            const list = document.getElementById(listId);
+            if (!list) return [];
+            return Array.from(list.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+        }
+
+        function updateFilterTrigger(triggerId, label, selected) {
+            const trigger = document.getElementById(triggerId);
+            if (!trigger) return;
+            let value = `${label}: All`;
+            if (selected.length === 1) {
+                value = `${label}: ${selected[0]}`;
+            } else if (selected.length > 1) {
+                value = `${label}: ${selected.length} selected`;
+            }
+            if (trigger.tagName === 'INPUT') {
+                trigger.value = value;
+            } else {
+                trigger.textContent = value;
+            }
+        }
+
+        function filterListItems(listId, term) {
+            const list = document.getElementById(listId);
+            if (!list) return;
+            const normalized = (term || '').toLowerCase();
+            Array.from(list.querySelectorAll('label')).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = !normalized || text.includes(normalized) ? '' : 'none';
+            });
+        }
+
+        function getSelectedRequirements() {
+            const list = document.getElementById('requirements-list');
+            if (!list) return [];
+            return Array.from(list.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+        }
+
+        function filterRequirementList(term) {
+            const list = document.getElementById('requirements-list');
+            if (!list) return;
+            const normalized = (term || '').toLowerCase();
+            Array.from(list.querySelectorAll('.requirement-item')).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = !normalized || text.includes(normalized) ? '' : 'none';
+            });
+        }
+
+        function initializeFilters() {
+            const searchInput = document.getElementById('story-search');
+            const requirementSearch = document.getElementById('requirements-search');
+            const requirementsList = document.getElementById('requirements-list');
+            const dropdown = document.getElementById('requirements-dropdown');
+            const trigger = document.getElementById('requirements-trigger');
+            const menu = document.getElementById('requirements-menu');
+            const featuresDropdown = document.getElementById('features-dropdown');
+            const epicsDropdown = document.getElementById('epics-dropdown');
+            const releasesDropdown = document.getElementById('releases-dropdown');
+            const featuresSearch = document.getElementById('features-search');
+            const epicsSearch = document.getElementById('epics-search');
+            const releasesSearch = document.getElementById('releases-search');
+            const clearButton = document.getElementById('clear-filters');
+            const hideEmptyToggle = document.getElementById('hide-empty-toggle');
+            const currentVersionsToggle = document.getElementById('current-versions-toggle');
+
+            if (!searchInput || !requirementsList || !requirementSearch || !dropdown || !trigger || !menu) return;
+
+            function applyFilters() {
+                filters.term = searchInput.value.trim();
+                filters.requirements = getSelectedRequirements();
+                filters.features = getSelectedFromList('features-list');
+                filters.epics = getSelectedFromList('epics-list');
+                filters.releases = getSelectedFromList('releases-list');
+                updateRequirementTrigger();
+                updateFilterTrigger('features-trigger', 'Features', filters.features);
+                updateFilterTrigger('epics-trigger', 'Epics', filters.epics);
+                updateFilterTrigger('releases-trigger', 'Releases', filters.releases);
+                if (stories.length > 0) {
+                    renderStoryMap();
+                }
+            }
+
+            function setupDropdown(dropdownEl, triggerEl, focusTarget) {
+                if (!dropdownEl || !triggerEl) return;
+                function openDropdown() {
+                    dropdownEl.classList.add('open');
+                    triggerEl.setAttribute('aria-expanded', 'true');
+                    if (focusTarget) focusTarget.focus();
+                }
+                function closeDropdown() {
+                    dropdownEl.classList.remove('open');
+                    triggerEl.setAttribute('aria-expanded', 'false');
+                }
+                triggerEl.addEventListener('click', () => {
+                    if (dropdownEl.classList.contains('open')) {
+                        closeDropdown();
+                    } else {
+                        openDropdown();
+                    }
+                });
+                document.addEventListener('click', (event) => {
+                    if (!dropdownEl.contains(event.target)) {
+                        closeDropdown();
+                    }
+                });
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape') {
+                        closeDropdown();
+                    }
+                });
+            }
+
+            setupDropdown(dropdown, trigger, requirementSearch);
+            setupDropdown(featuresDropdown, document.getElementById('features-trigger'), featuresSearch);
+            setupDropdown(epicsDropdown, document.getElementById('epics-trigger'), epicsSearch);
+            setupDropdown(releasesDropdown, document.getElementById('releases-trigger'), releasesSearch);
+
+            searchInput.addEventListener('input', applyFilters);
+            requirementsList.addEventListener('change', (event) => {
+                if (event.target && event.target.matches('input[type="checkbox"]')) {
+                    applyFilters();
+                }
+            });
+            const featureList = document.getElementById('features-list');
+            const epicList = document.getElementById('epics-list');
+            const releaseList = document.getElementById('releases-list');
+            if (featureList) {
+                featureList.addEventListener('change', (event) => {
+                    if (event.target && event.target.matches('input[type="checkbox"]')) {
+                        applyFilters();
+                    }
+                });
+            }
+            if (epicList) {
+                epicList.addEventListener('change', (event) => {
+                    if (event.target && event.target.matches('input[type="checkbox"]')) {
+                        applyFilters();
+                    }
+                });
+            }
+            if (releaseList) {
+                releaseList.addEventListener('change', (event) => {
+                    if (event.target && event.target.matches('input[type="checkbox"]')) {
+                        applyFilters();
+                    }
+                });
+            }
+            requirementSearch.addEventListener('input', () => {
+                filterRequirementList(requirementSearch.value);
+            });
+            if (featuresSearch) {
+                featuresSearch.addEventListener('input', () => {
+                    filterListItems('features-list', featuresSearch.value);
+                });
+            }
+            if (epicsSearch) {
+                epicsSearch.addEventListener('input', () => {
+                    filterListItems('epics-list', epicsSearch.value);
+                });
+            }
+            if (releasesSearch) {
+                releasesSearch.addEventListener('input', () => {
+                    filterListItems('releases-list', releasesSearch.value);
+                });
+            }
+
+            if (clearButton) {
+                clearButton.addEventListener('click', () => {
+                    searchInput.value = '';
+                    requirementSearch.value = '';
+                    if (featuresSearch) featuresSearch.value = '';
+                    if (epicsSearch) epicsSearch.value = '';
+                    if (releasesSearch) releasesSearch.value = '';
+                    Array.from(requirementsList.querySelectorAll('input[type="checkbox"]')).forEach(input => {
+                        input.checked = false;
+                    });
+                    Array.from(document.querySelectorAll('#features-list input[type="checkbox"], #epics-list input[type="checkbox"], #releases-list input[type="checkbox"]')).forEach(input => {
+                        input.checked = false;
+                    });
+                    filterRequirementList('');
+                    filterListItems('features-list', '');
+                    filterListItems('epics-list', '');
+                    filterListItems('releases-list', '');
+                    applyFilters();
+                });
+            }
+
+            if (hideEmptyToggle) {
+                hideEmptyGroups = hideEmptyToggle.checked;
+                hideEmptyToggle.addEventListener('change', () => {
+                    hideEmptyGroups = hideEmptyToggle.checked;
+                    renderStoryMap();
+                });
+            }
+
+            if (currentVersionsToggle) {
+                currentVersionsOnly = currentVersionsToggle.checked;
+                currentVersionsToggle.addEventListener('change', () => {
+                    currentVersionsOnly = currentVersionsToggle.checked;
+                    renderStoryMap();
+                });
+            }
+
+            updateRequirementTrigger();
+            updateFilterTrigger('features-trigger', 'Features', filters.features);
+            updateFilterTrigger('epics-trigger', 'Epics', filters.epics);
+            updateFilterTrigger('releases-trigger', 'Releases', filters.releases);
+        }
+
+        async function loadData() {
+            try {
+                const [featuresRes, epicsRes, storiesRes, releasesRes, requirementsRes] = await Promise.all([
+                    fetch('data/features.json').catch(() => fetch('../data/features.json')),
+                    fetch('data/epics.json').catch(() => fetch('../data/epics.json')),
+                    fetch('data/stories.json').catch(() => fetch('../data/stories.json')),
+                    fetch('data/releases.json').catch(() => fetch('../data/releases.json')),
+                    fetch('data/requirements.json').catch(() => fetch('../data/requirements.json'))
+                ]);
+
+                features = await featuresRes.json();
+                epics = await epicsRes.json();
+                stories = await storiesRes.json();
+                releases = await releasesRes.json();
+                requirements = await requirementsRes.json();
+                requirementLookup = new Map(requirements.map(req => [req.id, req.title || req.id]));
+
+                populateRequirementFilter();
+                populateGenericFilter('features-list', features, (item) => `<strong>${escapeHtml(item.id)}</strong>: ${escapeHtml(item.title || '')}`);
+                populateGenericFilter('epics-list', epics, (item) => `<strong>${escapeHtml(item.id)}</strong>: ${escapeHtml(item.title || '')}`);
+                populateGenericFilter('releases-list', releases, (item) => `<strong>${escapeHtml(item.id)}</strong>: ${escapeHtml(item.title || '')}`);
+                renderStoryMap();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('story-map').innerHTML = `
+                    <div class="empty-state">
+                        <h2>Unable to load data</h2>
+                        <p>Make sure the data files exist in the data/ directory.</p>
+                        <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        initializeFilters();
+        
+        // Hide tooltip on scroll or resize
+        window.addEventListener('scroll', hideTooltip, true);
+        window.addEventListener('resize', hideTooltip);
+        
         loadData();
     </script>
 </body>
