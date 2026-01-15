@@ -139,10 +139,10 @@ User → /integrate-changes work/clarify/final_claims.json
 
 | Focus Prompt | File | Read By | Size |
 |--------------|------|---------|------|
-| `parse_input_focus` | `.mission_control/prompts/parse_input_focus.md` | parse-input clone | 6.3 KB |
-| `analyze_impact_focus` | `.mission_control/prompts/analyze_impact_focus.md` | analyze-impact clone | 11 KB |
-| `plan_mutations_focus` | `.mission_control/prompts/plan_mutations_focus.md` | plan-mutations clone | 12 KB |
-| `execute_mutations_focus` | `.mission_control/prompts/execute_mutations_focus.md` | execute-mutations clone | 10 KB |
+| `parse_input_focus` | `.claude/prompts/parse_input_focus.md` | parse-input clone | 6.3 KB |
+| `analyze_impact_focus` | `.claude/prompts/analyze_impact_focus.md` | analyze-impact clone | 11 KB |
+| `plan_mutations_focus` | `.claude/prompts/plan_mutations_focus.md` | plan-mutations clone | 12 KB |
+| `execute_mutations_focus` | `.claude/prompts/execute_mutations_focus.md` | execute-mutations clone | 10 KB |
 
 **Total: 10 documents (2 orchestrators + 4 wrappers + 4 focus prompts)**
 
