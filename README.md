@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines the implementation-ready architecture for the APSCA requirements repository: canonical storage, data model, mutation/validation tooling, AI-assisted workflow (Claude Code master/clone), and view generation (GitHub Pages + reports).
+This document defines the implementation-ready architecture for the APSCA requirements repository: canonical storage, data model, mutation/validation tooling, AI-assisted workflow (Claude Code master/clone), and view generation (GitLab Pages + reports).
 
 It is designed to be sufficient for engineering to begin immediately.
 
@@ -33,7 +33,7 @@ It is designed to be sufficient for engineering to begin immediately.
 
 **Generated**
 
--   `docs/*` — Views and navigation for GitHub Pages (generated, except `docs/domain/*`).
+-   `docs/*` — Views and navigation for GitLab Pages (generated, except `docs/domain/*`).
 -   `reports/*` — Derived graphs, indexes, and analysis artifacts.
 
 ## Why this avoids "sync" problems
@@ -63,7 +63,7 @@ repo-root/
 │   ├── stories.json
 │   └── releases.json         # Delivery timeline
 │
-├── docs/                     # GitHub Pages root
+├── docs/                     # GitLab Pages root
 │   ├── domain/               # Authored domain reference docs
 │   │   ├── eligibility.md
 │   │   ├── exam-catalog.md
@@ -93,7 +93,7 @@ repo-root/
 
 Notes:
 
--   GitHub Pages serves `docs/`.
+-   GitLab Pages serves `docs/`.
 -   `docs/domain/` is authored and never regenerated.
 -   Everything else under `docs/` is generated from `data/*.json`.
 
@@ -727,7 +727,7 @@ Two machine-facing reports are regenerated on every mutation:
 
 **Use cases:**
 
--   Rendering GitHub Pages views efficiently
+-   Rendering GitLab Pages views efficiently
 -   Generating reports without repeated graph traversal
 -   Giving AI a "summary lens" for quick orientation
 -   Dashboard statistics
@@ -751,7 +751,7 @@ Two machine-facing reports are regenerated on every mutation:
 
 ---
 
-# Rendering and GitHub Pages
+# Rendering and GitLab Pages
 
 ## Rule
 
@@ -855,7 +855,7 @@ Engineering can begin when:
 -   [ ] `validate.py` blocks structural violations (including release-related validations)
 -   [ ] `build_graph.py` generates `reports/graph.json` (including release nodes and edges)
 -   [ ] `build_index.py` generates `reports/index.json` (including release summaries)
--   [ ] `render_docs.py` generates GitHub Pages views (including release views)
+-   [ ] `render_docs.py` generates GitLab Pages views (including release views)
 -   [ ] One end-to-end vertical slice exists:
     -   REL-#### created (planned)
     -   DOM entry + authored doc
