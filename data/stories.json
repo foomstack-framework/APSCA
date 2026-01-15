@@ -1,0 +1,43 @@
+[
+  {
+    "id": "STORY-001",
+    "title": "Login Form",
+    "epic_ref": "EPIC-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-13T08:37:11Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "draft",
+        "release_ref": "REL-2026-01-13",
+        "description": "As a user, I want to enter my credentials and authenticate",
+        "requirement_refs": [],
+        "domain_refs": [],
+        "acceptance_criteria": [
+          {
+            "id": "AC-001",
+            "statement": "User can enter username and password"
+          },
+          {
+            "id": "AC-002",
+            "statement": "Invalid credentials show error message"
+          }
+        ],
+        "test_intent": {
+          "failure_modes": [
+            "User can access protected resource without logging in"
+          ],
+          "guarantees": [
+            "Valid credentials always grant access"
+          ]
+        },
+        "supersedes": null,
+        "created_at": "2026-01-13T08:37:11Z",
+        "updated_at": "2026-01-13T08:37:11Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  }
+]

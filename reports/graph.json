@@ -1,0 +1,117 @@
+{
+  "nodes": [
+    {
+      "id": "REL-2026-01-13",
+      "type": "release",
+      "title": "REL-2026-01-13",
+      "status": "planned",
+      "release_date": "2026-01-13"
+    },
+    {
+      "id": "REQ-001",
+      "type": "requirement",
+      "title": "User Authentication",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "FEAT-001",
+      "type": "feature",
+      "title": "Login System",
+      "status": "active"
+    },
+    {
+      "id": "EPIC-001",
+      "type": "epic",
+      "title": "Basic Authentication Flow",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-001:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-001",
+      "version": 1,
+      "status": "draft",
+      "release_ref": "REL-2026-01-13",
+      "summary": "Implement username/password authentication with session management"
+    },
+    {
+      "id": "STORY-001",
+      "type": "story",
+      "title": "Login Form",
+      "epic_ref": "EPIC-001"
+    },
+    {
+      "id": "STORY-001:v1",
+      "type": "story_version",
+      "story_id": "STORY-001",
+      "version": 1,
+      "status": "draft",
+      "release_ref": "REL-2026-01-13",
+      "description": "As a user, I want to enter my credentials and authenticate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "FEAT-001",
+      "target": "REQ-001",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "EPIC-001",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REL-2026-01-13",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-001",
+      "type": "satisfies"
+    },
+    {
+      "source": "STORY-001",
+      "target": "EPIC-001",
+      "type": "belongs_to"
+    },
+    {
+      "source": "STORY-001:v1",
+      "target": "STORY-001",
+      "type": "version_of"
+    },
+    {
+      "source": "STORY-001:v1",
+      "target": "REL-2026-01-13",
+      "type": "assigned_to_release"
+    }
+  ],
+  "metadata": {
+    "node_count": 7,
+    "edge_count": 8,
+    "node_types": [
+      "epic",
+      "story",
+      "epic_version",
+      "story_version",
+      "feature",
+      "release",
+      "requirement"
+    ],
+    "edge_types": [
+      "belongs_to",
+      "satisfies",
+      "scoped_by",
+      "version_of",
+      "assigned_to_release"
+    ]
+  }
+}

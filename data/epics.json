@@ -1,0 +1,29 @@
+[
+  {
+    "id": "EPIC-001",
+    "title": "Basic Authentication Flow",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-13T08:36:58Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "draft",
+        "release_ref": "REL-2026-01-13",
+        "summary": "Implement username/password authentication with session management",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-001"
+        ],
+        "domain_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-13T08:36:58Z",
+        "updated_at": "2026-01-13T08:36:58Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  }
+]
