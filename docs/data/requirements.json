@@ -8,7 +8,7 @@
     "statement": "Auditors must be able to purchase exam invoices from their account based on eligibility rules",
     "rationale": "Enable auditors to self-service exam registration and payment",
     "domain_refs": [
-      "DOM-001"
+      "ART-001"
     ],
     "superseded_by": null,
     "tags": [],
@@ -26,7 +26,7 @@
     "statement": "System must enforce exam eligibility rules strictly, preventing purchase of ineligible exams",
     "rationale": "Ensure compliance with exam progression requirements and good standing criteria",
     "domain_refs": [
-      "DOM-001"
+      "ART-001"
     ],
     "superseded_by": null,
     "tags": [],

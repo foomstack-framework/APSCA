@@ -24,7 +24,7 @@ FEAT-002 Exam Purchasing System
 ├── REQ-004 Invoice Payment Clearance
 └── REQ-005 Re-sit Designation and Pricing
 
-DOM-001 Exam Eligibility Rules
+ART-001 Exam Eligibility Rules
 ├── Good standing criteria
 ├── Exam sequence requirements
 ├── Pass requirements for progression
@@ -33,7 +33,7 @@ DOM-001 Exam Eligibility Rules
 
 DOMAIN ARTIFACTS
 ────────────────
-DOM-001: Exam Eligibility Rules
+ART-001: Exam Eligibility Rules
   Documents business rules governing which exams an auditor is eligible to
   purchase, including:
   - Good standing definition: Active APSCA membership (paid) + no ethics violations
@@ -49,7 +49,7 @@ REQ-002: Exam Invoice Purchasing
   Statement: Auditors must be able to purchase exam invoices from their account
              based on eligibility rules
   Rationale: Enable auditors to self-service exam registration and payment
-  Domain: DOM-001 (Exam Eligibility Rules)
+  Domain: ART-001 (Exam Eligibility Rules)
 
 REQ-003: Exam Eligibility Enforcement
   Type: functional
@@ -57,7 +57,7 @@ REQ-003: Exam Eligibility Enforcement
              purchase of ineligible exams
   Rationale: Ensure compliance with exam progression requirements and good
              standing criteria
-  Domain: DOM-001 (Exam Eligibility Rules)
+  Domain: ART-001 (Exam Eligibility Rules)
   Rules enforced:
     - Good standing: Active APSCA membership (paid) + no ethics violations
     - Exam sequence: Part 1 → Part 2 → Part 3 (must pass before next)
@@ -102,7 +102,7 @@ FEAT-002: Exam Purchasing System
     - Membership management
     - Good standing status determination (consumes existing data)
   Requirements: REQ-002, REQ-003, REQ-004, REQ-005
-  Domain: DOM-001
+  Domain: ART-001
 
 CLARIFICATIONS RESOLVED
 ───────────────────────
@@ -147,7 +147,7 @@ MIGRATION ACTIONS
 NEXT ARTIFACTS TO CREATE
 ─────────────────────────
 When integrated, the following will be created:
-  - DOM-001 (Exam Eligibility Rules) - domain documentation
+  - ART-001 (Exam Eligibility Rules) - domain documentation
   - REQ-002 (Exam Invoice Purchasing) - functional requirement
   - REQ-003 (Exam Eligibility Enforcement) - functional requirement
   - REQ-004 (Invoice Payment Clearance) - functional requirement

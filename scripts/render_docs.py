@@ -10,6 +10,7 @@ Usage:
 """
 
 import json
+import re
 import shutil
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -66,6 +67,18 @@ def status_badge(status: str) -> str:
     return f'<span class="status-badge" style="background-color: {color}">{e(label)}</span>'
 
 
+def artifact_type_badge(dom_type: str) -> str:
+    """Generate badge HTML for business artifact types."""
+    type_colors = {
+        "policy": "#3b82f6",
+        "catalog": "#10b981",
+        "classification": "#8b5cf6",
+        "rule": "#f59e0b",
+    }
+    type_color = type_colors.get(dom_type, "#6b7280")
+    return f'<span class="status-badge" style="background-color: {type_color}">{e(format_status_label(dom_type))}</span>'
+
+
 def format_refs_html(refs: List[str], prefix: str = "") -> str:
     """Format a list of references as HTML links."""
     if not refs:
@@ -96,6 +109,171 @@ def render_requirements_table(
         "<thead><tr><th>Requirement</th><th>Title</th></tr></thead>"
         f"<tbody>{''.join(rows)}</tbody></table>"
     )
+
+
+def format_secondary(text: str) -> str:
+    """Render a secondary line within a table cell."""
+    return f'<div class="cell-secondary">{e(text)}</div>' if text else ""
+
+
+def render_connected_table(headers: List[str], rows: List[List[str]], empty_label: str) -> str:
+    """Render a compact table for connected records with an empty-state row."""
+    header_html = "".join(f"<th>{e(header)}</th>" for header in headers)
+    if rows:
+        body_html = "".join("<tr>" + "".join(cells) + "</tr>" for cells in rows)
+    else:
+        body_html = (
+            f'<tr><td class="empty-cell" colspan="{len(headers)}">'
+            f"<em>There are no {e(empty_label)} to display.</em></td></tr>"
+        )
+    return (
+        '<table class="connected-table">'
+        f"<thead><tr>{header_html}</tr></thead>"
+        f"<tbody>{body_html}</tbody>"
+        "</table>"
+    )
+
+
+def render_tabs(group_id: str, tabs: List[Dict[str, str]]) -> str:
+    """Render a tabbed UI with panels."""
+    if not tabs:
+        return ""
+    panels = []
+    buttons = []
+    for idx, tab in enumerate(tabs):
+        tab_id = tab["id"]
+        label = tab["label"]
+        content = tab["content"]
+        panel_id = f"{group_id}-{tab_id}"
+        is_active = idx == 0
+        active_class = " active" if is_active else ""
+        aria_selected = "true" if is_active else "false"
+        buttons.append(
+            f'<button class="tab-button{active_class}" type="button" role="tab" '
+            f'data-tab-target="{panel_id}" aria-selected="{aria_selected}">{e(label)}</button>'
+        )
+        panels.append(
+            f'<div class="tab-panel{active_class}" id="{panel_id}" '
+            f'data-tab-panel="true" role="tabpanel">{content}</div>'
+        )
+    return (
+        f'<div class="tabs" data-tab-group="{e(group_id)}">'
+        f'<div class="tab-list" role="tablist">{"".join(buttons)}</div>'
+        f'<div class="tab-panels">{"".join(panels)}</div>'
+        "</div>"
+    )
+
+
+def slugify(text: str) -> str:
+    """Create a safe ID string for HTML elements."""
+    slug = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+    return slug or "tab"
+
+
+def render_record_cell(item_id: str, title: str, prefix: str) -> str:
+    return (
+        f'<td class="record-cell"><a href="{prefix}{e(item_id)}.html">{e(item_id)}</a>'
+        f"{format_secondary(title)}</td>"
+    )
+
+
+def render_summary_cell(primary: str, secondary: str = "") -> str:
+    return (
+        f'<td class="summary-cell"><div class="cell-primary">{e(primary)}</div>'
+        f"{format_secondary(secondary)}</td>"
+    )
+
+
+def render_release_cell(release_ref: Optional[str], prefix: str) -> str:
+    if release_ref:
+        return f'<td><a href="{prefix}{e(release_ref)}.html">{e(release_ref)}</a></td>'
+    return "<td>Unassigned</td>"
+
+
+def build_feature_rows(features: List[Dict], prefix: str) -> List[List[str]]:
+    rows = []
+    for feat in features:
+        feat_id = feat.get("id", "")
+        title = feat.get("title", "")
+        purpose = feat.get("purpose", "No purpose defined")
+        business_value = feat.get("business_value", "")
+        status = feat.get("status", "unknown")
+        rows.append(
+            [
+                render_record_cell(feat_id, title, prefix),
+                render_summary_cell(purpose, business_value),
+                f'<td class="status-cell"><div class="badge-stack">{status_badge(status)}</div></td>',
+            ]
+        )
+    return rows
+
+
+def build_epic_rows(epics: List[Dict], epic_prefix: str, release_prefix: str) -> List[List[str]]:
+    rows = []
+    for epic in epics:
+        epic_id = epic.get("id", "")
+        title = epic.get("title", "")
+        current = get_current_version(epic.get("versions", []))
+        summary = current.get("summary", "No summary") if current else "No versions recorded"
+        release_ref = current.get("release_ref") if current else None
+        rows.append(
+            [
+                render_record_cell(epic_id, title, epic_prefix),
+                render_summary_cell(summary),
+                render_release_cell(release_ref, release_prefix),
+            ]
+        )
+    return rows
+
+
+def build_story_rows(stories: List[Dict], story_prefix: str, release_prefix: str) -> List[List[str]]:
+    rows = []
+    for story in stories:
+        story_id = story.get("id", "")
+        title = story.get("title", "")
+        current = get_current_version(story.get("versions", []))
+        description = current.get("description", "No description") if current else "No versions recorded"
+        release_ref = current.get("release_ref") if current else None
+        rows.append(
+            [
+                render_record_cell(story_id, title, story_prefix),
+                render_summary_cell(description),
+                render_release_cell(release_ref, release_prefix),
+            ]
+        )
+    return rows
+
+
+def build_requirement_rows(requirement_refs: List[str], requirement_lookup: Dict[str, Dict], prefix: str) -> List[List[str]]:
+    rows = []
+    for ref in requirement_refs or []:
+        req = requirement_lookup.get(ref, {})
+        title = req.get("title", "")
+        statement = req.get("statement", "No statement")
+        rows.append(
+            [
+                render_record_cell(ref, title, prefix),
+                render_summary_cell(statement),
+            ]
+        )
+    return rows
+
+
+def build_artifact_rows(artifact_refs: List[str], artifact_lookup: Dict[str, Dict], prefix: str) -> List[List[str]]:
+    rows = []
+    for ref in artifact_refs or []:
+        artifact = artifact_lookup.get(ref, {})
+        title = artifact.get("title", "")
+        description = artifact.get("description", "Business artifact")
+        dom_type = artifact.get("type", "unknown")
+        rows.append(
+            [
+                render_record_cell(ref, title, prefix),
+                render_summary_cell(description),
+                f'<td class="status-cell"><div class="badge-stack">{artifact_type_badge(dom_type)}</div></td>',
+            ]
+        )
+    return rows
 
 
 # =============================================================================
@@ -170,8 +348,8 @@ a:hover {
 }
 
 .brand-logo {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
 }
 
@@ -448,7 +626,7 @@ table {
 th,
 td {
     text-align: left;
-    padding: 0.55rem 0.7rem;
+    padding: 0.45rem 0.6rem;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -475,6 +653,103 @@ td a {
 
 tr:last-child td {
     border-bottom: none;
+}
+
+.index-table td {
+    vertical-align: top;
+}
+
+.record-cell a {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.cell-primary {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.35;
+}
+
+.cell-secondary {
+    margin-top: 0.2rem;
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+
+.summary-cell .cell-secondary {
+    color: var(--text-muted);
+}
+
+.status-cell {
+    white-space: nowrap;
+}
+
+.badge-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.tabs {
+    margin: 0.75rem 0 1rem;
+}
+
+.tab-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.35rem;
+}
+
+.tab-button {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab-button.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.2);
+    font-weight: 600;
+}
+
+.tab-panel {
+    display: none;
+    margin-top: 0.6rem;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.connected-table {
+    margin-top: 0.4rem;
+}
+
+.connected-summary {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0.3rem 0 0.35rem;
+}
+
+.connected-summary a {
+    font-weight: 600;
+}
+
+.empty-cell {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    padding: 0.8rem 0.6rem;
 }
 
 .section {
@@ -533,7 +808,7 @@ def generate_navbar(active_section: str = "", depth: int = 1) -> str:
         ("epics", "Epics", "epics/index.html"),
         ("stories", "Stories", "stories/index.html"),
         ("requirements", "Requirements", "requirements/index.html"),
-        ("domain", "Domain", "domain/index.html"),
+        ("domain", "Business Artifacts", "domain/index.html"),
         ("releases", "Releases", "releases/index.html"),
     ]
 
@@ -572,6 +847,46 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
     <main>
         {content}
     </main>
+    <script>
+    (() => {{
+        function initTabs() {{
+            const groups = document.querySelectorAll('[data-tab-group]');
+            groups.forEach((group) => {{
+                const buttons = Array.from(group.querySelectorAll('.tab-button'));
+                const panels = Array.from(group.querySelectorAll('[data-tab-panel]'));
+                if (buttons.length === 0 || panels.length === 0) return;
+
+                function setActive(button) {{
+                    const targetId = button.dataset.tabTarget;
+                    const targetPanel = group.querySelector(`#${{CSS.escape(targetId)}}`);
+                    buttons.forEach((btn) => {{
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    }});
+                    panels.forEach((panel) => panel.classList.remove('active'));
+                    button.classList.add('active');
+                    button.setAttribute('aria-selected', 'true');
+                    if (targetPanel) {{
+                        targetPanel.classList.add('active');
+                    }}
+                }}
+
+                buttons.forEach((button) => {{
+                    button.addEventListener('click', () => setActive(button));
+                }});
+
+                const defaultButton = buttons.find(btn => btn.classList.contains('active')) || buttons[0];
+                setActive(defaultButton);
+            }});
+        }}
+
+        if (document.readyState === 'loading') {{
+            document.addEventListener('DOMContentLoaded', initTabs);
+        }} else {{
+            initTabs();
+        }}
+    }})();
+    </script>
 </body>
 </html>
 """
@@ -637,54 +952,65 @@ def render_release(release: Dict, epics: List[Dict], stories: List[Dict]) -> str
                 )
     story_versions = sorted(story_versions, key=lambda x: (x.get("id") or "", x.get("version") or 0))
 
-    html += """
-<div class="section">
-    <h2>Epic Versions</h2>
-"""
-    if epic_versions:
-        html += "<table><thead><tr><th>Epic</th><th>Version</th><th>Summary</th></tr></thead><tbody>"
-        for item in epic_versions:
-            epic_id = item.get("id", "")
-            title = item.get("title", "")
-            version_number = item.get("version", "")
-            summary = item.get("summary", "No summary")
-            html += (
-                f"<tr><td><a href=\"../epics/{e(epic_id)}.html\">{e(epic_id)}</a>"
-                f"<div class=\"muted\">{e(title)}</div></td>"
-                f"<td>v{e(version_number)}</td>"
-                f"<td>{e(summary)}</td></tr>"
-            )
-        html += "</tbody></table>"
-    else:
-        html += "<p><em>No epic versions tied to this release.</em></p>"
-    html += "</div>"
+    epic_rows = []
+    for item in epic_versions:
+        epic_id = item.get("id", "")
+        title = item.get("title", "")
+        version_number = item.get("version", "")
+        summary = item.get("summary", "No summary")
+        epic_rows.append(
+            [
+                f'<td class="record-cell"><a href="../epics/{e(epic_id)}.html?version={e(version_number)}">{e(epic_id)}</a>'
+                f"{format_secondary(title)}</td>",
+                f"<td>v{e(version_number)}</td>",
+                render_summary_cell(summary),
+            ]
+        )
 
-    html += """
+    story_rows = []
+    for item in story_versions:
+        story_id = item.get("id", "")
+        title = item.get("title", "")
+        version_number = item.get("version", "")
+        description = item.get("description", "No description")
+        story_rows.append(
+            [
+                f'<td class="record-cell"><a href="../stories/{e(story_id)}.html?version={e(version_number)}">{e(story_id)}</a>'
+                f"{format_secondary(title)}</td>",
+                f"<td>v{e(version_number)}</td>",
+                render_summary_cell(description),
+            ]
+        )
+
+    tabs = [
+        {
+            "id": slugify("Epic Versions"),
+            "label": "Epic Versions",
+            "content": render_connected_table(["Epic", "Version", "Summary"], epic_rows, "Epic Versions"),
+        },
+        {
+            "id": slugify("Story Versions"),
+            "label": "Story Versions",
+            "content": render_connected_table(["Story", "Version", "Description"], story_rows, "Story Versions"),
+        },
+    ]
+    html += f"""
 <div class="section">
-    <h2>Story Versions</h2>
+    <h2>Connected Versions</h2>
+    {render_tabs("release-versions", tabs)}
+</div>
 """
-    if story_versions:
-        html += "<table><thead><tr><th>Story</th><th>Version</th><th>Description</th></tr></thead><tbody>"
-        for item in story_versions:
-            story_id = item.get("id", "")
-            title = item.get("title", "")
-            version_number = item.get("version", "")
-            description = item.get("description", "No description")
-            html += (
-                f"<tr><td><a href=\"../stories/{e(story_id)}.html\">{e(story_id)}</a>"
-                f"<div class=\"muted\">{e(title)}</div></td>"
-                f"<td>v{e(version_number)}</td>"
-                f"<td>{e(description)}</td></tr>"
-            )
-        html += "</tbody></table>"
-    else:
-        html += "<p><em>No story versions tied to this release.</em></p>"
-    html += "</div>"
 
     return html_page(release['id'], html, "releases", depth=1)
 
 
-def render_requirement(req: Dict) -> str:
+def render_requirement(
+    req: Dict,
+    features: List[Dict],
+    epics: List[Dict],
+    stories: List[Dict],
+    artifact_lookup: Optional[Dict[str, Dict]] = None,
+) -> str:
     """Render a requirement as HTML."""
     html = f"""
 <h1>{e(req['id'])}: {e(req.get('title', ''))}</h1>
@@ -702,22 +1028,77 @@ def render_requirement(req: Dict) -> str:
     <p>{e(req.get('rationale', 'No rationale'))}</p>
 </div>
 """
-    if req.get('domain_refs'):
-        html += f"""
-<div class="section">
-    <h2>Domain References</h2>
-    <p>{format_refs_html(req['domain_refs'], '../domain/')}</p>
-</div>
-"""
     if req.get('superseded_by'):
         html += f'<p><strong>Superseded By:</strong> <a href="{req["superseded_by"]}.html">{e(req["superseded_by"])}</a></p>'
     if req.get('notes'):
         html += f'<div class="section"><h2>Notes</h2><p>{e(req["notes"])}</p></div>'
 
+    requirement_id = req.get("id")
+    feature_rows = build_feature_rows(
+        [feat for feat in features if requirement_id in (feat.get("requirement_refs") or [])],
+        "../features/",
+    )
+    epic_rows = build_epic_rows(
+        [
+            epic
+            for epic in epics
+            if requirement_id in ((get_current_version(epic.get("versions", [])) or {}).get("requirement_refs", []))
+        ],
+        "../epics/",
+        "../releases/",
+    )
+    story_rows = build_story_rows(
+        [
+            story
+            for story in stories
+            if requirement_id in ((get_current_version(story.get("versions", [])) or {}).get("requirement_refs", []))
+        ],
+        "../stories/",
+        "../releases/",
+    )
+    artifact_rows = build_artifact_rows(
+        req.get("domain_refs", []),
+        artifact_lookup or {},
+        "../domain/",
+    )
+    tabs = [
+        {
+            "id": slugify("Features"),
+            "label": "Features",
+            "content": render_connected_table(["Record", "Summary", "Status"], feature_rows, "Features"),
+        },
+        {
+            "id": slugify("Epics"),
+            "label": "Epics",
+            "content": render_connected_table(["Record", "Summary", "Release"], epic_rows, "Epics"),
+        },
+        {
+            "id": slugify("Stories"),
+            "label": "Stories",
+            "content": render_connected_table(["Record", "Summary", "Release"], story_rows, "Stories"),
+        },
+        {
+            "id": slugify("Business Artifacts"),
+            "label": "Business Artifacts",
+            "content": render_connected_table(["Record", "Description", "Type"], artifact_rows, "Business Artifacts"),
+        },
+    ]
+    html += f"""
+<div class="section">
+    <h2>Connected Records</h2>
+    {render_tabs("requirement-connections", tabs)}
+</div>
+"""
     return html_page(f"{req['id']}: {req.get('title', '')}", html, "requirements", depth=1)
 
 
-def render_feature(feat: Dict, requirement_lookup: Optional[Dict[str, Dict]] = None) -> str:
+def render_feature(
+    feat: Dict,
+    epics: List[Dict],
+    stories: List[Dict],
+    requirement_lookup: Optional[Dict[str, Dict]] = None,
+    artifact_lookup: Optional[Dict[str, Dict]] = None,
+) -> str:
     """Render a feature as HTML."""
     html = f"""
 <h1>{e(feat['id'])}: {e(feat.get('title', ''))}</h1>
@@ -745,31 +1126,69 @@ def render_feature(feat: Dict, requirement_lookup: Optional[Dict[str, Dict]] = N
             html += f'<li>{e(item)}</li>'
         html += '</ul></div>'
 
-    if feat.get('requirement_refs'):
-        html += f"""
+    feature_epics = [epic for epic in epics if epic.get("feature_ref") == feat.get("id")]
+    epic_rows = build_epic_rows(feature_epics, "../epics/", "../releases/")
+
+    epic_ids = {epic.get("id") for epic in feature_epics if epic.get("id")}
+    feature_stories = [story for story in stories if story.get("epic_ref") in epic_ids]
+    story_rows = build_story_rows(feature_stories, "../stories/", "../releases/")
+
+    requirement_rows = build_requirement_rows(
+        feat.get("requirement_refs", []),
+        requirement_lookup or {},
+        "../requirements/",
+    )
+
+    artifact_rows = build_artifact_rows(
+        feat.get("domain_refs", []),
+        artifact_lookup or {},
+        "../domain/",
+    )
+
+    tabs = [
+        {
+            "id": slugify("Epics"),
+            "label": "Epics",
+            "content": render_connected_table(["Record", "Summary", "Release"], epic_rows, "Epics"),
+        },
+        {
+            "id": slugify("Stories"),
+            "label": "Stories",
+            "content": render_connected_table(["Record", "Summary", "Release"], story_rows, "Stories"),
+        },
+        {
+            "id": slugify("Requirements"),
+            "label": "Requirements",
+            "content": render_connected_table(["Record", "Statement"], requirement_rows, "Requirements"),
+        },
+        {
+            "id": slugify("Business Artifacts"),
+            "label": "Business Artifacts",
+            "content": render_connected_table(["Record", "Description", "Type"], artifact_rows, "Business Artifacts"),
+        },
+    ]
+
+    html += f"""
 <div class="section">
-    <h2>Requirements</h2>
-    {render_requirements_table(feat['requirement_refs'], requirement_lookup, '../requirements/')}
+    <h2>Connected Records</h2>
+    {render_tabs("feature-connections", tabs)}
 </div>
 """
     return html_page(f"{feat['id']}: {feat.get('title', '')}", html, "features", depth=1)
 
 
-def render_epic(epic: Dict, requirement_lookup: Optional[Dict[str, Dict]] = None) -> str:
+def render_epic(
+    epic: Dict,
+    stories: List[Dict],
+    requirement_lookup: Optional[Dict[str, Dict]] = None,
+    artifact_lookup: Optional[Dict[str, Dict]] = None,
+) -> str:
     """Render an epic as HTML."""
     versions = epic.get('versions', [])
     doc_status = epic.get("status") or "unknown"
     html = f"""
 <h1>{e(epic['id'])}: {e(epic.get('title', ''))}</h1>
 """
-    if epic.get('feature_ref'):
-        html += f"""
-<div class="section">
-    <h2>Feature</h2>
-    <p>Part of <a href="../features/{epic['feature_ref']}.html">{e(epic['feature_ref'])}</a></p>
-</div>
-"""
-
     if versions:
         current = get_current_version(versions)
         current_version = current.get("version") if current else None
@@ -820,20 +1239,6 @@ def render_epic(epic: Dict, requirement_lookup: Optional[Dict[str, Dict]] = None
                     html += f'<li>{e(item)}</li>'
                 html += '</ul></div>'
 
-            if v.get('domain_refs'):
-                html += f"""
-<div class="section">
-    <h2>Domain References</h2>
-    <p>{format_refs_html(v['domain_refs'], '../domain/')}</p>
-</div>
-"""
-            if v.get('requirement_refs'):
-                html += f"""
-<div class="section">
-    <h2>Requirements</h2>
-    {render_requirements_table(v['requirement_refs'], requirement_lookup, '../requirements/')}
-</div>
-"""
             html += "</div>"
 
         html += """
@@ -843,6 +1248,14 @@ def render_epic(epic: Dict, requirement_lookup: Optional[Dict[str, Dict]] = None
     const select = document.getElementById('version-select');
     const panels = Array.from(document.querySelectorAll('.version-panel'));
     if (!select || panels.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const requestedVersion = params.get('version');
+    if (requestedVersion) {
+        const option = Array.from(select.options).find(opt => opt.value === requestedVersion);
+        if (option) {
+            select.value = requestedVersion;
+        }
+    }
     function show(version) {
         panels.forEach(panel => {
             panel.classList.toggle('active', panel.dataset.version === version);
@@ -856,22 +1269,65 @@ def render_epic(epic: Dict, requirement_lookup: Optional[Dict[str, Dict]] = None
     else:
         html += '<p><em>No versions recorded.</em></p>'
 
+    current_version = get_current_version(versions) if versions else None
+    requirement_rows = build_requirement_rows(
+        (current_version or {}).get("requirement_refs", []),
+        requirement_lookup or {},
+        "../requirements/",
+    )
+    artifact_rows = build_artifact_rows(
+        (current_version or {}).get("domain_refs", []),
+        artifact_lookup or {},
+        "../domain/",
+    )
+    epic_stories = [story for story in stories if story.get("epic_ref") == epic.get("id")]
+    story_rows = build_story_rows(epic_stories, "../stories/", "../releases/")
+
+    tabs = [
+        {
+            "id": slugify("Stories"),
+            "label": "Stories",
+            "content": render_connected_table(["Record", "Summary", "Release"], story_rows, "Stories"),
+        },
+        {
+            "id": slugify("Requirements"),
+            "label": "Requirements",
+            "content": render_connected_table(["Record", "Statement"], requirement_rows, "Requirements"),
+        },
+        {
+            "id": slugify("Business Artifacts"),
+            "label": "Business Artifacts",
+            "content": render_connected_table(["Record", "Description", "Type"], artifact_rows, "Business Artifacts"),
+        },
+    ]
+    connected_summary = ""
+    if epic.get("feature_ref"):
+        connected_summary = (
+            f'<div class="connected-summary"><strong>Feature:</strong> '
+            f'<a href="../features/{e(epic["feature_ref"])}.html">{e(epic["feature_ref"])}</a></div>'
+        )
+    html += f"""
+<div class="section">
+    <h2>Connected Records</h2>
+    {connected_summary}
+    {render_tabs("epic-connections", tabs)}
+</div>
+"""
     return html_page(f"{epic['id']}: {epic.get('title', '')}", html, "epics", depth=1)
 
 
-def render_story(story: Dict, requirement_lookup: Optional[Dict[str, Dict]] = None) -> str:
+def render_story(
+    story: Dict,
+    epics: List[Dict],
+    features: List[Dict],
+    requirement_lookup: Optional[Dict[str, Dict]] = None,
+    artifact_lookup: Optional[Dict[str, Dict]] = None,
+) -> str:
     """Render a story as HTML."""
     versions = story.get('versions', [])
     doc_status = story.get("status") or "unknown"
     html = f"""
 <h1>{e(story['id'])}: {e(story.get('title', ''))}</h1>
-"""
-    if story.get('epic_ref'):
-        html += f"""
-<div class="section">
-    <h2>Epic</h2>
-    <p>Part of <a href="../epics/{story['epic_ref']}.html">{e(story['epic_ref'])}</a></p>
-</div>
 """
 
     if versions:
@@ -942,20 +1398,6 @@ def render_story(story: Dict, requirement_lookup: Optional[Dict[str, Dict]] = No
                     html += '</ul>'
                 html += '</div>'
 
-            if v.get('domain_refs'):
-                html += f"""
-<div class="section">
-    <h2>Domain References</h2>
-    <p>{format_refs_html(v['domain_refs'], '../domain/')}</p>
-</div>
-"""
-            if v.get('requirement_refs'):
-                html += f"""
-<div class="section">
-    <h2>Requirements</h2>
-    {render_requirements_table(v['requirement_refs'], requirement_lookup, '../requirements/')}
-</div>
-"""
             html += "</div>"
 
         html += """
@@ -965,6 +1407,14 @@ def render_story(story: Dict, requirement_lookup: Optional[Dict[str, Dict]] = No
     const select = document.getElementById('version-select');
     const panels = Array.from(document.querySelectorAll('.version-panel'));
     if (!select || panels.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const requestedVersion = params.get('version');
+    if (requestedVersion) {
+        const option = Array.from(select.options).find(opt => opt.value === requestedVersion);
+        if (option) {
+            select.value = requestedVersion;
+        }
+    }
     function show(version) {
         panels.forEach(panel => {
             panel.classList.toggle('active', panel.dataset.version === version);
@@ -978,6 +1428,50 @@ def render_story(story: Dict, requirement_lookup: Optional[Dict[str, Dict]] = No
     else:
         html += '<p><em>No versions recorded.</em></p>'
 
+    current_version = get_current_version(versions) if versions else None
+    requirement_rows = build_requirement_rows(
+        (current_version or {}).get("requirement_refs", []),
+        requirement_lookup or {},
+        "../requirements/",
+    )
+    artifact_rows = build_artifact_rows(
+        (current_version or {}).get("domain_refs", []),
+        artifact_lookup or {},
+        "../domain/",
+    )
+    tabs = [
+        {
+            "id": slugify("Requirements"),
+            "label": "Requirements",
+            "content": render_connected_table(["Record", "Statement"], requirement_rows, "Requirements"),
+        },
+        {
+            "id": slugify("Business Artifacts"),
+            "label": "Business Artifacts",
+            "content": render_connected_table(["Record", "Description", "Type"], artifact_rows, "Business Artifacts"),
+        },
+    ]
+    connected_items = []
+    epic_ref = story.get("epic_ref")
+    if epic_ref:
+        connected_items.append(
+            f'<div class="connected-summary"><strong>Epic:</strong> '
+            f'<a href="../epics/{e(epic_ref)}.html">{e(epic_ref)}</a></div>'
+        )
+        epic = next((item for item in epics if item.get("id") == epic_ref), None)
+        feature_ref = epic.get("feature_ref") if epic else None
+        if feature_ref:
+            connected_items.append(
+                f'<div class="connected-summary"><strong>Feature:</strong> '
+                f'<a href="../features/{e(feature_ref)}.html">{e(feature_ref)}</a></div>'
+            )
+    html += f"""
+<div class="section">
+    <h2>Connected Records</h2>
+    {''.join(connected_items)}
+    {render_tabs("story-connections", tabs)}
+</div>
+"""
     return html_page(f"{story['id']}: {story.get('title', '')}", html, "stories", depth=1)
 
 
@@ -990,7 +1484,7 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
         "features": "Top-level capability boundaries that organize epics.",
         "epics": "Stable user intent groupings that organize stories.",
         "stories": "Atomic user capabilities with supporting criteria.",
-        "domain": "Reference policies, rules, and domain documentation.",
+        "domain": "Business artifacts, policies, rules, and reference documentation.",
     }
     subtitle = subtitle_map.get(artifact_type.lower())
     if subtitle:
@@ -1024,105 +1518,117 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
 </div>
 """
 
-    # Requirements get a specialized card-based view
-    if artifact_type.lower() == "requirements":
-        for item in sorted(items, key=lambda x: x.get('id', '')):
-            req_type = item.get('type', 'unknown')
-            type_color = "#3b82f6" if req_type == "functional" else "#8b5cf6"
-            status = item.get("status") or "unknown"
-            search_text = " ".join(
-                part
-                for part in [
-                    item.get("id"),
-                    item.get("title"),
-                    status,
-                    req_type,
-                    item.get("statement"),
-                ]
-                if part
-            ).lower()
+    def requirement_type_badge(req_type: str) -> str:
+        type_color = "#3b82f6" if req_type == "functional" else "#8b5cf6"
+        return f'<span class="status-badge" style="background-color: {type_color}">{e(format_status_label(req_type))}</span>'
 
-            html += f'''
-<div class="card" data-filter-item="true" data-status="{e(status)}" data-search-text="{e(search_text)}" style="margin-bottom: 0.75rem;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-        <div>
-            <a href="{item['id']}.html" style="font-weight: 600; font-size: 0.95rem;">{e(item['id'])}: {e(item.get('title', ''))}</a>
-        </div>
-        <div style="display: flex; gap: 0.5rem;">
-            <span class="status-badge" style="background-color: {type_color}">{e(format_status_label(req_type))}</span>
-            {status_badge(item.get('status', 'unknown'))}
-        </div>
-    </div>
-    <p style="margin-bottom: 0.5rem; color: var(--text-primary); font-size: 0.85rem;">{e(item.get('statement', 'No statement'))}</p>
-'''
-            # Domain references
-            domain_refs = item.get('domain_refs', [])
+    def build_summary(item: Dict) -> Dict[str, str]:
+        kind = artifact_type.lower()
+        if kind == "features":
+            primary = item.get("purpose", "No purpose defined")
+            secondary = item.get("business_value", "")
+        elif kind == "epics":
+            current = get_current_version(item.get("versions", []))
+            primary = current.get("summary", "No summary") if current else "No versions recorded"
+            secondary = f"Release: {current.get('release_ref') or 'Unassigned'}" if current else ""
+        elif kind == "stories":
+            current = get_current_version(item.get("versions", []))
+            primary = current.get("description", "No description") if current else "No versions recorded"
+            secondary = f"Release: {current.get('release_ref') or 'Unassigned'}" if current else ""
+        elif kind == "requirements":
+            primary = item.get("statement", "No statement")
+            domain_refs = item.get("domain_refs", [])
             if domain_refs and domain_lookup:
-                domain_links = []
+                domain_titles = []
                 for ref in domain_refs:
                     dom = domain_lookup.get(ref, {})
-                    dom_title = dom.get('title', ref)
-                    domain_links.append(f'<a href="../domain/{ref}.html">{e(ref)}: {e(dom_title)}</a>')
-                html += f'<p style="margin: 0; font-size: 0.78rem; color: var(--text-secondary);"><strong>Domain:</strong> {", ".join(domain_links)}</p>'
+                    domain_titles.append(f"{ref}: {dom.get('title', ref)}")
+                secondary = f"Domain: {', '.join(domain_titles)}"
             elif domain_refs:
-                html += f'<p style="margin: 0; font-size: 0.78rem; color: var(--text-secondary);"><strong>Domain:</strong> {", ".join(domain_refs)}</p>'
+                secondary = f"Domain: {', '.join(domain_refs)}"
+            else:
+                secondary = ""
+        elif kind == "domain":
+            primary = item.get("description") or "Domain reference document"
+            source = item.get("source", "unknown")
+            effective = item.get("effective_date")
+            secondary = f"Source: {source}"
+            if effective:
+                secondary += f" | Effective: {effective}"
+        elif kind == "releases":
+            primary = f"Release Date: {item.get('release_date', 'TBD')}"
+            secondary = item.get("description", "")
+        else:
+            primary = item.get("title", "")
+            secondary = ""
+        return {"primary": primary, "secondary": secondary}
 
-            html += '</div>'
-
-        html += """
-<script>
-(() => {
-    const searchInput = document.getElementById('search-input');
-    const statusFilter = document.getElementById('status-filter');
-    const items = Array.from(document.querySelectorAll('[data-filter-item]'));
-    const countEl = document.getElementById('results-count');
-    if (!searchInput || !statusFilter || !countEl) return;
-
-    function applyFilters() {
-        const term = searchInput.value.trim().toLowerCase();
-        const status = statusFilter.value.toLowerCase();
-        let visible = 0;
-        items.forEach((item) => {
-            const text = (item.dataset.searchText || '').toLowerCase();
-            const itemStatus = (item.dataset.status || '').toLowerCase();
-            const matchesTerm = !term || text.includes(term);
-            const matchesStatus = status === 'all' || itemStatus === status;
-            const show = matchesTerm && matchesStatus;
-            item.style.display = show ? '' : 'none';
-            if (show) visible += 1;
-        });
-        countEl.textContent = `${visible} of ${items.length} shown`;
-    }
-
-    searchInput.addEventListener('input', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-    applyFilters();
-})();
-</script>
-"""
-        return html_page(title, html, artifact_type.lower(), depth=1)
-
-    # Default table view for other types
-    html += '<table><thead><tr><th>ID</th><th>Title</th><th>Status</th></tr></thead><tbody>'
+    if artifact_type.lower() == "requirements":
+        html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Type</th><th>Status</th></tr></thead><tbody>'
+    else:
+        html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody>'
 
     ordered_items = items
     if artifact_type.lower() != "releases":
         ordered_items = sorted(items, key=lambda x: x.get('id', ''))
     for item in ordered_items:
         item_id = item['id']
-        item_title = item.get('title', item_id)
+        item_title = item.get('title', '')
         status = item.get('status') or 'unknown'
         release_ref = None
         if 'versions' in item:
             current = get_current_version(item.get('versions', []))
             release_ref = current.get('release_ref') if current else None
 
+        summary = build_summary(item)
+        primary_summary = summary.get("primary", "")
+        secondary_summary = summary.get("secondary", "")
+
         search_text = " ".join(
             part
-            for part in [item_id, item_title, status, release_ref, item.get("owner")]
+            for part in [
+                item_id,
+                item_title,
+                status,
+                release_ref,
+                item.get("owner"),
+                primary_summary,
+                secondary_summary,
+                item.get("type"),
+                item.get("purpose"),
+                item.get("description"),
+            ]
             if part
         ).lower()
-        html += f'<tr data-filter-item="true" data-status="{e(status)}" data-search-text="{e(search_text)}"><td><a href="{item_id}.html">{e(item_id)}</a></td><td>{e(item_title)}</td><td>{status_badge(status)}</td></tr>'
+
+        status_badges = [status_badge(status)]
+        type_badge = ""
+        if artifact_type.lower() == "requirements":
+            type_badge = requirement_type_badge(item.get("type", "unknown"))
+        if artifact_type.lower() == "domain":
+            type_badge = artifact_type_badge(item.get("type", "unknown"))
+
+        if artifact_type.lower() == "requirements":
+            html += (
+                f'<tr data-filter-item="true" data-status="{e(status)}" data-search-text="{e(search_text)}">'
+                f'<td class="record-cell"><a href="{item_id}.html">{e(item_id)}</a>'
+                f'{format_secondary(item_title)}</td>'
+                f'<td class="summary-cell"><div class="cell-primary">{e(primary_summary)}</div>'
+                f'{format_secondary(secondary_summary)}</td>'
+                f'<td class="status-cell"><div class="badge-stack">{type_badge}</div></td>'
+                f'<td class="status-cell"><div class="badge-stack">{"".join(status_badges)}</div></td>'
+                '</tr>'
+            )
+        else:
+            html += (
+                f'<tr data-filter-item="true" data-status="{e(status)}" data-search-text="{e(search_text)}">'
+                f'<td class="record-cell"><a href="{item_id}.html">{e(item_id)}</a>'
+                f'{format_secondary(item_title)}</td>'
+                f'<td class="summary-cell"><div class="cell-primary">{e(primary_summary)}</div>'
+                f'{format_secondary(secondary_summary)}</td>'
+                f'<td class="status-cell"><div class="badge-stack">{"".join(status_badges)}</div></td>'
+                '</tr>'
+            )
 
     html += '</tbody></table>'
 
@@ -1161,8 +1667,15 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
     return html_page(title, html, artifact_type.lower(), depth=1)
 
 
-def render_domain_entry(entry: Dict) -> str:
-    """Render a single domain entry as HTML."""
+def render_domain_entry(
+    entry: Dict,
+    features: List[Dict],
+    epics: List[Dict],
+    stories: List[Dict],
+    requirements: List[Dict],
+    requirement_lookup: Optional[Dict[str, Dict]] = None,
+) -> str:
+    """Render a single business artifact entry as HTML."""
     dom_type = entry.get('type', 'unknown')
     type_colors = {
         "policy": "#3b82f6",
@@ -1197,13 +1710,69 @@ def render_domain_entry(entry: Dict) -> str:
     if entry.get('tags'):
         html += f'<p><strong>Tags:</strong> {", ".join(e(t) for t in entry["tags"])}</p>'
 
+    artifact_id = entry.get("id")
+    feature_rows = build_feature_rows(
+        [feat for feat in features if artifact_id in (feat.get("domain_refs") or [])],
+        "../features/",
+    )
+    epic_rows = build_epic_rows(
+        [
+            epic
+            for epic in epics
+            if artifact_id in ((get_current_version(epic.get("versions", [])) or {}).get("domain_refs", []))
+        ],
+        "../epics/",
+        "../releases/",
+    )
+    story_rows = build_story_rows(
+        [
+            story
+            for story in stories
+            if artifact_id in ((get_current_version(story.get("versions", [])) or {}).get("domain_refs", []))
+        ],
+        "../stories/",
+        "../releases/",
+    )
+    requirement_rows = build_requirement_rows(
+        [req.get("id") for req in requirements if artifact_id in (req.get("domain_refs") or [])],
+        requirement_lookup or {},
+        "../requirements/",
+    )
+    tabs = [
+        {
+            "id": slugify("Features"),
+            "label": "Features",
+            "content": render_connected_table(["Record", "Summary", "Status"], feature_rows, "Features"),
+        },
+        {
+            "id": slugify("Epics"),
+            "label": "Epics",
+            "content": render_connected_table(["Record", "Summary", "Release"], epic_rows, "Epics"),
+        },
+        {
+            "id": slugify("Stories"),
+            "label": "Stories",
+            "content": render_connected_table(["Record", "Summary", "Release"], story_rows, "Stories"),
+        },
+        {
+            "id": slugify("Requirements"),
+            "label": "Requirements",
+            "content": render_connected_table(["Record", "Statement"], requirement_rows, "Requirements"),
+        },
+    ]
+    html += f"""
+<div class="section">
+    <h2>Connected Records</h2>
+    {render_tabs("artifact-connections", tabs)}
+</div>
+"""
     return html_page(f"{entry['id']}: {entry.get('title', '')}", html, "domain", depth=1)
 
 
 def render_domain_index(domain_entries: List[Dict]) -> str:
-    """Render a domain index page listing all domain entries."""
-    html = '<h1>Domain Reference</h1>\n'
-    html += '<p>Business rules, policies, and reference documentation for the system.</p>\n'
+    """Render a business artifacts index page listing all domain entries."""
+    html = '<h1>Business Artifacts</h1>\n'
+    html += '<p>Business artifacts, policies, rules, and reference documentation.</p>\n'
 
     if not domain_entries:
         html += '<p><em>No domain entries yet.</em></p>'
@@ -1230,48 +1799,44 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
 </div>
 """
 
+    html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Type</th><th>Status</th></tr></thead><tbody>'
+
     for item in sorted(domain_entries, key=lambda x: x.get('id', '')):
         dom_type = item.get('type', 'unknown')
-        type_colors = {
-            "policy": "#3b82f6",
-            "catalog": "#10b981",
-            "classification": "#8b5cf6",
-            "rule": "#f59e0b",
-        }
-        type_color = type_colors.get(dom_type, "#6b7280")
-
         status = item.get("status") or "unknown"
+        description = item.get("description") or "Domain reference document"
+        source = item.get("source", "unknown")
+        effective = item.get("effective_date")
+        secondary = f"Source: {source}"
+        if effective:
+            secondary += f" | Effective: {effective}"
+
         search_text = " ".join(
             part
             for part in [
                 item.get("id"),
                 item.get("title"),
-                item.get("description"),
+                description,
                 dom_type,
                 status,
-                item.get("source"),
+                source,
+                effective,
             ]
             if part
         ).lower()
 
-        html += f'''
-<div class="card" data-filter-item="true" data-status="{e(status)}" data-search-text="{e(search_text)}" style="margin-bottom: 0.75rem;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-        <div>
-            <a href="{item['id']}.html" style="font-weight: 600; font-size: 0.95rem;">{e(item['id'])}: {e(item.get('title', ''))}</a>
-        </div>
-        <div style="display: flex; gap: 0.5rem;">
-            <span class="status-badge" style="background-color: {type_color}">{e(format_status_label(dom_type))}</span>
-            {status_badge(item.get('status', 'unknown'))}
-        </div>
-    </div>
-    <p style="margin-bottom: 0.4rem; color: var(--text-primary); font-size: 0.85rem;">{e(item.get('description', 'No description') if item.get('description') else 'Domain reference document')}</p>
-    <p style="margin: 0; font-size: 0.78rem; color: var(--text-secondary);">
-        <strong>Source:</strong> {e(item.get('source', 'unknown'))}
-        {f' &nbsp; <strong>Effective:</strong> {e(item.get("effective_date"))}' if item.get('effective_date') else ''}
-    </p>
-</div>
-'''
+        html += (
+            f'<tr data-filter-item="true" data-status="{e(status)}" data-search-text="{e(search_text)}">'
+            f'<td class="record-cell"><a href="{item["id"]}.html">{e(item["id"])}</a>'
+            f'{format_secondary(item.get("title", ""))}</td>'
+            f'<td class="summary-cell"><div class="cell-primary">{e(description)}</div>'
+            f'{format_secondary(secondary)}</td>'
+            f'<td class="status-cell"><div class="badge-stack">{artifact_type_badge(dom_type)}</div></td>'
+            f'<td class="status-cell"><div class="badge-stack">{status_badge(status)}</div></td>'
+            '</tr>'
+        )
+
+    html += '</tbody></table>'
 
     html += """
 <script>
@@ -1347,33 +1912,26 @@ def main():
     domain_dir = DOCS_DIR / "domain"
     domain_dir.mkdir(parents=True, exist_ok=True)
     for entry in domain:
-        content = render_domain_entry(entry)
+        content = render_domain_entry(
+            entry,
+            features,
+            epics,
+            stories,
+            requirements,
+            requirement_lookup=requirement_lookup,
+        )
         (domain_dir / f"{entry['id']}.html").write_text(content, encoding="utf-8")
         counts["domain"] += 1
     domain_index = render_domain_index(domain)
     (domain_dir / "index.html").write_text(domain_index, encoding="utf-8")
 
     # Render releases
-    unreleased_release = {
-        "id": "UNRELEASED",
-        "title": "Unreleased",
-        "status": "active",
-        "release_date": "Unreleased",
-        "description": "Versions not yet tied to a release.",
-        "git_tag": None,
-        "tags": [],
-        "owner": "",
-        "notes": "",
-        "created_at": "",
-        "updated_at": "",
-        "is_unreleased": True,
-    }
     releases_sorted = sorted(
         releases,
         key=lambda r: ((r.get("release_date") or ""), (r.get("id") or "")),
         reverse=True,
     )
-    release_items = [unreleased_release] + releases_sorted
+    release_items = releases_sorted
     for release in release_items:
         content = render_release(release, epics, stories)
         (OUTPUT_DIRS["releases"] / f"{release['id']}.html").write_text(content, encoding="utf-8")
@@ -1384,7 +1942,13 @@ def main():
 
     # Render requirements
     for req in requirements:
-        content = render_requirement(req)
+        content = render_requirement(
+            req,
+            features,
+            epics,
+            stories,
+            artifact_lookup=domain_lookup,
+        )
         (OUTPUT_DIRS["requirements"] / f"{req['id']}.html").write_text(content, encoding="utf-8")
         counts["requirements"] += 1
 
@@ -1393,7 +1957,13 @@ def main():
 
     # Render features
     for feat in features:
-        content = render_feature(feat, requirement_lookup=requirement_lookup)
+        content = render_feature(
+            feat,
+            epics,
+            stories,
+            requirement_lookup=requirement_lookup,
+            artifact_lookup=domain_lookup,
+        )
         (OUTPUT_DIRS["features"] / f"{feat['id']}.html").write_text(content, encoding="utf-8")
         counts["features"] += 1
 
@@ -1402,7 +1972,12 @@ def main():
 
     # Render epics
     for epic in epics:
-        content = render_epic(epic, requirement_lookup=requirement_lookup)
+        content = render_epic(
+            epic,
+            stories,
+            requirement_lookup=requirement_lookup,
+            artifact_lookup=domain_lookup,
+        )
         (OUTPUT_DIRS["epics"] / f"{epic['id']}.html").write_text(content, encoding="utf-8")
         counts["epics"] += 1
 
@@ -1411,7 +1986,13 @@ def main():
 
     # Render stories
     for story in stories:
-        content = render_story(story, requirement_lookup=requirement_lookup)
+        content = render_story(
+            story,
+            epics,
+            features,
+            requirement_lookup=requirement_lookup,
+            artifact_lookup=domain_lookup,
+        )
         (OUTPUT_DIRS["stories"] / f"{story['id']}.html").write_text(content, encoding="utf-8")
         counts["stories"] += 1
 

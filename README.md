@@ -155,7 +155,7 @@ Stable IDs are referenced everywhere. Format conventions:
 
 | Artifact     | Format                       |
 | ------------ | ---------------------------- |
-| Domain       | `DOM-###`                    |
+| Domain       | `ART-###`                    |
 | Requirements | `REQ-###`                    |
 | Features     | `FEAT-###`                   |
 | Epics        | `EPIC-###`                   |
@@ -238,7 +238,7 @@ All record types include these common fields:
 **Rules:**
 
 -   Domain docs are descriptive, not prescriptive.
--   Downstream artifacts reference domain by `DOM-###` ID.
+-   Downstream artifacts reference domain by `ART-###` ID.
 -   The `anchors` field enables references to specific sections, not just entire documents.
 -   Domain docs are authored directly in `docs/domain/`; the registry tracks metadata only.
 
@@ -608,7 +608,7 @@ Two machine-facing reports are regenerated on every mutation:
         { "from": "STORY-017-v2", "to": "STORY-017", "type": "version_of" },
         {
             "from": "STORY-017-v2",
-            "to": "DOM-001",
+            "to": "ART-001",
             "type": "references_domain"
         },
         {
@@ -769,7 +769,7 @@ Humans browse `docs/`, not `data/`.
 -   `docs/releases/*.html` — Release detail views (what shipped, when)
 -   `docs/reports/*.html` — Human-readable reports (coverage, traceability, release history)
 
-Domain docs are already authored at `docs/domain/*.md` and are linked from generated pages via `DOM-###` registry entries.
+Domain docs are already authored at `docs/domain/*.md` and are linked from generated pages via `ART-###` registry entries.
 
 ---
 

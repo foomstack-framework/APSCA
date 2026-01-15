@@ -16,7 +16,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "acceptance_criteria": [
           {
@@ -62,8 +62,8 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-001",
-          "DOM-002"
+          "ART-001",
+          "ART-002"
         ],
         "acceptance_criteria": [
           {
@@ -112,7 +112,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "acceptance_criteria": [
           {
@@ -157,7 +157,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "acceptance_criteria": [
           {
@@ -244,7 +244,7 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-002"
+          "ART-002"
         ],
         "acceptance_criteria": [
           {
@@ -289,7 +289,7 @@
           "REQ-002"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "acceptance_criteria": [
           {
@@ -334,7 +334,7 @@
           "REQ-005"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "acceptance_criteria": [
           {
@@ -380,7 +380,7 @@
           "REQ-005"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "acceptance_criteria": [
           {
@@ -432,7 +432,7 @@
           "REQ-002"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "acceptance_criteria": [
           {
@@ -477,7 +477,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-002"
+          "ART-002"
         ],
         "acceptance_criteria": [
           {
@@ -513,7 +513,7 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-002"
+          "ART-002"
         ],
         "acceptance_criteria": [
           {
@@ -558,7 +558,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-002"
+          "ART-002"
         ],
         "acceptance_criteria": [
           {
@@ -604,7 +604,7 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-002"
+          "ART-002"
         ],
         "acceptance_criteria": [
           {
@@ -649,7 +649,7 @@
           "REQ-002"
         ],
         "domain_refs": [
-          "DOM-003"
+          "ART-003"
         ],
         "acceptance_criteria": [
           {
@@ -684,7 +684,7 @@
           "REQ-002"
         ],
         "domain_refs": [
-          "DOM-003"
+          "ART-003"
         ],
         "acceptance_criteria": [
           {
@@ -729,7 +729,7 @@
           "REQ-002"
         ],
         "domain_refs": [
-          "DOM-003"
+          "ART-003"
         ],
         "acceptance_criteria": [
           {

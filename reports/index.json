@@ -21,24 +21,24 @@
       "status": "planned",
       "release_date": "2026-05-01"
     },
-    "DOM-001": {
-      "id": "DOM-001",
+    "ART-001": {
+      "id": "ART-001",
       "type": "domain",
       "title": "Exam Eligibility Rules",
       "status": "active",
       "domain_type": "rule",
       "doc_path": "docs/domain/exam-eligibility-rules.md"
     },
-    "DOM-002": {
-      "id": "DOM-002",
+    "ART-002": {
+      "id": "ART-002",
       "type": "domain",
       "title": "Credential Renewal Policy",
       "status": "active",
       "domain_type": "policy",
       "doc_path": "docs/domain/credential-renewal-policy.md"
     },
-    "DOM-003": {
-      "id": "DOM-003",
+    "ART-003": {
+      "id": "ART-003",
       "type": "domain",
       "title": "CPE Credit Rules",
       "status": "draft",
@@ -53,7 +53,7 @@
       "req_type": "functional",
       "invariant": false,
       "domain_refs": [
-        "DOM-001"
+        "ART-001"
       ],
       "superseded_by": null
     },
@@ -65,7 +65,7 @@
       "req_type": "functional",
       "invariant": false,
       "domain_refs": [
-        "DOM-001"
+        "ART-001"
       ],
       "superseded_by": null
     },
@@ -101,7 +101,7 @@
         "REQ-005"
       ],
       "domain_refs": [
-        "DOM-001"
+        "ART-001"
       ]
     },
     "FEAT-002": {
@@ -114,7 +114,7 @@
         "REQ-004"
       ],
       "domain_refs": [
-        "DOM-002"
+        "ART-002"
       ]
     },
     "FEAT-003": {
@@ -126,7 +126,7 @@
         "REQ-002"
       ],
       "domain_refs": [
-        "DOM-003"
+        "ART-003"
       ]
     },
     "EPIC-002": {
@@ -317,9 +317,9 @@
       "REL-2026-05-01"
     ],
     "domain": [
-      "DOM-001",
-      "DOM-002",
-      "DOM-003"
+      "ART-001",
+      "ART-002",
+      "ART-003"
     ],
     "requirement": [
       "REQ-002",
@@ -360,8 +360,8 @@
     ],
     "active": [
       "REL-2026-03-15",
-      "DOM-001",
-      "DOM-002",
+      "ART-001",
+      "ART-002",
       "REQ-002",
       "REQ-003",
       "REQ-004",
@@ -369,7 +369,7 @@
       "FEAT-001"
     ],
     "draft": [
-      "DOM-003",
+      "ART-003",
       "EPIC-005",
       "EPIC-006",
       "EPIC-007",
@@ -432,9 +432,9 @@
     "REL-2026-02-01": "REL-2026-02-01: Initial release of exam purchasing functionality for auditors",
     "REL-2026-03-15": "REL-2026-03-15: Expanded eligibility checks, invoice previews, and renewal-aware validations",
     "REL-2026-05-01": "REL-2026-05-01: Credential renewal workflows, renewal invoicing, and CPE tracking foundations",
-    "DOM-001": "DOM-001: Exam Eligibility Rules",
-    "DOM-002": "DOM-002: Credential Renewal Policy",
-    "DOM-003": "DOM-003: CPE Credit Rules",
+    "ART-001": "ART-001: Exam Eligibility Rules",
+    "ART-002": "ART-002: Credential Renewal Policy",
+    "ART-003": "ART-003: CPE Credit Rules",
     "REQ-002": "REQ-002: Exam Invoice Purchasing",
     "REQ-003": "REQ-003: Exam Eligibility Enforcement",
     "REQ-004": "REQ-004: Invoice Payment Clearance",

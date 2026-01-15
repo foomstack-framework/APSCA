@@ -22,21 +22,21 @@
       "release_date": "2026-05-01"
     },
     {
-      "id": "DOM-001",
+      "id": "ART-001",
       "type": "domain",
       "title": "Exam Eligibility Rules",
       "status": "active",
       "domain_type": "rule"
     },
     {
-      "id": "DOM-002",
+      "id": "ART-002",
       "type": "domain",
       "title": "Credential Renewal Policy",
       "status": "active",
       "domain_type": "policy"
     },
     {
-      "id": "DOM-003",
+      "id": "ART-003",
       "type": "domain",
       "title": "CPE Credit Rules",
       "status": "draft",
@@ -435,12 +435,12 @@
   "edges": [
     {
       "source": "REQ-002",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
       "source": "REQ-003",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -465,7 +465,7 @@
     },
     {
       "source": "FEAT-001",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -480,7 +480,7 @@
     },
     {
       "source": "FEAT-002",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -490,7 +490,7 @@
     },
     {
       "source": "FEAT-003",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     },
     {
@@ -515,7 +515,7 @@
     },
     {
       "source": "EPIC-002:v1",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -540,12 +540,12 @@
     },
     {
       "source": "EPIC-002:v2",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
       "source": "EPIC-002:v2",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -580,7 +580,7 @@
     },
     {
       "source": "EPIC-003:v1",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -605,7 +605,7 @@
     },
     {
       "source": "EPIC-003:v2",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -635,12 +635,12 @@
     },
     {
       "source": "EPIC-004:v1",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
       "source": "EPIC-004:v1",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     },
     {
@@ -665,7 +665,7 @@
     },
     {
       "source": "EPIC-004:v2",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -700,7 +700,7 @@
     },
     {
       "source": "EPIC-005:v1",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -730,7 +730,7 @@
     },
     {
       "source": "EPIC-006:v1",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     },
     {
@@ -750,7 +750,7 @@
     },
     {
       "source": "EPIC-006:v2",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     },
     {
@@ -775,7 +775,7 @@
     },
     {
       "source": "EPIC-007:v1",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     },
     {
@@ -800,7 +800,7 @@
     },
     {
       "source": "STORY-002:v1",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -825,12 +825,12 @@
     },
     {
       "source": "STORY-002:v2",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
       "source": "STORY-002:v2",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -860,7 +860,7 @@
     },
     {
       "source": "STORY-003:v1",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -880,7 +880,7 @@
     },
     {
       "source": "STORY-003:v2",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -925,7 +925,7 @@
     },
     {
       "source": "STORY-004:v2",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -955,7 +955,7 @@
     },
     {
       "source": "STORY-005:v1",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -980,7 +980,7 @@
     },
     {
       "source": "STORY-005:v2",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -1015,7 +1015,7 @@
     },
     {
       "source": "STORY-006:v1",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -1035,7 +1035,7 @@
     },
     {
       "source": "STORY-006:v2",
-      "target": "DOM-001",
+      "target": "ART-001",
       "type": "references_domain"
     },
     {
@@ -1065,7 +1065,7 @@
     },
     {
       "source": "STORY-007:v1",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -1090,7 +1090,7 @@
     },
     {
       "source": "STORY-007:v2",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -1120,7 +1120,7 @@
     },
     {
       "source": "STORY-008:v1",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -1150,7 +1150,7 @@
     },
     {
       "source": "STORY-009:v1",
-      "target": "DOM-002",
+      "target": "ART-002",
       "type": "references_domain"
     },
     {
@@ -1175,7 +1175,7 @@
     },
     {
       "source": "STORY-010:v1",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     },
     {
@@ -1190,7 +1190,7 @@
     },
     {
       "source": "STORY-010:v2",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     },
     {
@@ -1215,7 +1215,7 @@
     },
     {
       "source": "STORY-011:v1",
-      "target": "DOM-003",
+      "target": "ART-003",
       "type": "references_domain"
     }
   ],
@@ -1223,23 +1223,23 @@
     "node_count": 56,
     "edge_count": 157,
     "node_types": [
-      "story",
-      "feature",
-      "story_version",
       "epic",
+      "story_version",
+      "domain",
+      "release",
+      "story",
       "requirement",
       "epic_version",
-      "release",
-      "domain"
+      "feature"
     ],
     "edge_types": [
+      "scoped_by",
       "supersedes",
-      "belongs_to",
-      "satisfies",
       "references_domain",
-      "assigned_to_release",
+      "satisfies",
+      "belongs_to",
       "version_of",
-      "scoped_by"
+      "assigned_to_release"
     ]
   }
 }

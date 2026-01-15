@@ -72,8 +72,8 @@ a:hover {
 }
 
 .brand-logo {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
 }
 
@@ -350,7 +350,7 @@ table {
 th,
 td {
     text-align: left;
-    padding: 0.55rem 0.7rem;
+    padding: 0.45rem 0.6rem;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -377,6 +377,103 @@ td a {
 
 tr:last-child td {
     border-bottom: none;
+}
+
+.index-table td {
+    vertical-align: top;
+}
+
+.record-cell a {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.cell-primary {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.35;
+}
+
+.cell-secondary {
+    margin-top: 0.2rem;
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+
+.summary-cell .cell-secondary {
+    color: var(--text-muted);
+}
+
+.status-cell {
+    white-space: nowrap;
+}
+
+.badge-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.tabs {
+    margin: 0.75rem 0 1rem;
+}
+
+.tab-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.35rem;
+}
+
+.tab-button {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab-button.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.2);
+    font-weight: 600;
+}
+
+.tab-panel {
+    display: none;
+    margin-top: 0.6rem;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.connected-table {
+    margin-top: 0.4rem;
+}
+
+.connected-summary {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0.3rem 0 0.35rem;
+}
+
+.connected-summary a {
+    font-weight: 600;
+}
+
+.empty-cell {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    padding: 0.8rem 0.6rem;
 }
 
 .section {
@@ -432,7 +529,7 @@ code {
         <span class="brand-name">APSCA</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html">Story Map</a> <a href="../features/index.html">Features</a> <a href="../epics/index.html">Epics</a> <a href="../stories/index.html">Stories</a> <a href="../requirements/index.html">Requirements</a> <a href="../domain/index.html">Domain</a> <a href="../releases/index.html" class="active">Releases</a>
+        <a href="../story-map.html">Story Map</a> <a href="../features/index.html">Features</a> <a href="../epics/index.html">Epics</a> <a href="../stories/index.html">Stories</a> <a href="../requirements/index.html">Requirements</a> <a href="../domain/index.html">Business Artifacts</a> <a href="../releases/index.html" class="active">Releases</a>
     </nav>
 </header>
 
@@ -450,11 +547,50 @@ code {
 </div>
 
 <div class="section">
-    <h2>Epic Versions</h2>
-<table><thead><tr><th>Epic</th><th>Version</th><th>Summary</th></tr></thead><tbody><tr><td><a href="../epics/EPIC-002.html">EPIC-002</a><div class="muted">Exam Eligibility Verification</div></td><td>v1</td><td>Implement eligibility checking logic to determine which exams an auditor can purchase based on their standing, progression, and payment status</td></tr><tr><td><a href="../epics/EPIC-003.html">EPIC-003</a><div class="muted">Exam Invoice Purchase Flow</div></td><td>v1</td><td>Build the account page UI and purchase workflow for auditors to select and purchase exam invoices</td></tr></tbody></table></div>
-<div class="section">
-    <h2>Story Versions</h2>
-<table><thead><tr><th>Story</th><th>Version</th><th>Description</th></tr></thead><tbody><tr><td><a href="../stories/STORY-002.html">STORY-002</a><div class="muted">Check Good Standing Status</div></td><td>v1</td><td>As an auditor, I want the system to verify my good standing status so that I can only purchase exams if I meet the membership and ethics requirements</td></tr><tr><td><a href="../stories/STORY-003.html">STORY-003</a><div class="muted">Verify Exam Progression</div></td><td>v1</td><td>As an auditor, I want the system to check my exam progression so that I can only purchase the next exam in sequence after passing the previous one</td></tr><tr><td><a href="../stories/STORY-004.html">STORY-004</a><div class="muted">Check Unpaid Invoices</div></td><td>v1</td><td>As an auditor, I want to be notified of any unpaid invoices so that I can clear them before purchasing new exam invoices</td></tr><tr><td><a href="../stories/STORY-005.html">STORY-005</a><div class="muted">Display Available Exams</div></td><td>v1</td><td>As an auditor, I want to see a list of exams I am eligible to purchase so that I can select the one I want</td></tr><tr><td><a href="../stories/STORY-006.html">STORY-006</a><div class="muted">Purchase Exam Invoice</div></td><td>v1</td><td>As an auditor, I want to complete the purchase of an exam invoice so that I can register for the exam</td></tr></tbody></table></div>
+    <h2>Connected Versions</h2>
+    <div class="tabs" data-tab-group="release-versions"><div class="tab-list" role="tablist"><button class="tab-button active" type="button" role="tab" data-tab-target="release-versions-epic-versions" aria-selected="true">Epic Versions</button><button class="tab-button" type="button" role="tab" data-tab-target="release-versions-story-versions" aria-selected="false">Story Versions</button></div><div class="tab-panels"><div class="tab-panel active" id="release-versions-epic-versions" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Epic</th><th>Version</th><th>Summary</th></tr></thead><tbody><tr><td class="record-cell"><a href="../epics/EPIC-002.html?version=1">EPIC-002</a><div class="cell-secondary">Exam Eligibility Verification</div></td><td>v1</td><td class="summary-cell"><div class="cell-primary">Implement eligibility checking logic to determine which exams an auditor can purchase based on their standing, progression, and payment status</div></td></tr><tr><td class="record-cell"><a href="../epics/EPIC-003.html?version=1">EPIC-003</a><div class="cell-secondary">Exam Invoice Purchase Flow</div></td><td>v1</td><td class="summary-cell"><div class="cell-primary">Build the account page UI and purchase workflow for auditors to select and purchase exam invoices</div></td></tr></tbody></table></div><div class="tab-panel" id="release-versions-story-versions" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Story</th><th>Version</th><th>Description</th></tr></thead><tbody><tr><td class="record-cell"><a href="../stories/STORY-002.html?version=1">STORY-002</a><div class="cell-secondary">Check Good Standing Status</div></td><td>v1</td><td class="summary-cell"><div class="cell-primary">As an auditor, I want the system to verify my good standing status so that I can only purchase exams if I meet the membership and ethics requirements</div></td></tr><tr><td class="record-cell"><a href="../stories/STORY-003.html?version=1">STORY-003</a><div class="cell-secondary">Verify Exam Progression</div></td><td>v1</td><td class="summary-cell"><div class="cell-primary">As an auditor, I want the system to check my exam progression so that I can only purchase the next exam in sequence after passing the previous one</div></td></tr><tr><td class="record-cell"><a href="../stories/STORY-004.html?version=1">STORY-004</a><div class="cell-secondary">Check Unpaid Invoices</div></td><td>v1</td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to be notified of any unpaid invoices so that I can clear them before purchasing new exam invoices</div></td></tr><tr><td class="record-cell"><a href="../stories/STORY-005.html?version=1">STORY-005</a><div class="cell-secondary">Display Available Exams</div></td><td>v1</td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to see a list of exams I am eligible to purchase so that I can select the one I want</div></td></tr><tr><td class="record-cell"><a href="../stories/STORY-006.html?version=1">STORY-006</a><div class="cell-secondary">Purchase Exam Invoice</div></td><td>v1</td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to complete the purchase of an exam invoice so that I can register for the exam</div></td></tr></tbody></table></div></div></div>
+</div>
+
     </main>
+    <script>
+    (() => {
+        function initTabs() {
+            const groups = document.querySelectorAll('[data-tab-group]');
+            groups.forEach((group) => {
+                const buttons = Array.from(group.querySelectorAll('.tab-button'));
+                const panels = Array.from(group.querySelectorAll('[data-tab-panel]'));
+                if (buttons.length === 0 || panels.length === 0) return;
+
+                function setActive(button) {
+                    const targetId = button.dataset.tabTarget;
+                    const targetPanel = group.querySelector(`#${CSS.escape(targetId)}`);
+                    buttons.forEach((btn) => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    panels.forEach((panel) => panel.classList.remove('active'));
+                    button.classList.add('active');
+                    button.setAttribute('aria-selected', 'true');
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                }
+
+                buttons.forEach((button) => {
+                    button.addEventListener('click', () => setActive(button));
+                });
+
+                const defaultButton = buttons.find(btn => btn.classList.contains('active')) || buttons[0];
+                setActive(defaultButton);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTabs);
+        } else {
+            initTabs();
+        }
+    })();
+    </script>
 </body>
 </html>

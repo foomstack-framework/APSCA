@@ -72,8 +72,8 @@ a:hover {
 }
 
 .brand-logo {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
 }
 
@@ -350,7 +350,7 @@ table {
 th,
 td {
     text-align: left;
-    padding: 0.55rem 0.7rem;
+    padding: 0.45rem 0.6rem;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -377,6 +377,103 @@ td a {
 
 tr:last-child td {
     border-bottom: none;
+}
+
+.index-table td {
+    vertical-align: top;
+}
+
+.record-cell a {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.cell-primary {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.35;
+}
+
+.cell-secondary {
+    margin-top: 0.2rem;
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+
+.summary-cell .cell-secondary {
+    color: var(--text-muted);
+}
+
+.status-cell {
+    white-space: nowrap;
+}
+
+.badge-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.tabs {
+    margin: 0.75rem 0 1rem;
+}
+
+.tab-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.35rem;
+}
+
+.tab-button {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab-button.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.2);
+    font-weight: 600;
+}
+
+.tab-panel {
+    display: none;
+    margin-top: 0.6rem;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.connected-table {
+    margin-top: 0.4rem;
+}
+
+.connected-summary {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0.3rem 0 0.35rem;
+}
+
+.connected-summary a {
+    font-weight: 600;
+}
+
+.empty-cell {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    padding: 0.8rem 0.6rem;
 }
 
 .section {
@@ -432,7 +529,7 @@ code {
         <span class="brand-name">APSCA</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html">Story Map</a> <a href="../features/index.html">Features</a> <a href="../epics/index.html">Epics</a> <a href="../stories/index.html">Stories</a> <a href="../requirements/index.html">Requirements</a> <a href="../domain/index.html">Domain</a> <a href="../releases/index.html" class="active">Releases</a>
+        <a href="../story-map.html">Story Map</a> <a href="../features/index.html">Features</a> <a href="../epics/index.html">Epics</a> <a href="../stories/index.html">Stories</a> <a href="../requirements/index.html">Requirements</a> <a href="../domain/index.html">Business Artifacts</a> <a href="../releases/index.html" class="active">Releases</a>
     </nav>
 </header>
 
@@ -455,7 +552,7 @@ code {
     </div>
     <div class="toolbar-meta" id="results-count"></div>
 </div>
-<table><thead><tr><th>ID</th><th>Title</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-search-text="unreleased unreleased active"><td><a href="UNRELEASED.html">UNRELEASED</a></td><td>Unreleased</td><td><span class="status-badge" style="background-color: #16a34a">Active</span></td></tr><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-05-01 renewal &amp; cpe foundations planned"><td><a href="REL-2026-05-01.html">REL-2026-05-01</a></td><td>Renewal &amp; CPE Foundations</td><td><span class="status-badge" style="background-color: #64748b">Planned</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="rel-2026-03-15 eligibility expansion active"><td><a href="REL-2026-03-15.html">REL-2026-03-15</a></td><td>Eligibility Expansion</td><td><span class="status-badge" style="background-color: #16a34a">Active</span></td></tr><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-02-01 exam purchasing mvp planned"><td><a href="REL-2026-02-01.html">REL-2026-02-01</a></td><td>Exam Purchasing MVP</td><td><span class="status-badge" style="background-color: #64748b">Planned</span></td></tr></tbody></table>
+<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-05-01 renewal &amp; cpe foundations planned release date: 2026-05-01 credential renewal workflows, renewal invoicing, and cpe tracking foundations credential renewal workflows, renewal invoicing, and cpe tracking foundations"><td class="record-cell"><a href="REL-2026-05-01.html">REL-2026-05-01</a><div class="cell-secondary">Renewal &amp; CPE Foundations</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-05-01</div><div class="cell-secondary">Credential renewal workflows, renewal invoicing, and CPE tracking foundations</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Planned</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="rel-2026-03-15 eligibility expansion active release date: 2026-03-15 expanded eligibility checks, invoice previews, and renewal-aware validations expanded eligibility checks, invoice previews, and renewal-aware validations"><td class="record-cell"><a href="REL-2026-03-15.html">REL-2026-03-15</a><div class="cell-secondary">Eligibility Expansion</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-03-15</div><div class="cell-secondary">Expanded eligibility checks, invoice previews, and renewal-aware validations</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span></div></td></tr><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-02-01 exam purchasing mvp planned release date: 2026-02-01 initial release of exam purchasing functionality for auditors initial release of exam purchasing functionality for auditors"><td class="record-cell"><a href="REL-2026-02-01.html">REL-2026-02-01</a><div class="cell-secondary">Exam Purchasing MVP</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-02-01</div><div class="cell-secondary">Initial release of exam purchasing functionality for auditors</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Planned</span></div></td></tr></tbody></table>
 <script>
 (() => {
     const searchInput = document.getElementById('search-input');
@@ -487,5 +584,45 @@ code {
 </script>
 
     </main>
+    <script>
+    (() => {
+        function initTabs() {
+            const groups = document.querySelectorAll('[data-tab-group]');
+            groups.forEach((group) => {
+                const buttons = Array.from(group.querySelectorAll('.tab-button'));
+                const panels = Array.from(group.querySelectorAll('[data-tab-panel]'));
+                if (buttons.length === 0 || panels.length === 0) return;
+
+                function setActive(button) {
+                    const targetId = button.dataset.tabTarget;
+                    const targetPanel = group.querySelector(`#${CSS.escape(targetId)}`);
+                    buttons.forEach((btn) => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    panels.forEach((panel) => panel.classList.remove('active'));
+                    button.classList.add('active');
+                    button.setAttribute('aria-selected', 'true');
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                }
+
+                buttons.forEach((button) => {
+                    button.addEventListener('click', () => setActive(button));
+                });
+
+                const defaultButton = buttons.find(btn => btn.classList.contains('active')) || buttons[0];
+                setActive(defaultButton);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTabs);
+        } else {
+            initTabs();
+        }
+    })();
+    </script>
 </body>
 </html>

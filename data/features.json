@@ -27,7 +27,7 @@
       "REQ-005"
     ],
     "domain_refs": [
-      "DOM-001"
+      "ART-001"
     ],
     "tags": [],
     "owner": "",
@@ -57,7 +57,7 @@
       "REQ-004"
     ],
     "domain_refs": [
-      "DOM-002"
+      "ART-002"
     ],
     "tags": [],
     "owner": "",
@@ -84,7 +84,7 @@
       "REQ-002"
     ],
     "domain_refs": [
-      "DOM-003"
+      "ART-003"
     ],
     "tags": [],
     "owner": "",

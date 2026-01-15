@@ -24,7 +24,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "supersedes": null,
         "created_at": "2026-01-15T04:29:48Z",
@@ -50,8 +50,8 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-001",
-          "DOM-002"
+          "ART-001",
+          "ART-002"
         ],
         "supersedes": 1,
         "created_at": "2026-02-10T09:30:00Z",
@@ -85,7 +85,7 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "supersedes": null,
         "created_at": "2026-01-15T04:29:55Z",
@@ -111,7 +111,7 @@
           "REQ-005"
         ],
         "domain_refs": [
-          "DOM-001"
+          "ART-001"
         ],
         "supersedes": 1,
         "created_at": "2026-02-12T11:05:00Z",
@@ -145,8 +145,8 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-002",
-          "DOM-003"
+          "ART-002",
+          "ART-003"
         ],
         "supersedes": null,
         "created_at": "2026-02-05T08:30:00Z",
@@ -170,7 +170,7 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-002"
+          "ART-002"
         ],
         "supersedes": 1,
         "created_at": "2026-03-10T09:00:00Z",
@@ -204,7 +204,7 @@
           "REQ-004"
         ],
         "domain_refs": [
-          "DOM-002"
+          "ART-002"
         ],
         "supersedes": null,
         "created_at": "2026-03-15T11:30:00Z",
@@ -238,7 +238,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-003"
+          "ART-003"
         ],
         "supersedes": null,
         "created_at": "2026-03-05T13:20:00Z",
@@ -262,7 +262,7 @@
           "REQ-003"
         ],
         "domain_refs": [
-          "DOM-003"
+          "ART-003"
         ],
         "supersedes": 1,
         "created_at": "2026-04-10T10:00:00Z",
@@ -295,7 +295,7 @@
           "REQ-002"
         ],
         "domain_refs": [
-          "DOM-003"
+          "ART-003"
         ],
         "supersedes": null,
         "created_at": "2026-04-01T09:00:00Z",

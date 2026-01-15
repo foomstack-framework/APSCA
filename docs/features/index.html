@@ -72,8 +72,8 @@ a:hover {
 }
 
 .brand-logo {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
 }
 
@@ -350,7 +350,7 @@ table {
 th,
 td {
     text-align: left;
-    padding: 0.55rem 0.7rem;
+    padding: 0.45rem 0.6rem;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -377,6 +377,103 @@ td a {
 
 tr:last-child td {
     border-bottom: none;
+}
+
+.index-table td {
+    vertical-align: top;
+}
+
+.record-cell a {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.cell-primary {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.35;
+}
+
+.cell-secondary {
+    margin-top: 0.2rem;
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+
+.summary-cell .cell-secondary {
+    color: var(--text-muted);
+}
+
+.status-cell {
+    white-space: nowrap;
+}
+
+.badge-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.tabs {
+    margin: 0.75rem 0 1rem;
+}
+
+.tab-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.35rem;
+}
+
+.tab-button {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab-button.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.2);
+    font-weight: 600;
+}
+
+.tab-panel {
+    display: none;
+    margin-top: 0.6rem;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.connected-table {
+    margin-top: 0.4rem;
+}
+
+.connected-summary {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0.3rem 0 0.35rem;
+}
+
+.connected-summary a {
+    font-weight: 600;
+}
+
+.empty-cell {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    padding: 0.8rem 0.6rem;
 }
 
 .section {
@@ -432,7 +529,7 @@ code {
         <span class="brand-name">APSCA</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html">Story Map</a> <a href="../features/index.html" class="active">Features</a> <a href="../epics/index.html">Epics</a> <a href="../stories/index.html">Stories</a> <a href="../requirements/index.html">Requirements</a> <a href="../domain/index.html">Domain</a> <a href="../releases/index.html">Releases</a>
+        <a href="../story-map.html">Story Map</a> <a href="../features/index.html" class="active">Features</a> <a href="../epics/index.html">Epics</a> <a href="../stories/index.html">Stories</a> <a href="../requirements/index.html">Requirements</a> <a href="../domain/index.html">Business Artifacts</a> <a href="../releases/index.html">Releases</a>
     </nav>
 </header>
 
@@ -456,7 +553,7 @@ code {
     </div>
     <div class="toolbar-meta" id="results-count"></div>
 </div>
-<table><thead><tr><th>ID</th><th>Title</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-search-text="feat-001 exam purchasing system active"><td><a href="FEAT-001.html">FEAT-001</a></td><td>Exam Purchasing System</td><td><span class="status-badge" style="background-color: #16a34a">Active</span></td></tr><tr data-filter-item="true" data-status="confirmed" data-search-text="feat-002 credential renewal portal confirmed"><td><a href="FEAT-002.html">FEAT-002</a></td><td>Credential Renewal Portal</td><td><span class="status-badge" style="background-color: #2563eb">Confirmed</span></td></tr><tr data-filter-item="true" data-status="proposed" data-search-text="feat-003 continuing education tracking proposed"><td><a href="FEAT-003.html">FEAT-003</a></td><td>Continuing Education Tracking</td><td><span class="status-badge" style="background-color: #64748b">Proposed</span></td></tr></tbody></table>
+<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-search-text="feat-001 exam purchasing system active enable auditors to purchase exam invoices based on eligibility streamlines exam registration, enforces progression requirements, ensures payment compliance, and provides self-service capability enable auditors to purchase exam invoices based on eligibility"><td class="record-cell"><a href="FEAT-001.html">FEAT-001</a><div class="cell-secondary">Exam Purchasing System</div></td><td class="summary-cell"><div class="cell-primary">Enable auditors to purchase exam invoices based on eligibility</div><div class="cell-secondary">Streamlines exam registration, enforces progression requirements, ensures payment compliance, and provides self-service capability</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span></div></td></tr><tr data-filter-item="true" data-status="confirmed" data-search-text="feat-002 credential renewal portal confirmed enable auditors to renew credentials, submit attestations, and pay renewal fees reduces manual renewal processing, improves compliance visibility, and gives auditors a self-service renewal experience enable auditors to renew credentials, submit attestations, and pay renewal fees"><td class="record-cell"><a href="FEAT-002.html">FEAT-002</a><div class="cell-secondary">Credential Renewal Portal</div></td><td class="summary-cell"><div class="cell-primary">Enable auditors to renew credentials, submit attestations, and pay renewal fees</div><div class="cell-secondary">Reduces manual renewal processing, improves compliance visibility, and gives auditors a self-service renewal experience</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #2563eb">Confirmed</span></div></td></tr><tr data-filter-item="true" data-status="proposed" data-search-text="feat-003 continuing education tracking proposed track continuing education credits and surface compliance gaps improves compliance reporting and reduces renewal delays due to missing cpe credits track continuing education credits and surface compliance gaps"><td class="record-cell"><a href="FEAT-003.html">FEAT-003</a><div class="cell-secondary">Continuing Education Tracking</div></td><td class="summary-cell"><div class="cell-primary">Track continuing education credits and surface compliance gaps</div><div class="cell-secondary">Improves compliance reporting and reduces renewal delays due to missing CPE credits</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Proposed</span></div></td></tr></tbody></table>
 <script>
 (() => {
     const searchInput = document.getElementById('search-input');
@@ -488,5 +585,45 @@ code {
 </script>
 
     </main>
+    <script>
+    (() => {
+        function initTabs() {
+            const groups = document.querySelectorAll('[data-tab-group]');
+            groups.forEach((group) => {
+                const buttons = Array.from(group.querySelectorAll('.tab-button'));
+                const panels = Array.from(group.querySelectorAll('[data-tab-panel]'));
+                if (buttons.length === 0 || panels.length === 0) return;
+
+                function setActive(button) {
+                    const targetId = button.dataset.tabTarget;
+                    const targetPanel = group.querySelector(`#${CSS.escape(targetId)}`);
+                    buttons.forEach((btn) => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    panels.forEach((panel) => panel.classList.remove('active'));
+                    button.classList.add('active');
+                    button.setAttribute('aria-selected', 'true');
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                }
+
+                buttons.forEach((button) => {
+                    button.addEventListener('click', () => setActive(button));
+                });
+
+                const defaultButton = buttons.find(btn => btn.classList.contains('active')) || buttons[0];
+                setActive(defaultButton);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTabs);
+        } else {
+            initTabs();
+        }
+    })();
+    </script>
 </body>
 </html>
