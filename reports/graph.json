@@ -98,20 +98,20 @@
     "node_count": 7,
     "edge_count": 8,
     "node_types": [
-      "epic",
-      "story",
       "epic_version",
-      "story_version",
-      "feature",
+      "story",
+      "epic",
       "release",
+      "feature",
+      "story_version",
       "requirement"
     ],
     "edge_types": [
+      "assigned_to_release",
       "belongs_to",
       "satisfies",
       "scoped_by",
-      "version_of",
-      "assigned_to_release"
+      "version_of"
     ]
   }
 }
