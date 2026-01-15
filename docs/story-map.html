@@ -41,6 +41,8 @@
             color: var(--text-primary);
             line-height: 1.45;
             font-size: 14px;
+            display: flex;
+            flex-direction: column;
         }
 
         a {
@@ -134,18 +136,26 @@
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
-            padding: 0.2rem 0.5rem;
+            padding: 0.15rem 0.45rem;
             border-radius: 999px;
             border: 1px solid var(--border-color);
-            background: #ffffff;
+            background: transparent;
             font-size: 0.78rem;
             color: var(--text-secondary);
         }
 
-        .stat-block.features { background: var(--feature-bg); border-color: var(--feature-border); }
-        .stat-block.epics { background: var(--epic-bg); border-color: var(--epic-border); }
-        .stat-block.stories { background: #ecf8f1; border-color: var(--story-border); }
-        .stat-block.releases { background: var(--release-bg); border-color: var(--release-border); }
+        .stat-swatch {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            display: inline-block;
+            flex: 0 0 auto;
+        }
+
+        .stat-block.features .stat-swatch { background: var(--feature-border); }
+        .stat-block.epics .stat-swatch { background: var(--epic-border); }
+        .stat-block.stories .stat-swatch { background: var(--story-border); }
+        .stat-block.releases .stat-swatch { background: var(--release-border); }
 
         .stat-label {
             font-size: 0.6rem;
@@ -155,9 +165,9 @@
         }
 
         .stat-value {
-            font-size: 0.8rem;
-            color: var(--text-primary);
-            font-weight: 600;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .stats-filters {
@@ -233,6 +243,12 @@
             flex: 1 1 280px;
         }
 
+        .requirements-panel .ghost-button {
+            padding: 0.3rem 0.55rem;
+            font-size: 0.76rem;
+            align-self: flex-start;
+        }
+
         .requirements-dropdown,
         .filter-dropdown {
             position: relative;
@@ -290,7 +306,6 @@
             padding: 0.35rem 0.5rem;
         }
 
-        .requirement-item,
         .filter-item {
             display: flex;
             align-items: flex-start;
@@ -300,12 +315,244 @@
             padding: 0.25rem 0.1rem;
         }
 
-        .requirement-item input {
+        .requirements-row {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .requirements-row input {
             margin-top: 0.2rem;
         }
 
         .requirement-title {
             color: var(--text-primary);
+        }
+
+        .requirements-drawer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border-left: 1px solid var(--border-color);
+            box-shadow: -6px 0 16px rgba(15, 23, 42, 0.08);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .requirements-resize-handle {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            cursor: ew-resize;
+            background: transparent;
+            z-index: 10;
+            transition: background 0.15s ease;
+            opacity: 0;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .map-layout.drawer-open .requirements-resize-handle {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .requirements-resize-handle:hover {
+            background: var(--accent-color);
+        }
+
+        .requirements-resize-handle.resizing {
+            background: var(--accent-color);
+        }
+
+        .requirements-drawer-backdrop {
+            display: none;
+        }
+
+        .map-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 0;
+            grid-template-rows: 1fr;
+            --requirements-width: 550px;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .map-layout.drawer-open {
+            grid-template-columns: minmax(0, 1fr) var(--requirements-width);
+        }
+
+        .map-content {
+            min-width: 0;
+        }
+
+        .map-layout.drawer-open .requirements-drawer {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .requirements-drawer-header {
+            padding: 0.85rem 1rem 0.65rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .requirements-drawer-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .requirements-drawer-body {
+            padding: 0.75rem 1rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .requirements-drawer-meta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .requirements-table-wrap {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: #ffffff;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 240px;
+        }
+
+        .requirements-table-scroll {
+            overflow: auto;
+            flex: 1;
+        }
+
+        .requirements-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            table-layout: fixed;
+        }
+
+        .requirements-table th,
+        .requirements-table td {
+            padding: 0.4rem 0.45rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .requirements-table .req-title {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .requirements-table th {
+            background: var(--bg-muted);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+        }
+
+        .requirements-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .requirements-table th:first-child,
+        .requirements-table td:first-child {
+            width: 28px;
+        }
+
+        .requirements-table input[type="checkbox"] {
+            margin-top: 2px;
+        }
+
+        .requirements-table .req-id {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+        }
+
+        .requirements-table .req-id a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+
+        .requirements-table .req-id a:hover {
+            text-decoration: underline;
+        }
+
+        .requirements-table .req-title {
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        .requirements-table .req-statement {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            line-height: 1.35;
+        }
+
+        .requirements-table .req-domain {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .requirements-table .status-badge {
+            display: inline-block;
+            padding: 0.18rem 0.45rem;
+            border-radius: 9999px;
+            color: white;
+            font-size: 0.62rem;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .requirements-table .status-cell {
+            white-space: nowrap;
+            padding: 0.4rem 0.45rem;
+        }
+
+        .requirements-table .status-badge.functional {
+            background-color: #3b82f6;
+        }
+
+        .requirements-table .status-badge.non-functional {
+            background-color: #8b5cf6;
+        }
+
+        .requirements-table .status-badge.active {
+            background-color: #16a34a;
+        }
+
+        .requirements-table .status-badge.deprecated {
+            background-color: #dc2626;
+        }
+
+        .requirements-table .req-empty {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 0.8rem 0.6rem;
         }
 
         .filter-help {
@@ -432,6 +679,14 @@
             font-size: 0.62rem;
             color: var(--text-muted);
             margin-top: 0.15rem;
+        }
+
+        .epic-version {
+            background: var(--bg-muted);
+            padding: 0.15rem 0.3rem;
+            border-radius: 3px;
+            font-size: 0.62rem;
+            margin-left: 0.4rem;
         }
 
         .release-header {
@@ -576,6 +831,45 @@
             .story-map {
                 padding: 1rem;
             }
+
+            .map-layout.drawer-open {
+                grid-template-columns: 1fr;
+            }
+
+            .requirements-drawer {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: min(85vw, 420px);
+                max-width: 420px;
+                z-index: 100;
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .requirements-resize-handle {
+                display: none;
+            }
+
+            .requirements-drawer-backdrop {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 99;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.2s ease;
+            }
+
+            .map-layout.drawer-open .requirements-drawer-backdrop {
+                opacity: 1;
+                pointer-events: auto;
+            }
         }
     </style>
 </head>
@@ -592,22 +886,26 @@
 
     <div class="stats-bar">
         <div class="stats-left">
-            <div class="stats-prefix">Displaying</div>
+            <div class="stats-prefix">Totals</div>
             <div class="stat-block features">
+                <span class="stat-swatch" aria-hidden="true"></span>
                 <div class="stat-label">Features</div>
-                <div class="stat-value" id="feature-count">0/0</div>
-            </div>
+                <div class="stat-value" id="feature-count">0</div>
+        </div>
             <div class="stat-block epics">
+                <span class="stat-swatch" aria-hidden="true"></span>
                 <div class="stat-label">Epics</div>
-                <div class="stat-value" id="epic-count">0/0</div>
-            </div>
+                <div class="stat-value" id="epic-count">0</div>
+        </div>
             <div class="stat-block stories">
+                <span class="stat-swatch" aria-hidden="true"></span>
                 <div class="stat-label">Stories</div>
-                <div class="stat-value" id="story-count">0/0</div>
+                <div class="stat-value" id="story-count">0</div>
             </div>
             <div class="stat-block releases">
+                <span class="stat-swatch" aria-hidden="true"></span>
                 <div class="stat-label">Releases</div>
-                <div class="stat-value" id="release-count">0/0</div>
+                <div class="stat-value" id="release-count">0</div>
             </div>
         </div>
         <div class="stats-filters">
@@ -644,26 +942,61 @@
         </div>
     </div>
 
-    <div class="controls-bar">
-        <div class="filter-field">
-            <label for="story-search">Search</label>
-            <input type="search" id="story-search" placeholder="Search by story, epic, feature, release..." />
-        </div>
-        <div class="requirements-panel">
-            <label for="requirements-trigger">Requirements</label>
-            <div class="requirements-dropdown" id="requirements-dropdown">
-                <input type="text" id="requirements-trigger" class="requirements-trigger" placeholder="Select requirements..." readonly />
-                <div class="requirements-menu" id="requirements-menu">
-                    <input type="search" id="requirements-search" class="requirements-search" placeholder="Filter requirements..." />
-                    <div class="requirements-list" id="requirements-list"></div>
+    <div class="map-layout" id="map-layout">
+        <div class="map-content">
+            <div class="controls-bar">
+                <div class="filter-field">
+                    <label for="story-search">Search</label>
+                    <input type="search" id="story-search" placeholder="Search by story, epic, feature, release..." />
                 </div>
-            </div>
-        </div>
-        <div class="filter-actions"></div>
+                <div class="requirements-panel">
+                    <button class="ghost-button" id="requirements-trigger" type="button" aria-label="View requirements">View Requirements</button>
+                </div>
+                <div class="filter-actions"></div>
     </div>
 
     <div class="story-map" id="story-map">
         <div class="loading">Loading story map...</div>
+            </div>
+        </div>
+
+        <aside class="requirements-drawer" id="requirements-drawer" aria-hidden="true" aria-label="Requirements">
+            <div class="requirements-resize-handle" id="requirements-resize-handle" aria-hidden="true"></div>
+            <div class="requirements-drawer-header">
+                <div>
+                    <div class="requirements-drawer-title">Requirements</div>
+                    <div class="requirements-drawer-meta" id="requirements-meta">Select requirements to filter the map.</div>
+                </div>
+                <button class="ghost-button" id="requirements-close" type="button">Close</button>
+            </div>
+            <div class="requirements-drawer-body">
+                <input type="search" id="requirements-search" class="requirements-search" placeholder="Search requirements..." />
+                <div class="requirements-table-wrap">
+                    <div class="requirements-table-scroll">
+                        <table class="requirements-table">
+                            <colgroup>
+                                <col style="width: 28px;">
+                                <col style="width: 18%;">
+                                <col style="width: 38%;">
+                                <col style="width: 20%;">
+                                <col style="width: 20%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Record</th>
+                                    <th>Summary</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requirements-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <div class="requirements-drawer-backdrop" id="requirements-backdrop"></div>
     </div>
 
     <script>
@@ -672,7 +1005,9 @@
         let stories = [];
         let releases = [];
         let requirements = [];
+        let domain = [];
         let requirementLookup = new Map();
+        let domainLookup = new Map();
         let filters = { term: '', requirements: [], features: [], epics: [], releases: [] };
         let hideEmptyGroups = true;
         let currentVersionsOnly = true;
@@ -960,9 +1295,13 @@
                     html += `<th class="epic-header"><div class="epic-title">No epics</div></th>`;
                     return;
                 }
+                const currentVersion = getCurrentVersion(epic.versions || []);
+                const versionDisplay = currentVersion 
+                    ? `<span class="epic-version">v${escapeHtml(currentVersion.version || '')}</span>`
+                    : '';
                 const epicLabel = `
                     <div class="epic-title">${escapeHtml(epic.title || epic.id || '')}</div>
-                    <div class="epic-id">${escapeHtml(epic.id || '')}</div>
+                    <div class="epic-id">${escapeHtml(epic.id || '')}${versionDisplay ? ` ${versionDisplay}` : ''}</div>
                 `;
                 html += `<th class="epic-header"><a href="epics/${escapeHtml(epic.id)}.html">${epicLabel}</a></th>`;
             });
@@ -1010,13 +1349,13 @@
                                  onclick="window.location.href='stories/${storyId}.html'"
                                  ${hasDescription ? `onmouseenter="showTooltip(this)" onmouseleave="scheduleHideTooltip()"` : ''}>
                                 <div class="story-title">${escapeHtml(item.story.title || item.story.id)}</div>
-                                <div class="story-meta">
+                                    <div class="story-meta">
                                     <span class="story-id">${storyId}</span>
                                     <span class="story-version">v${escapeHtml(item.storyVersion.version || '')}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        `;
-                    });
+                            `;
+                        });
                     rowHtml += '</td>';
                 });
                 rowHtml += '</tr>';
@@ -1043,10 +1382,10 @@
             const epicEl = document.getElementById('epic-count');
             const storyEl = document.getElementById('story-count');
             const releaseEl = document.getElementById('release-count');
-            if (featureEl) featureEl.textContent = `${features.visible}/${features.total}`;
-            if (epicEl) epicEl.textContent = `${epics.visible}/${epics.total}`;
-            if (storyEl) storyEl.textContent = `${stories.visible}/${stories.total}`;
-            if (releaseEl) releaseEl.textContent = `${releases.visible}/${releases.total}`;
+            if (featureEl) featureEl.textContent = `${features.total}`;
+            if (epicEl) epicEl.textContent = `${epics.total}`;
+            if (storyEl) storyEl.textContent = `${stories.total}`;
+            if (releaseEl) releaseEl.textContent = `${releases.total}`;
         }
 
         // Tooltip state management
@@ -1124,18 +1463,49 @@
             const list = document.getElementById('requirements-list');
             if (!list) return;
             if (!requirements.length) {
-                list.innerHTML = '<div class="requirement-item">No requirements loaded</div>';
+                list.innerHTML = '<tr><td class="req-empty" colspan="5">No requirements loaded</td></tr>';
                 return;
+            }
+
+            function formatStatusLabel(status) {
+                if (!status) return 'Unknown';
+                return status.replace('_', ' ').split(' ').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+            }
+
+            function getDomainText(domainRefs) {
+                if (!domainRefs || domainRefs.length === 0) return null;
+                const domainEntries = domainRefs.map(ref => {
+                    const dom = domainLookup.get(ref);
+                    if (!dom) return ref;
+                    return `${ref}: ${dom.title || ref}`;
+                });
+                return `Domain: ${domainEntries.join(', ')}`;
             }
             const items = requirements
                 .slice()
                 .sort((a, b) => (a.id || '').localeCompare(b.id || ''))
-                .map(req => `
-                    <label class="requirement-item">
-                        <input type="checkbox" value="${escapeHtml(req.id)}" />
-                        <span><strong>${escapeHtml(req.id)}</strong>: <span class="requirement-title">${escapeHtml(req.title || '')}</span></span>
-                    </label>
-                `)
+                .map(req => {
+                    const domainText = getDomainText(req.domain_refs);
+                    const typeClass = (req.type || 'functional').toLowerCase().replace('_', '-');
+                    const statusClass = (req.status || 'active').toLowerCase();
+                    return `
+                    <tr class="requirements-row">
+                        <td><input type="checkbox" value="${escapeHtml(req.id)}" /></td>
+                        <td>
+                            <div class="req-id"><a href="requirements/${escapeHtml(req.id)}.html">${escapeHtml(req.id)}</a></div>
+                            <div class="req-title">${escapeHtml(req.title || '')}</div>
+                        </td>
+                        <td>
+                            <div class="req-statement">${escapeHtml(req.statement || 'No statement')}</div>
+                            ${domainText ? `<div class="req-domain">${escapeHtml(domainText)}</div>` : ''}
+                        </td>
+                        <td><span class="status-badge ${typeClass}">${escapeHtml(formatStatusLabel(req.type || 'functional'))}</span></td>
+                        <td><span class="status-badge ${statusClass}">${escapeHtml(formatStatusLabel(req.status || 'active'))}</span></td>
+                    </tr>
+                `;
+                })
                 .join('');
             list.innerHTML = items;
         }
@@ -1145,15 +1515,22 @@
             if (!trigger) return;
             const selected = getSelectedRequirements();
             if (selected.length === 0) {
-                trigger.value = '';
-                trigger.placeholder = 'Select requirements...';
+                trigger.textContent = 'View Requirements';
                 return;
             }
-            if (selected.length === 1) {
-                trigger.value = selected[0];
+            trigger.textContent = `View Requirements (${selected.length} selected)`;
+        }
+
+        function updateRequirementMeta() {
+            const meta = document.getElementById('requirements-meta');
+            if (!meta) return;
+            const selected = getSelectedRequirements();
+            const total = requirements.length;
+            if (selected.length === 0) {
+                meta.textContent = `Showing all ${total} requirements.`;
                 return;
             }
-            trigger.value = `${selected.length} requirements selected`;
+            meta.textContent = `${selected.length} selected out of ${total}.`;
         }
 
         function populateGenericFilter(listId, items, labelBuilder) {
@@ -1215,9 +1592,9 @@
             const list = document.getElementById('requirements-list');
             if (!list) return;
             const normalized = (term || '').toLowerCase();
-            Array.from(list.querySelectorAll('.requirement-item')).forEach(item => {
-                const text = item.textContent.toLowerCase();
-                item.style.display = !normalized || text.includes(normalized) ? '' : 'none';
+            Array.from(list.querySelectorAll('.requirements-row')).forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = !normalized || text.includes(normalized) ? '' : 'none';
             });
         }
 
@@ -1225,9 +1602,10 @@
             const searchInput = document.getElementById('story-search');
             const requirementSearch = document.getElementById('requirements-search');
             const requirementsList = document.getElementById('requirements-list');
-            const dropdown = document.getElementById('requirements-dropdown');
             const trigger = document.getElementById('requirements-trigger');
-            const menu = document.getElementById('requirements-menu');
+            const requirementsDrawer = document.getElementById('requirements-drawer');
+            const requirementsClose = document.getElementById('requirements-close');
+            const mapLayout = document.getElementById('map-layout');
             const featuresDropdown = document.getElementById('features-dropdown');
             const epicsDropdown = document.getElementById('epics-dropdown');
             const releasesDropdown = document.getElementById('releases-dropdown');
@@ -1238,7 +1616,7 @@
             const hideEmptyToggle = document.getElementById('hide-empty-toggle');
             const currentVersionsToggle = document.getElementById('current-versions-toggle');
 
-            if (!searchInput || !requirementsList || !requirementSearch || !dropdown || !trigger || !menu) return;
+            if (!searchInput || !requirementsList || !requirementSearch || !trigger || !requirementsDrawer || !mapLayout) return;
 
             function applyFilters() {
                 filters.term = searchInput.value.trim();
@@ -1247,6 +1625,7 @@
                 filters.epics = getSelectedFromList('epics-list');
                 filters.releases = getSelectedFromList('releases-list');
                 updateRequirementTrigger();
+                updateRequirementMeta();
                 updateFilterTrigger('features-trigger', 'Features', filters.features);
                 updateFilterTrigger('epics-trigger', 'Epics', filters.epics);
                 updateFilterTrigger('releases-trigger', 'Releases', filters.releases);
@@ -1285,10 +1664,98 @@
                 });
             }
 
-            setupDropdown(dropdown, trigger, requirementSearch);
             setupDropdown(featuresDropdown, document.getElementById('features-trigger'), featuresSearch);
             setupDropdown(epicsDropdown, document.getElementById('epics-trigger'), epicsSearch);
             setupDropdown(releasesDropdown, document.getElementById('releases-trigger'), releasesSearch);
+
+            function openRequirementsDrawer() {
+                mapLayout.classList.add('drawer-open');
+                requirementsDrawer.setAttribute('aria-hidden', 'false');
+                if (requirementSearch) {
+                    requirementSearch.focus();
+                }
+            }
+
+            function closeRequirementsDrawer() {
+                mapLayout.classList.remove('drawer-open');
+                requirementsDrawer.setAttribute('aria-hidden', 'true');
+            }
+
+            trigger.addEventListener('click', () => {
+                if (mapLayout.classList.contains('drawer-open')) {
+                    closeRequirementsDrawer();
+                } else {
+                    openRequirementsDrawer();
+                }
+            });
+
+            if (requirementsClose) {
+                requirementsClose.addEventListener('click', closeRequirementsDrawer);
+            }
+
+            const backdrop = document.getElementById('requirements-backdrop');
+            if (backdrop) {
+                backdrop.addEventListener('click', closeRequirementsDrawer);
+            }
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeRequirementsDrawer();
+                }
+            });
+
+            // Resize handle functionality
+            const resizeHandle = document.getElementById('requirements-resize-handle');
+            if (resizeHandle) {
+                let isResizing = false;
+                let startX = 0;
+                let startWidth = 550;
+
+                function startResize(e) {
+                    if (window.innerWidth <= 900) return; // Disable on mobile
+                    e.stopPropagation();
+                    e.preventDefault();
+                    isResizing = true;
+                    startX = e.clientX || e.touches?.[0]?.clientX || 0;
+                    startWidth = parseInt(getComputedStyle(mapLayout).getPropertyValue('--requirements-width')) || 550;
+                    resizeHandle.classList.add('resizing');
+                    document.body.style.cursor = 'ew-resize';
+                    document.body.style.userSelect = 'none';
+                    document.body.style.pointerEvents = 'none';
+                    resizeHandle.style.pointerEvents = 'auto';
+                }
+
+                function doResize(e) {
+                    if (!isResizing) return;
+                    e.stopPropagation();
+                    e.preventDefault();
+                    const currentX = e.clientX || e.touches?.[0]?.clientX || 0;
+                    const diff = startX - currentX;
+                    const minWidth = 300;
+                    const maxWidth = Math.max(800, Math.floor(window.innerWidth * 0.6));
+                    const newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + diff));
+                    mapLayout.style.setProperty('--requirements-width', `${newWidth}px`);
+                }
+
+                function stopResize(e) {
+                    if (!isResizing) return;
+                    e.stopPropagation();
+                    isResizing = false;
+                    resizeHandle.classList.remove('resizing');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    document.body.style.pointerEvents = '';
+                    resizeHandle.style.pointerEvents = '';
+                }
+
+                resizeHandle.addEventListener('mousedown', startResize);
+                resizeHandle.addEventListener('touchstart', startResize, { passive: false });
+                window.addEventListener('mousemove', doResize, { passive: false });
+                window.addEventListener('touchmove', doResize, { passive: false });
+                window.addEventListener('mouseup', stopResize);
+                window.addEventListener('touchend', stopResize);
+                window.addEventListener('mouseleave', stopResize);
+            }
 
             searchInput.addEventListener('input', applyFilters);
             requirementsList.addEventListener('change', (event) => {
@@ -1377,6 +1844,7 @@
             }
 
             updateRequirementTrigger();
+            updateRequirementMeta();
             updateFilterTrigger('features-trigger', 'Features', filters.features);
             updateFilterTrigger('epics-trigger', 'Epics', filters.epics);
             updateFilterTrigger('releases-trigger', 'Releases', filters.releases);
@@ -1384,12 +1852,13 @@
 
         async function loadData() {
             try {
-                const [featuresRes, epicsRes, storiesRes, releasesRes, requirementsRes] = await Promise.all([
+                const [featuresRes, epicsRes, storiesRes, releasesRes, requirementsRes, domainRes] = await Promise.all([
                     fetch('data/features.json').catch(() => fetch('../data/features.json')),
                     fetch('data/epics.json').catch(() => fetch('../data/epics.json')),
                     fetch('data/stories.json').catch(() => fetch('../data/stories.json')),
                     fetch('data/releases.json').catch(() => fetch('../data/releases.json')),
-                    fetch('data/requirements.json').catch(() => fetch('../data/requirements.json'))
+                    fetch('data/requirements.json').catch(() => fetch('../data/requirements.json')),
+                    fetch('data/domain.json').catch(() => fetch('../data/domain.json'))
                 ]);
 
                 features = await featuresRes.json();
@@ -1397,7 +1866,9 @@
                 stories = await storiesRes.json();
                 releases = await releasesRes.json();
                 requirements = await requirementsRes.json();
+                domain = await domainRes.json();
                 requirementLookup = new Map(requirements.map(req => [req.id, req.title || req.id]));
+                domainLookup = new Map(domain.map(dom => [dom.id, dom]));
 
                 populateRequirementFilter();
                 populateGenericFilter('features-list', features, (item) => `<strong>${escapeHtml(item.id)}</strong>: ${escapeHtml(item.title || '')}`);
