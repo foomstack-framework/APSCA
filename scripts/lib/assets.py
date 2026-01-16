@@ -1254,7 +1254,7 @@ VERSION_BANNER_HTML = '''<div id="version-banner" class="version-banner hidden" 
             A newer version is available.
             <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
         </span>
-        <button class="version-banner-refresh" onclick="location.href=location.pathname+'?refresh='+Date.now()">Refresh Now</button>
+        <button class="version-banner-refresh" onclick="refreshWithDismiss()">Refresh Now</button>
         <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
     </div>'''
 
@@ -1331,6 +1331,20 @@ VERSION_CHECK_JS = """
                     })
                     .catch(() => {});
             }
+        };
+
+        // Global function for refresh button - dismiss then refresh
+        window.refreshWithDismiss = async function() {
+            try {
+                // Fetch server version and store as dismissed before refreshing
+                const response = await fetch(VERSION_URL + '?t=' + Date.now());
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.commit) setDismissedVersion(data.commit);
+                }
+            } catch (e) {}
+            // Refresh with cache-busting query param
+            location.href = location.pathname + '?refresh=' + Date.now();
         };
 
         // Keyboard shortcut to refresh (Ctrl+Shift+R or Cmd+Shift+R)

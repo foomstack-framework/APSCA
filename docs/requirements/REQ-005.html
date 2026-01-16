@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apsca-version" content="592139781e3fab9d45ef808663693789f235ff73">
+    <meta name="apsca-version" content="ccc7f60e730fe8d4ffbd19307c93ff4464768140">
     <title>REQ-005: Re-sit Designation and Pricing - APSCA</title>
     <style>
 :root {
@@ -1004,7 +1004,7 @@ body.has-version-banner main {
             A newer version is available.
             <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
         </span>
-        <button class="version-banner-refresh" onclick="location.href=location.pathname+'?refresh='+Date.now()">Refresh Now</button>
+        <button class="version-banner-refresh" onclick="refreshWithDismiss()">Refresh Now</button>
         <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
     </div>
     
@@ -1284,6 +1284,20 @@ body.has-version-banner main {
                     if (data.commit) setDismissedVersion(data.commit);
                 })
                 .catch(() => {});
+        };
+
+        // Global function for refresh button - dismiss then refresh
+        window.refreshWithDismiss = async function() {
+            try {
+                // Fetch server version and store as dismissed before refreshing
+                const response = await fetch(VERSION_URL + '?t=' + Date.now());
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.commit) setDismissedVersion(data.commit);
+                }
+            } catch (e) {}
+            // Refresh with cache-busting query param
+            location.href = location.pathname + '?refresh=' + Date.now();
         };
 
         // Run check after page loads
