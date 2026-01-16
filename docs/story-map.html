@@ -871,20 +871,56 @@
                 pointer-events: auto;
             }
         }
-    </style>
+    
+/* Breadcrumb Navigation */
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.82rem;
+    min-height: 1.5rem;
+}
+
+.breadcrumb-link {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-separator {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+.breadcrumb-ellipsis {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.breadcrumb-current {
+    color: var(--text-secondary);
+}
+</style>
 </head>
 <body>
     <header class="topbar">
-    <a class="brand" href="story-map.html">
+    <a class="brand" href="story-map.html?nav=1">
         <img class="brand-logo" src="images/apsca_logo_primary.jpg" alt="APSCA" />
         <span class="brand-name">APSCA</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="story-map.html" class="active">Story Map</a> <a href="features/index.html">Features</a> <a href="epics/index.html">Epics</a> <a href="stories/index.html">Stories</a> <a href="requirements/index.html">Requirements</a> <a href="domain/index.html">Business Artifacts</a> <a href="releases/index.html">Releases</a>
+        <a href="story-map.html?nav=1" class="active">Story Map</a> <a href="features/index.html?nav=1">Features</a> <a href="epics/index.html?nav=1">Epics</a> <a href="stories/index.html?nav=1">Stories</a> <a href="requirements/index.html?nav=1">Requirements</a> <a href="domain/index.html?nav=1">Business Artifacts</a> <a href="releases/index.html?nav=1">Releases</a>
     </nav>
 </header>
 
-    <div class="stats-bar">
+    
+    <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
+<div class="stats-bar">
         <div class="stats-left">
             <div class="stats-prefix">Totals</div>
             <div class="stat-block features">
@@ -1894,6 +1930,140 @@
         window.addEventListener('resize', hideTooltip);
         
         loadData();
+    </script>
+
+    <script>
+    // Breadcrumb Navigation
+    const BreadcrumbNav = (() => {
+        const STORAGE_KEY = 'apsca_nav_history';
+        const MAX_HISTORY = 10;
+        const TRUNCATE_DISPLAY = 5;
+
+        function getHistory() {
+            try {
+                const data = sessionStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch (e) { return []; }
+        }
+
+        function saveHistory(history) {
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
+        }
+
+        function getCurrentPageInfo() {
+            const path = window.location.pathname;
+            const parts = path.split('/').filter(Boolean);
+            const filename = parts.pop() || 'index.html';
+            const lastDir = parts.pop() || '';
+
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const dir = knownSections.includes(lastDir) ? lastDir : '';
+
+            const sectionLabels = {
+                'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
+                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+            };
+
+            let label;
+            if (filename === 'index.html') {
+                label = sectionLabels[dir] || 'Home';
+            } else if (filename === 'story-map.html') {
+                label = 'Story Map';
+            } else {
+                label = filename.replace('.html', '');
+            }
+
+            const url = dir ? dir + '/' + filename : filename;
+            return { url, label, timestamp: Date.now() };
+        }
+
+        function updateHistoryOnLoad() {
+            const params = new URLSearchParams(window.location.search);
+            const isNavClick = params.has('nav');
+
+            if (isNavClick) {
+                params.delete('nav');
+                const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+                window.history.replaceState(null, '', newUrl);
+                sessionStorage.removeItem(STORAGE_KEY);
+            }
+
+            const history = isNavClick ? [] : getHistory();
+            const currentPage = getCurrentPageInfo();
+            const existingIndex = history.findIndex(e => e.url === currentPage.url);
+
+            if (existingIndex !== -1) {
+                const truncated = history.slice(0, existingIndex + 1);
+                truncated[truncated.length - 1].timestamp = Date.now();
+                saveHistory(truncated);
+            } else {
+                history.push(currentPage);
+                saveHistory(history);
+            }
+        }
+
+        function getRelativePath(fromUrl, toUrl) {
+            const fromParts = fromUrl.split('/');
+            const toParts = toUrl.split('/');
+            fromParts.pop();
+            const toFile = toParts.pop();
+            const fromDir = fromParts.join('/');
+            const toDir = toParts.join('/');
+            if (fromDir === toDir) {
+                return toFile;
+            }
+            const upLevels = fromParts.length;
+            return '../'.repeat(upLevels) + toUrl;
+        }
+
+        function renderBreadcrumbs() {
+            const history = getHistory();
+            const container = document.getElementById('breadcrumb-nav');
+            if (!container || history.length <= 1) {
+                if (container) container.style.display = 'none';
+                return;
+            }
+
+            const currentPage = history[history.length - 1];
+            const previousPages = history.slice(0, -1);
+            let display = previousPages;
+            let showEllipsis = false;
+
+            if (previousPages.length > TRUNCATE_DISPLAY) {
+                display = previousPages.slice(-TRUNCATE_DISPLAY);
+                showEllipsis = true;
+            }
+
+            let html = showEllipsis ? '<span class="breadcrumb-ellipsis">...</span><span class="breadcrumb-separator">›</span>' : '';
+
+            display.forEach((entry, idx) => {
+                if (idx > 0) html += '<span class="breadcrumb-separator">›</span>';
+                const href = getRelativePath(currentPage.url, entry.url);
+                html += '<a href="' + href + '" class="breadcrumb-link">' + entry.label + '</a>';
+            });
+
+            if (display.length > 0) {
+                html += '<span class="breadcrumb-separator">›</span>';
+            }
+            html += '<span class="breadcrumb-current">' + currentPage.label + '</span>';
+
+            container.innerHTML = html;
+            container.style.display = '';
+        }
+
+        function init() {
+            updateHistoryOnLoad();
+            renderBreadcrumbs();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        return { init };
+    })();
     </script>
 </body>
 </html>

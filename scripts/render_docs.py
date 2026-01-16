@@ -795,6 +795,397 @@ code {
         padding: 0.75rem 1rem 1.5rem;
     }
 }
+
+/* Stories Index Page Layout for Epic Drawer */
+body:has(.stories-layout) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.stories-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 0;
+    grid-template-rows: 1fr;
+    --epic-drawer-width: 450px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.stories-layout.drawer-open {
+    grid-template-columns: minmax(0, 1fr) var(--epic-drawer-width);
+}
+
+.stories-content {
+    min-width: 0;
+    padding: 1rem 1.5rem 2rem;
+    overflow-y: auto;
+}
+
+/* Epic Drawer */
+.epic-drawer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    box-shadow: -6px 0 16px rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.stories-layout.drawer-open .epic-drawer {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.epic-drawer-resize-handle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: ew-resize;
+    background: transparent;
+    z-index: 10;
+    transition: background 0.15s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.stories-layout.drawer-open .epic-drawer-resize-handle {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.epic-drawer-resize-handle:hover,
+.epic-drawer-resize-handle.resizing {
+    background: var(--accent-color);
+}
+
+.epic-drawer-header {
+    padding: 0.85rem 1rem 0.65rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.epic-drawer-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.epic-drawer-title a {
+    color: var(--accent-color);
+}
+
+.epic-drawer-body {
+    padding: 0.75rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.epic-drawer-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.epic-drawer-section {
+    margin-bottom: 0.6rem;
+}
+
+.epic-drawer-section-title {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.epic-drawer-summary {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* Stories table inside epic drawer */
+.epic-stories-table-wrap {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #ffffff;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 120px;
+}
+
+.epic-stories-table-scroll {
+    overflow: auto;
+    flex: 1;
+}
+
+.epic-stories-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    table-layout: fixed;
+}
+
+.epic-stories-table th,
+.epic-stories-table td {
+    padding: 0.4rem 0.45rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+    vertical-align: top;
+}
+
+.epic-stories-table th {
+    background: var(--bg-muted);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    position: sticky;
+    top: 0;
+}
+
+.epic-stories-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.epic-stories-table .story-id {
+    font-weight: 600;
+    font-size: 0.78rem;
+}
+
+.epic-stories-table .story-id a {
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+.epic-stories-table .story-id a:hover {
+    text-decoration: underline;
+}
+
+.epic-stories-table .story-title {
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.epic-stories-table .status-badge {
+    display: inline-block;
+    padding: 0.15rem 0.35rem;
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.58rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.02em;
+}
+
+.epic-drawer-backdrop {
+    display: none;
+}
+
+/* Epic column styling */
+.epic-cell {
+    white-space: nowrap;
+}
+
+.epic-cell-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: var(--radius-sm);
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    font-size: 0.78rem;
+    color: #7c3aed;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.epic-cell-link:hover {
+    background: rgba(139, 92, 246, 0.18);
+    border-color: rgba(139, 92, 246, 0.35);
+}
+
+.epic-cell-none {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-style: italic;
+}
+
+/* Multi-select dropdown for epic filter */
+.epic-filter-dropdown {
+    position: relative;
+    min-width: 200px;
+    flex: 1 1 220px;
+}
+
+.epic-filter-trigger {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.82rem;
+    background: #ffffff;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+}
+
+.epic-filter-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    min-width: 280px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    padding: 0.5rem;
+    z-index: 30;
+    display: none;
+}
+
+.epic-filter-dropdown.open .epic-filter-menu {
+    display: block;
+}
+
+.epic-filter-search {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+}
+
+.epic-filter-list {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.35rem 0.5rem;
+}
+
+.epic-filter-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.1rem;
+    cursor: pointer;
+}
+
+.epic-filter-item:hover {
+    background: var(--bg-muted);
+}
+
+.epic-filter-item input {
+    margin-top: 2px;
+}
+
+/* Mobile responsiveness for epic drawer */
+@media (max-width: 900px) {
+    .stories-layout.drawer-open {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(85vw, 380px);
+        max-width: 380px;
+        z-index: 100;
+        transform: translateX(100%);
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .stories-layout.drawer-open .epic-drawer {
+        transform: translateX(0);
+    }
+
+    .epic-drawer-resize-handle {
+        display: none;
+    }
+
+    .epic-drawer-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 99;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+
+    .stories-layout.drawer-open .epic-drawer-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.82rem;
+    min-height: 1.5rem;
+}
+
+.breadcrumb-link {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-separator {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+.breadcrumb-ellipsis {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.breadcrumb-current {
+    color: var(--text-secondary);
+}
 """
 
 
@@ -815,11 +1206,11 @@ def generate_navbar(active_section: str = "", depth: int = 1) -> str:
     nav_links = []
     for section, label, href in nav_items:
         active_class = ' class="active"' if section == active_section else ""
-        nav_links.append(f'<a href="{prefix}{href}"{active_class}>{label}</a>')
-    
+        nav_links.append(f'<a href="{prefix}{href}?nav=1"{active_class}>{label}</a>')
+
     return f"""
 <header class="topbar">
-    <a class="brand" href="{prefix}story-map.html">
+    <a class="brand" href="{prefix}story-map.html?nav=1">
         <img class="brand-logo" src="{prefix}images/apsca_logo_primary.jpg" alt="APSCA" />
         <span class="brand-name">APSCA</span>
     </a>
@@ -830,9 +1221,23 @@ def generate_navbar(active_section: str = "", depth: int = 1) -> str:
 """
 
 
-def html_page(title: str, content: str, active_section: str = "", depth: int = 1) -> str:
-    """Wrap content in full HTML page with navigation."""
+def html_page(title: str, content: str, active_section: str = "", depth: int = 1, custom_main: bool = False) -> str:
+    """Wrap content in full HTML page with navigation.
+
+    Args:
+        title: Page title
+        content: HTML content
+        active_section: Active nav section
+        depth: URL depth for relative paths
+        custom_main: If True, don't wrap content in <main> tags (for custom layouts)
+    """
     nav_html = generate_navbar(active_section, depth)
+    breadcrumb_html = '<nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>'
+
+    if custom_main:
+        main_section = content
+    else:
+        main_section = f"<main>\n        {breadcrumb_html}\n        {content}\n    </main>"
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -844,9 +1249,7 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
 </head>
 <body>
     {nav_html}
-    <main>
-        {content}
-    </main>
+    {main_section}
     <script>
     (() => {{
         function initTabs() {{
@@ -885,6 +1288,138 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
         }} else {{
             initTabs();
         }}
+    }})();
+
+    // Breadcrumb Navigation
+    const BreadcrumbNav = (() => {{
+        const STORAGE_KEY = 'apsca_nav_history';
+        const MAX_HISTORY = 10;
+        const TRUNCATE_DISPLAY = 5;
+
+        function getHistory() {{
+            try {{
+                const data = sessionStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            }} catch (e) {{ return []; }}
+        }}
+
+        function saveHistory(history) {{
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
+        }}
+
+        function getCurrentPageInfo() {{
+            const path = window.location.pathname;
+            const parts = path.split('/').filter(Boolean);
+            const filename = parts.pop() || 'index.html';
+            const lastDir = parts.pop() || '';
+
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const dir = knownSections.includes(lastDir) ? lastDir : '';
+
+            const sectionLabels = {{
+                'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
+                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+            }};
+
+            let label;
+            if (filename === 'index.html') {{
+                label = sectionLabels[dir] || 'Home';
+            }} else if (filename === 'story-map.html') {{
+                label = 'Story Map';
+            }} else {{
+                label = filename.replace('.html', '');
+            }}
+
+            const url = dir ? dir + '/' + filename : filename;
+            return {{ url, label, timestamp: Date.now() }};
+        }}
+
+        function updateHistoryOnLoad() {{
+            const params = new URLSearchParams(window.location.search);
+            const isNavClick = params.has('nav');
+
+            if (isNavClick) {{
+                params.delete('nav');
+                const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+                window.history.replaceState(null, '', newUrl);
+                sessionStorage.removeItem(STORAGE_KEY);
+            }}
+
+            const history = isNavClick ? [] : getHistory();
+            const currentPage = getCurrentPageInfo();
+            const existingIndex = history.findIndex(e => e.url === currentPage.url);
+
+            if (existingIndex !== -1) {{
+                const truncated = history.slice(0, existingIndex + 1);
+                truncated[truncated.length - 1].timestamp = Date.now();
+                saveHistory(truncated);
+            }} else {{
+                history.push(currentPage);
+                saveHistory(history);
+            }}
+        }}
+
+        function getRelativePath(fromUrl, toUrl) {{
+            const fromParts = fromUrl.split('/');
+            const toParts = toUrl.split('/');
+            fromParts.pop();
+            const toFile = toParts.pop();
+            const fromDir = fromParts.join('/');
+            const toDir = toParts.join('/');
+            if (fromDir === toDir) {{
+                return toFile;
+            }}
+            const upLevels = fromParts.length;
+            return '../'.repeat(upLevels) + toUrl;
+        }}
+
+        function renderBreadcrumbs() {{
+            const history = getHistory();
+            const container = document.getElementById('breadcrumb-nav');
+            if (!container || history.length <= 1) {{
+                if (container) container.style.display = 'none';
+                return;
+            }}
+
+            const currentPage = history[history.length - 1];
+            const previousPages = history.slice(0, -1);
+            let display = previousPages;
+            let showEllipsis = false;
+
+            if (previousPages.length > TRUNCATE_DISPLAY) {{
+                display = previousPages.slice(-TRUNCATE_DISPLAY);
+                showEllipsis = true;
+            }}
+
+            let html = showEllipsis ? '<span class="breadcrumb-ellipsis">...</span><span class="breadcrumb-separator">›</span>' : '';
+
+            display.forEach((entry, idx) => {{
+                if (idx > 0) html += '<span class="breadcrumb-separator">›</span>';
+                const href = getRelativePath(currentPage.url, entry.url);
+                html += '<a href="' + href + '" class="breadcrumb-link">' + entry.label + '</a>';
+            }});
+
+            if (display.length > 0) {{
+                html += '<span class="breadcrumb-separator">›</span>';
+            }}
+            html += '<span class="breadcrumb-current">' + currentPage.label + '</span>';
+
+            container.innerHTML = html;
+            container.style.display = '';
+        }}
+
+        function init() {{
+            updateHistoryOnLoad();
+            renderBreadcrumbs();
+        }}
+
+        if (document.readyState === 'loading') {{
+            document.addEventListener('DOMContentLoaded', init);
+        }} else {{
+            init();
+        }}
+
+        return {{ init }};
     }})();
     </script>
 </body>
@@ -1475,7 +2010,7 @@ def render_story(
     return html_page(f"{story['id']}: {story.get('title', '')}", html, "stories", depth=1)
 
 
-def render_index(artifact_type: str, items: List[Dict], title: str, domain_lookup: Dict[str, Dict] = None) -> str:
+def render_index(artifact_type: str, items: List[Dict], title: str, domain_lookup: Dict[str, Dict] = None, epic_lookup: Dict[str, Dict] = None) -> str:
     """Render an index page for a collection."""
     html = f'<h1>{e(title)}</h1>\n'
     subtitle_map = {
@@ -1501,6 +2036,34 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
     status_options = "\n".join(
         f'<option value="{e(status)}">{e(format_status_label(status))}</option>' for status in status_values
     )
+
+    # Build epic filter dropdown for stories
+    epic_filter_html = ""
+    if artifact_type.lower() == "stories" and epic_lookup:
+        epics_sorted = sorted(epic_lookup.values(), key=lambda x: x.get('id', ''))
+        epic_items_html = ""
+        for ep in epics_sorted:
+            ep_id = e(ep.get('id', ''))
+            ep_title = e(ep.get('title', ''))
+            epic_items_html += f'''
+                <label class="epic-filter-item">
+                    <input type="checkbox" value="{ep_id}" />
+                    <span><strong>{ep_id}</strong>: {ep_title}</span>
+                </label>
+            '''
+        epic_filter_html = f"""
+    <div class="toolbar-field epic-filter-dropdown" id="epic-filter-dropdown">
+        <label>Epic</label>
+        <button type="button" class="epic-filter-trigger" id="epic-filter-trigger" aria-expanded="false">All epics</button>
+        <div class="epic-filter-menu" id="epic-filter-menu">
+            <input type="search" class="epic-filter-search" id="epic-filter-search" placeholder="Filter epics..." />
+            <div class="epic-filter-list" id="epic-filter-list">
+                {epic_items_html}
+            </div>
+        </div>
+    </div>
+"""
+
     html += f"""
 <div class="index-toolbar">
     <div class="toolbar-field">
@@ -1514,6 +2077,7 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
             {status_options}
         </select>
     </div>
+    {epic_filter_html}
     <div class="toolbar-meta" id="results-count"></div>
 </div>
 """
@@ -1565,6 +2129,8 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
 
     if artifact_type.lower() == "requirements":
         html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Type</th><th>Status</th></tr></thead><tbody>'
+    elif artifact_type.lower() == "stories" and epic_lookup:
+        html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Epic</th><th>Status</th></tr></thead><tbody>'
     else:
         html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody>'
 
@@ -1619,6 +2185,36 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
                 f'<td class="status-cell"><div class="badge-stack">{"".join(status_badges)}</div></td>'
                 '</tr>'
             )
+        elif artifact_type.lower() == "stories" and epic_lookup:
+            epic_ref = item.get('epic_ref', '')
+            epic_data = epic_lookup.get(epic_ref) if epic_ref else None
+            if epic_ref and epic_data:
+                epic_cell_html = (
+                    f'<td class="epic-cell">'
+                    f'<button type="button" class="epic-cell-link" data-epic-id="{e(epic_ref)}" aria-label="View epic details">'
+                    f'{e(epic_ref)}'
+                    f'</button>'
+                    f'</td>'
+                )
+            else:
+                epic_cell_html = '<td class="epic-cell"><span class="epic-cell-none">None</span></td>'
+
+            # Include epic_ref in search text for filtering
+            search_text_with_epic = search_text
+            if epic_ref:
+                epic_title = epic_data.get('title', '') if epic_data else ''
+                search_text_with_epic = f"{search_text} {epic_ref} {epic_title}".lower()
+
+            html += (
+                f'<tr data-filter-item="true" data-status="{e(status)}" data-epic="{e(epic_ref)}" data-search-text="{e(search_text_with_epic)}">'
+                f'<td class="record-cell"><a href="{item_id}.html">{e(item_id)}</a>'
+                f'{format_secondary(item_title)}</td>'
+                f'<td class="summary-cell"><div class="cell-primary">{e(primary_summary)}</div>'
+                f'{format_secondary(secondary_summary)}</td>'
+                f'{epic_cell_html}'
+                f'<td class="status-cell"><div class="badge-stack">{"".join(status_badges)}</div></td>'
+                '</tr>'
+            )
         else:
             html += (
                 f'<tr data-filter-item="true" data-status="{e(status)}" data-search-text="{e(search_text)}">'
@@ -1632,6 +2228,439 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
 
     html += '</tbody></table>'
 
+    # For stories with epic lookup, add drawer and enhanced JS
+    if artifact_type.lower() == "stories" and epic_lookup:
+        # Serialize epic data for JavaScript
+        import json as json_module
+        epic_data_json = json_module.dumps({
+            ep_id: {
+                'id': ep.get('id'),
+                'title': ep.get('title'),
+                'feature_ref': ep.get('feature_ref'),
+                'versions': ep.get('versions', [])
+            }
+            for ep_id, ep in epic_lookup.items()
+        })
+
+        # Serialize stories data for the drawer table
+        # Get current version status for each story
+        def get_story_status(story):
+            versions = story.get('versions', [])
+            current = get_current_version(versions) if versions else None
+            return current.get('status', 'unknown') if current else 'unknown'
+
+        stories_data_json = json_module.dumps([
+            {
+                'id': story.get('id'),
+                'title': story.get('title'),
+                'epic_ref': story.get('epic_ref'),
+                'status': get_story_status(story)
+            }
+            for story in items
+        ])
+
+        # Wrap content in layout container and add drawer
+        drawer_html = f"""
+<aside class="epic-drawer" id="epic-drawer" aria-hidden="true" aria-label="Epic details">
+    <div class="epic-drawer-resize-handle" id="epic-drawer-resize-handle" aria-hidden="true"></div>
+    <div class="epic-drawer-header">
+        <div>
+            <div class="epic-drawer-title" id="epic-drawer-title">Epic Details</div>
+            <div class="epic-drawer-meta" id="epic-drawer-meta"></div>
+        </div>
+        <button class="button" id="epic-drawer-close" type="button">Close</button>
+    </div>
+    <div class="epic-drawer-body" id="epic-drawer-body">
+        <p>Select an epic to view details.</p>
+    </div>
+</aside>
+<div class="epic-drawer-backdrop" id="epic-drawer-backdrop"></div>
+<script>
+const epicData = {epic_data_json};
+const storiesData = {stories_data_json};
+</script>
+"""
+
+        stories_script = """
+<script>
+(() => {
+    const searchInput = document.getElementById('search-input');
+    const statusFilter = document.getElementById('status-filter');
+    const epicDropdown = document.getElementById('epic-filter-dropdown');
+    const epicTrigger = document.getElementById('epic-filter-trigger');
+    const epicMenu = document.getElementById('epic-filter-menu');
+    const epicSearch = document.getElementById('epic-filter-search');
+    const epicList = document.getElementById('epic-filter-list');
+    const items = Array.from(document.querySelectorAll('[data-filter-item]'));
+    const countEl = document.getElementById('results-count');
+    const storiesLayout = document.getElementById('stories-layout');
+    const epicDrawer = document.getElementById('epic-drawer');
+    const epicDrawerClose = document.getElementById('epic-drawer-close');
+    const epicDrawerBackdrop = document.getElementById('epic-drawer-backdrop');
+    const epicDrawerTitle = document.getElementById('epic-drawer-title');
+    const epicDrawerMeta = document.getElementById('epic-drawer-meta');
+    const epicDrawerBody = document.getElementById('epic-drawer-body');
+    const resizeHandle = document.getElementById('epic-drawer-resize-handle');
+
+    if (!searchInput || !statusFilter || !countEl) return;
+
+    // Get selected epics from checkboxes
+    function getSelectedEpics() {
+        if (!epicList) return [];
+        return Array.from(epicList.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+    }
+
+    // Update trigger text
+    function updateEpicTrigger() {
+        if (!epicTrigger) return;
+        const selected = getSelectedEpics();
+        if (selected.length === 0) {
+            epicTrigger.textContent = 'All epics';
+        } else if (selected.length === 1) {
+            epicTrigger.textContent = selected[0];
+        } else {
+            epicTrigger.textContent = `${selected.length} epics selected`;
+        }
+    }
+
+    // Filter epic list items
+    function filterEpicList(term) {
+        if (!epicList) return;
+        const normalized = (term || '').toLowerCase();
+        Array.from(epicList.querySelectorAll('label')).forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = !normalized || text.includes(normalized) ? '' : 'none';
+        });
+    }
+
+    function applyFilters() {
+        const term = searchInput.value.trim().toLowerCase();
+        const status = statusFilter.value.toLowerCase();
+        const selectedEpics = new Set(getSelectedEpics());
+        const filterByEpic = selectedEpics.size > 0;
+
+        let visible = 0;
+        items.forEach((item) => {
+            const text = (item.dataset.searchText || '').toLowerCase();
+            const itemStatus = (item.dataset.status || '').toLowerCase();
+            const itemEpic = item.dataset.epic || '';
+
+            const matchesTerm = !term || text.includes(term);
+            const matchesStatus = status === 'all' || itemStatus === status;
+            const matchesEpic = !filterByEpic || selectedEpics.has(itemEpic);
+
+            const show = matchesTerm && matchesStatus && matchesEpic;
+            item.style.display = show ? '' : 'none';
+            if (show) visible += 1;
+        });
+        countEl.textContent = `${visible} of ${items.length} shown`;
+        updateEpicTrigger();
+    }
+
+    // Epic dropdown toggle
+    if (epicTrigger && epicDropdown) {
+        epicTrigger.addEventListener('click', () => {
+            const isOpen = epicDropdown.classList.contains('open');
+            if (isOpen) {
+                epicDropdown.classList.remove('open');
+                epicTrigger.setAttribute('aria-expanded', 'false');
+            } else {
+                epicDropdown.classList.add('open');
+                epicTrigger.setAttribute('aria-expanded', 'true');
+                if (epicSearch) epicSearch.focus();
+            }
+        });
+
+        // Close on outside click
+        document.addEventListener('click', (event) => {
+            if (!epicDropdown.contains(event.target)) {
+                epicDropdown.classList.remove('open');
+                epicTrigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && epicDropdown.classList.contains('open')) {
+                epicDropdown.classList.remove('open');
+                epicTrigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    // Epic filter search
+    if (epicSearch) {
+        epicSearch.addEventListener('input', () => {
+            filterEpicList(epicSearch.value);
+        });
+    }
+
+    // Epic filter checkbox changes
+    if (epicList) {
+        epicList.addEventListener('change', (event) => {
+            if (event.target && event.target.matches('input[type="checkbox"]')) {
+                applyFilters();
+            }
+        });
+    }
+
+    // Epic drawer functions
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function getCurrentVersion(versions) {
+        if (!versions || versions.length === 0) return null;
+        const active = versions.filter(v => v.status !== 'superseded');
+        if (active.length > 0) {
+            return active.reduce((a, b) => (a.version > b.version ? a : b));
+        }
+        return versions.reduce((a, b) => (a.version > b.version ? a : b));
+    }
+
+    function getStatusColor(status) {
+        const colors = {
+            'draft': '#9aa4b2',
+            'ready_to_build': '#2563eb',
+            'in_progress': '#d97706',
+            'done': '#16a34a',
+            'accepted': '#16a34a',
+            'blocked': '#dc2626',
+            'superseded': '#6b7280'
+        };
+        return colors[status] || '#9aa4b2';
+    }
+
+    function formatStatus(status) {
+        return (status || 'unknown').replace(/_/g, ' ');
+    }
+
+    function getConnectedStories(epicId) {
+        if (typeof storiesData === 'undefined') return [];
+        return storiesData.filter(s => s.epic_ref === epicId);
+    }
+
+    function openEpicDrawer(epicId) {
+        if (!storiesLayout || !epicDrawer || typeof epicData === 'undefined') return;
+        const epic = epicData[epicId];
+        if (!epic) return;
+
+        const currentVersion = getCurrentVersion(epic.versions);
+
+        // Update drawer title with link
+        epicDrawerTitle.innerHTML = `<a href="../epics/${escapeHtml(epic.id)}.html">${escapeHtml(epic.id)}</a>: ${escapeHtml(epic.title)}`;
+
+        // Update meta info
+        if (epic.feature_ref) {
+            epicDrawerMeta.innerHTML = `Feature: <a href="../features/${escapeHtml(epic.feature_ref)}.html">${escapeHtml(epic.feature_ref)}</a>`;
+        } else {
+            epicDrawerMeta.textContent = '';
+        }
+
+        // Build body content
+        let bodyHtml = '';
+        if (currentVersion) {
+            const versionBadge = `<span class="status-badge" style="background-color: #2563eb">v${currentVersion.version}</span>`;
+            bodyHtml += `
+                <div class="epic-drawer-section">
+                    <div class="epic-drawer-section-title">Current Version ${versionBadge}</div>
+                    <div class="epic-drawer-summary">${escapeHtml(currentVersion.summary || 'No summary')}</div>
+                </div>
+            `;
+
+            if (currentVersion.release_ref) {
+                bodyHtml += `
+                    <div class="epic-drawer-section">
+                        <div class="epic-drawer-section-title">Release</div>
+                        <div><a href="../releases/${escapeHtml(currentVersion.release_ref)}.html">${escapeHtml(currentVersion.release_ref)}</a></div>
+                    </div>
+                `;
+            }
+
+            if (currentVersion.assumptions && currentVersion.assumptions.length > 0) {
+                bodyHtml += `
+                    <div class="epic-drawer-section">
+                        <div class="epic-drawer-section-title">Assumptions</div>
+                        <ul>${currentVersion.assumptions.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>
+                    </div>
+                `;
+            }
+
+            if (currentVersion.constraints && currentVersion.constraints.length > 0) {
+                bodyHtml += `
+                    <div class="epic-drawer-section">
+                        <div class="epic-drawer-section-title">Constraints</div>
+                        <ul>${currentVersion.constraints.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>
+                    </div>
+                `;
+            }
+        } else {
+            bodyHtml = '<p>No version information available.</p>';
+        }
+
+        // Add connected stories table
+        const connectedStories = getConnectedStories(epicId);
+        bodyHtml += `
+            <div class="epic-drawer-section" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
+                <div class="epic-drawer-section-title">Connected Stories (${connectedStories.length})</div>
+                <div class="epic-stories-table-wrap">
+                    <div class="epic-stories-table-scroll">
+                        <table class="epic-stories-table">
+                            <colgroup>
+                                <col style="width: 25%;">
+                                <col style="width: 50%;">
+                                <col style="width: 25%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Record</th>
+                                    <th>Summary</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${connectedStories.length > 0 ? connectedStories.map(s => `
+                                    <tr>
+                                        <td class="story-id"><a href="./${escapeHtml(s.id)}.html">${escapeHtml(s.id)}</a></td>
+                                        <td class="story-title">${escapeHtml(s.title)}</td>
+                                        <td><span class="status-badge" style="background-color: ${getStatusColor(s.status)}">${formatStatus(s.status)}</span></td>
+                                    </tr>
+                                `).join('') : '<tr><td colspan="3" style="text-align: center; color: var(--text-muted); font-style: italic;">No stories in this epic</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        bodyHtml += `
+            <div class="epic-drawer-section" style="padding-top: 0.5rem; border-top: 1px solid var(--border-color);">
+                <a href="../epics/${escapeHtml(epic.id)}.html" class="button primary">View Full Epic</a>
+            </div>
+        `;
+
+        epicDrawerBody.innerHTML = bodyHtml;
+
+        currentOpenEpicId = epicId;
+        storiesLayout.classList.add('drawer-open');
+        epicDrawer.setAttribute('aria-hidden', 'false');
+    }
+
+    // Track currently open epic
+    let currentOpenEpicId = null;
+
+    function closeEpicDrawer() {
+        if (!storiesLayout || !epicDrawer) return;
+        currentOpenEpicId = null;
+        storiesLayout.classList.remove('drawer-open');
+        epicDrawer.setAttribute('aria-hidden', 'true');
+    }
+
+    function isDrawerOpen() {
+        return storiesLayout && storiesLayout.classList.contains('drawer-open');
+    }
+
+    // Epic cell click handlers
+    document.querySelectorAll('.epic-cell-link').forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const epicId = link.dataset.epicId;
+            if (!epicId) return;
+
+            if (isDrawerOpen() && currentOpenEpicId === epicId) {
+                // Clicking the same epic that's open - close the drawer
+                closeEpicDrawer();
+            } else {
+                // Clicking a different epic or drawer is closed - open/switch to this epic
+                openEpicDrawer(epicId);
+            }
+        });
+    });
+
+    // Close button
+    if (epicDrawerClose) {
+        epicDrawerClose.addEventListener('click', closeEpicDrawer);
+    }
+
+    // Backdrop click
+    if (epicDrawerBackdrop) {
+        epicDrawerBackdrop.addEventListener('click', closeEpicDrawer);
+    }
+
+    // Escape key for drawer
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && storiesLayout && storiesLayout.classList.contains('drawer-open')) {
+            closeEpicDrawer();
+        }
+    });
+
+    // Resize handle
+    if (resizeHandle && storiesLayout) {
+        let isResizing = false;
+        let startX = 0;
+        let startWidth = 450;
+
+        function startResize(e) {
+            if (window.innerWidth <= 900) return;
+            e.stopPropagation();
+            e.preventDefault();
+            isResizing = true;
+            startX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+            startWidth = parseInt(getComputedStyle(storiesLayout).getPropertyValue('--epic-drawer-width')) || 450;
+            resizeHandle.classList.add('resizing');
+            document.body.style.cursor = 'ew-resize';
+            document.body.style.userSelect = 'none';
+            document.body.style.pointerEvents = 'none';
+            resizeHandle.style.pointerEvents = 'auto';
+        }
+
+        function doResize(e) {
+            if (!isResizing) return;
+            e.stopPropagation();
+            e.preventDefault();
+            const currentX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+            const diff = startX - currentX;
+            const minWidth = 300;
+            const maxWidth = Math.max(600, Math.floor(window.innerWidth * 0.5));
+            const newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + diff));
+            storiesLayout.style.setProperty('--epic-drawer-width', `${newWidth}px`);
+        }
+
+        function stopResize(e) {
+            if (!isResizing) return;
+            e.stopPropagation();
+            isResizing = false;
+            resizeHandle.classList.remove('resizing');
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+            document.body.style.pointerEvents = '';
+            resizeHandle.style.pointerEvents = '';
+        }
+
+        resizeHandle.addEventListener('mousedown', startResize);
+        resizeHandle.addEventListener('touchstart', startResize, { passive: false });
+        window.addEventListener('mousemove', doResize, { passive: false });
+        window.addEventListener('touchmove', doResize, { passive: false });
+        window.addEventListener('mouseup', stopResize);
+        window.addEventListener('touchend', stopResize);
+        window.addEventListener('mouseleave', stopResize);
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    applyFilters();
+})();
+</script>
+"""
+        # Wrap content for stories layout (includes breadcrumb container since custom_main=True skips it)
+        breadcrumb_html = '<nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>'
+        html = f'<div class="stories-layout" id="stories-layout"><div class="stories-content">{breadcrumb_html}{html}</div>{drawer_html}</div>{stories_script}'
+        return html_page(title, html, artifact_type.lower(), depth=1, custom_main=True)
+
+    # Default script for non-stories
     html += """
 <script>
 (() => {
@@ -1996,14 +3025,15 @@ def main():
         (OUTPUT_DIRS["stories"] / f"{story['id']}.html").write_text(content, encoding="utf-8")
         counts["stories"] += 1
 
-    index_content = render_index("stories", stories, "Stories")
+    epic_lookup = {ep['id']: ep for ep in epics}
+    index_content = render_index("stories", stories, "Stories", epic_lookup=epic_lookup)
     (OUTPUT_DIRS["stories"] / "index.html").write_text(index_content, encoding="utf-8")
 
     # Render index.html as redirect to Story Map
     index_redirect = render_index_redirect()
     (DOCS_DIR / "index.html").write_text(index_redirect, encoding="utf-8")
 
-    # Update story-map.html navbar to match standardized navbar
+    # Update story-map.html navbar and add breadcrumb support
     story_map_path = DOCS_DIR / "story-map.html"
     if story_map_path.exists():
         story_map_content = story_map_path.read_text(encoding="utf-8")
@@ -2017,6 +3047,198 @@ def main():
             story_map_content,
             flags=re.DOTALL
         )
+
+        # Add breadcrumb CSS if not already present
+        breadcrumb_css = """
+/* Breadcrumb Navigation */
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.82rem;
+    min-height: 1.5rem;
+}
+
+.breadcrumb-link {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-separator {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+.breadcrumb-ellipsis {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.breadcrumb-current {
+    color: var(--text-secondary);
+}
+"""
+        if '.breadcrumb-current' not in story_map_content:
+            # Insert CSS before closing </style> tag (check for .breadcrumb-current to ensure full CSS is present)
+            story_map_content = story_map_content.replace('</style>', breadcrumb_css + '</style>', 1)
+
+        # Add breadcrumb container if not present
+        breadcrumb_container = '<nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>'
+        if 'id="breadcrumb-nav"' not in story_map_content:
+            # Insert after </header> and before the stats-bar
+            story_map_content = re.sub(
+                r'(</header>\s*)',
+                r'\1\n    ' + breadcrumb_container + '\n',
+                story_map_content,
+                count=1
+            )
+
+        # Add breadcrumb JavaScript if not present
+        breadcrumb_js = """
+    <script>
+    // Breadcrumb Navigation
+    const BreadcrumbNav = (() => {
+        const STORAGE_KEY = 'apsca_nav_history';
+        const MAX_HISTORY = 10;
+        const TRUNCATE_DISPLAY = 5;
+
+        function getHistory() {
+            try {
+                const data = sessionStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch (e) { return []; }
+        }
+
+        function saveHistory(history) {
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
+        }
+
+        function getCurrentPageInfo() {
+            const path = window.location.pathname;
+            const parts = path.split('/').filter(Boolean);
+            const filename = parts.pop() || 'index.html';
+            const lastDir = parts.pop() || '';
+
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const dir = knownSections.includes(lastDir) ? lastDir : '';
+
+            const sectionLabels = {
+                'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
+                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+            };
+
+            let label;
+            if (filename === 'index.html') {
+                label = sectionLabels[dir] || 'Home';
+            } else if (filename === 'story-map.html') {
+                label = 'Story Map';
+            } else {
+                label = filename.replace('.html', '');
+            }
+
+            const url = dir ? dir + '/' + filename : filename;
+            return { url, label, timestamp: Date.now() };
+        }
+
+        function updateHistoryOnLoad() {
+            const params = new URLSearchParams(window.location.search);
+            const isNavClick = params.has('nav');
+
+            if (isNavClick) {
+                params.delete('nav');
+                const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+                window.history.replaceState(null, '', newUrl);
+                sessionStorage.removeItem(STORAGE_KEY);
+            }
+
+            const history = isNavClick ? [] : getHistory();
+            const currentPage = getCurrentPageInfo();
+            const existingIndex = history.findIndex(e => e.url === currentPage.url);
+
+            if (existingIndex !== -1) {
+                const truncated = history.slice(0, existingIndex + 1);
+                truncated[truncated.length - 1].timestamp = Date.now();
+                saveHistory(truncated);
+            } else {
+                history.push(currentPage);
+                saveHistory(history);
+            }
+        }
+
+        function getRelativePath(fromUrl, toUrl) {
+            const fromParts = fromUrl.split('/');
+            const toParts = toUrl.split('/');
+            fromParts.pop();
+            const toFile = toParts.pop();
+            const fromDir = fromParts.join('/');
+            const toDir = toParts.join('/');
+            if (fromDir === toDir) {
+                return toFile;
+            }
+            const upLevels = fromParts.length;
+            return '../'.repeat(upLevels) + toUrl;
+        }
+
+        function renderBreadcrumbs() {
+            const history = getHistory();
+            const container = document.getElementById('breadcrumb-nav');
+            if (!container || history.length <= 1) {
+                if (container) container.style.display = 'none';
+                return;
+            }
+
+            const currentPage = history[history.length - 1];
+            const previousPages = history.slice(0, -1);
+            let display = previousPages;
+            let showEllipsis = false;
+
+            if (previousPages.length > TRUNCATE_DISPLAY) {
+                display = previousPages.slice(-TRUNCATE_DISPLAY);
+                showEllipsis = true;
+            }
+
+            let html = showEllipsis ? '<span class="breadcrumb-ellipsis">...</span><span class="breadcrumb-separator">›</span>' : '';
+
+            display.forEach((entry, idx) => {
+                if (idx > 0) html += '<span class="breadcrumb-separator">›</span>';
+                const href = getRelativePath(currentPage.url, entry.url);
+                html += '<a href="' + href + '" class="breadcrumb-link">' + entry.label + '</a>';
+            });
+
+            if (display.length > 0) {
+                html += '<span class="breadcrumb-separator">›</span>';
+            }
+            html += '<span class="breadcrumb-current">' + currentPage.label + '</span>';
+
+            container.innerHTML = html;
+            container.style.display = '';
+        }
+
+        function init() {
+            updateHistoryOnLoad();
+            renderBreadcrumbs();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        return { init };
+    })();
+    </script>
+"""
+        if 'BreadcrumbNav' not in story_map_content:
+            # Insert before closing </body> tag
+            story_map_content = story_map_content.replace('</body>', breadcrumb_js + '</body>')
+
         story_map_path.write_text(story_map_content, encoding="utf-8")
 
     # Copy data and reports to docs for local testing and story map access

@@ -1,0 +1,3 @@
+# This project relies only on the Python Standard Library.
+# No external packages are required.
+# Minimum Python version: 3.8+
