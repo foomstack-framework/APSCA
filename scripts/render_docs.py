@@ -1256,6 +1256,9 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
         return item.get("status") or "unknown"
 
     status_values = sorted({get_item_status(item) for item in items})
+    # For stories and epics, always include both active and deprecated options
+    if artifact_type.lower() in ("stories", "epics"):
+        status_values = sorted(set(status_values) | {"active", "deprecated"})
     status_options = "\n".join(
         f'<option value="{e(status)}">{e(format_status_label(status))}</option>' for status in status_values
     )
