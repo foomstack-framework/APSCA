@@ -1390,7 +1390,17 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
             if part
         ).lower()
 
+        # Build status badges - for versioned artifacts, show both artifact and version status
         status_badges = [status_badge(status)]
+        if artifact_type.lower() in ("stories", "epics") and 'versions' in item:
+            current = get_current_version(item.get('versions', []))
+            if current:
+                version_status = current.get('status', 'unknown')
+                status_badges.append(status_badge(version_status))
+                # Show approval indicator for backlog items that are approved
+                if version_status == 'backlog' and current.get('approved'):
+                    status_badges.append('<span class="status-badge" style="background-color: #059669">Approved</span>')
+
         type_badge = ""
         if artifact_type.lower() == "requirements":
             type_badge = requirement_type_badge(item.get("type", "unknown"))
