@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apsca-version" content="0c39111659dbe65b243f038d08a2c783c15f3c23">
+    <meta name="apsca-version" content="592139781e3fab9d45ef808663693789f235ff73">
     <title>REL-2026-05-01 - APSCA</title>
     <style>
 :root {
@@ -1004,7 +1004,7 @@ body.has-version-banner main {
             A newer version is available.
             <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
         </span>
-        <button class="version-banner-refresh" onclick="location.reload(true)">Refresh Now</button>
+        <button class="version-banner-refresh" onclick="location.href=location.pathname+'?refresh='+Date.now()">Refresh Now</button>
         <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
     </div>
     

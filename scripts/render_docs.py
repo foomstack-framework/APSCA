@@ -369,7 +369,7 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
             A newer version is available.
             <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
         </span>
-        <button class="version-banner-refresh" onclick="location.reload(true)">Refresh Now</button>
+        <button class="version-banner-refresh" onclick="location.href=location.pathname+'?refresh='+Date.now()">Refresh Now</button>
         <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
     </div>'''
 
