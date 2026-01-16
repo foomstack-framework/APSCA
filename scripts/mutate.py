@@ -168,7 +168,7 @@ def create_release(payload: Dict) -> Dict:
 
 
 def set_release_status(payload: Dict) -> Dict:
-    """Transition release status (planned -> released | superseded)."""
+    """Transition release status (planned -> released)."""
     releases = load_json(DATA_FILES["releases"])
 
     if "id" not in payload or "status" not in payload:
@@ -177,8 +177,8 @@ def set_release_status(payload: Dict) -> Dict:
     release_id = payload["id"]
     new_status = payload["status"]
 
-    if new_status not in ("released", "superseded"):
-        return error_response(f"Invalid target status: {new_status}. Must be 'released' or 'superseded'")
+    if new_status != "released":
+        return error_response(f"Invalid target status: {new_status}. Must be 'released'")
 
     release = find_record_by_id(release_id, releases)
     if not release:
@@ -209,8 +209,15 @@ def add_domain_entry(payload: Dict) -> Dict:
             return error_response(f"Missing required field: {field}")
 
     valid_types = ["policy", "catalog", "classification", "rule"]
-    if payload["type"] not in valid_types:
-        return error_response(f"Invalid type: {payload['type']}. Must be one of {valid_types}")
+    # Accept type as array or string for backwards compatibility
+    entry_type = payload["type"]
+    if isinstance(entry_type, str):
+        entry_type = [entry_type]
+    if not isinstance(entry_type, list):
+        return error_response(f"Invalid type: must be an array or string")
+    for t in entry_type:
+        if t not in valid_types:
+            return error_response(f"Invalid type '{t}'. Must be one of {valid_types}")
 
     dom_id = payload.get("id") or generate_id("domain", domain)
     if not validate_id_format(dom_id, "domain"):
@@ -222,11 +229,12 @@ def add_domain_entry(payload: Dict) -> Dict:
     record = {
         "id": dom_id,
         "title": payload["title"],
-        "status": "active",
-        "type": payload["type"],
+        "status": payload.get("status", "draft"),  # Default to draft
+        "type": entry_type,  # Always store as array
         "source": payload["source"],
         "effective_date": payload.get("effective_date"),
         "doc_path": payload["doc_path"],
+        "description": payload.get("description", ""),
         "anchors": payload.get("anchors", []),
         "tags": payload.get("tags", []),
         "owner": payload.get("owner", ""),
@@ -618,7 +626,8 @@ def add_epic(payload: Dict) -> Dict:
 
     version = {
         "version": 1,
-        "status": "draft",
+        "status": "backlog",
+        "approved": False,
         "release_ref": payload["release_ref"],
         "summary": payload["summary"],
         "assumptions": payload.get("assumptions", []),
@@ -635,6 +644,7 @@ def add_epic(payload: Dict) -> Dict:
     record = {
         "id": epic_id,
         "title": payload["title"],
+        "status": "active",
         "feature_ref": payload["feature_ref"],
         "tags": payload.get("tags", []),
         "owner": payload.get("owner", ""),
@@ -682,21 +692,28 @@ def create_epic_version(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    current_version_num = max(v["version"] for v in epic["versions"])
-    current_version = next(v for v in epic["versions"] if v["version"] == current_version_num)
+    # Find the backlog version (active work version)
+    backlog_versions = [v for v in epic["versions"] if v.get("status") == "backlog"]
+    if not backlog_versions:
+        return error_response(f"Epic {epic_id} has no backlog version to supersede")
 
-    if current_version["status"] == "superseded":
-        return error_response(f"Epic {epic_id} version {current_version_num} is already superseded")
+    current_version = backlog_versions[0]
+    current_version_num = current_version["version"]
 
     timestamp = now_iso()
-    new_version_num = current_version_num + 1
+    new_version_num = max(v["version"] for v in epic["versions"]) + 1
 
-    current_version["status"] = "superseded"
+    # Set previous version status based on approval
+    if current_version.get("approved"):
+        current_version["status"] = "released"
+    else:
+        current_version["status"] = "discarded"
     current_version["updated_at"] = timestamp
 
     new_version = {
         "version": new_version_num,
-        "status": "draft",
+        "status": "backlog",
+        "approved": False,
         "release_ref": payload["release_ref"],
         "summary": payload["summary"],
         "assumptions": payload.get("assumptions", current_version.get("assumptions", [])),
@@ -720,7 +737,7 @@ def create_epic_version(payload: Dict) -> Dict:
 
 
 def set_epic_version_status(payload: Dict) -> Dict:
-    """Change status of epic version (draft | approved)."""
+    """Change status of epic version (backlog | released | discarded)."""
     epics = load_json(DATA_FILES["epics"])
 
     if "epic_id" not in payload or "status" not in payload:
@@ -729,8 +746,9 @@ def set_epic_version_status(payload: Dict) -> Dict:
     epic_id = payload["epic_id"]
     new_status = payload["status"]
 
-    if new_status not in ("draft", "approved"):
-        return error_response(f"Invalid status: {new_status}. Must be 'draft' or 'approved'")
+    valid_statuses = ("backlog", "released", "discarded")
+    if new_status not in valid_statuses:
+        return error_response(f"Invalid status: {new_status}. Must be one of {valid_statuses}")
 
     epic = find_record_by_id(epic_id, epics)
     if not epic:
@@ -742,11 +760,24 @@ def set_epic_version_status(payload: Dict) -> Dict:
         if not version:
             return error_response(f"Epic {epic_id} version {version_num} not found")
     else:
-        version_num = max(v["version"] for v in epic["versions"])
-        version = next(v for v in epic["versions"] if v["version"] == version_num)
+        # Find backlog version by default
+        backlog_versions = [v for v in epic["versions"] if v.get("status") == "backlog"]
+        if backlog_versions:
+            version = backlog_versions[0]
+            version_num = version["version"]
+        else:
+            version_num = max(v["version"] for v in epic["versions"])
+            version = next(v for v in epic["versions"] if v["version"] == version_num)
 
-    if version["status"] == "superseded":
-        return error_response(f"Cannot modify superseded version {version_num}")
+    # Can't modify released or discarded versions
+    if version["status"] in ("released", "discarded"):
+        return error_response(f"Cannot modify {version['status']} version {version_num}")
+
+    # Enforce single-backlog rule
+    if new_status == "backlog":
+        existing_backlog = [v for v in epic["versions"] if v.get("status") == "backlog" and v["version"] != version_num]
+        if existing_backlog:
+            return error_response(f"Cannot set to backlog: version {existing_backlog[0]['version']} is already in backlog")
 
     version["status"] = new_status
     version["updated_at"] = now_iso()
@@ -810,7 +841,8 @@ def add_story(payload: Dict) -> Dict:
 
     version = {
         "version": 1,
-        "status": "draft",
+        "status": "backlog",
+        "approved": False,
         "release_ref": payload["release_ref"],
         "description": payload["description"],
         "requirement_refs": requirement_refs,
@@ -827,6 +859,7 @@ def add_story(payload: Dict) -> Dict:
     record = {
         "id": story_id,
         "title": payload["title"],
+        "status": "active",
         "epic_ref": payload["epic_ref"],
         "tags": payload.get("tags", []),
         "owner": payload.get("owner", ""),
@@ -874,21 +907,28 @@ def create_story_version(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    current_version_num = max(v["version"] for v in story["versions"])
-    current_version = next(v for v in story["versions"] if v["version"] == current_version_num)
+    # Find the backlog version (active work version)
+    backlog_versions = [v for v in story["versions"] if v.get("status") == "backlog"]
+    if not backlog_versions:
+        return error_response(f"Story {story_id} has no backlog version to supersede")
 
-    if current_version["status"] == "superseded":
-        return error_response(f"Story {story_id} version {current_version_num} is already superseded")
+    current_version = backlog_versions[0]
+    current_version_num = current_version["version"]
 
     timestamp = now_iso()
-    new_version_num = current_version_num + 1
+    new_version_num = max(v["version"] for v in story["versions"]) + 1
 
-    current_version["status"] = "superseded"
+    # Set previous version status based on approval
+    if current_version.get("approved"):
+        current_version["status"] = "released"
+    else:
+        current_version["status"] = "discarded"
     current_version["updated_at"] = timestamp
 
     new_version = {
         "version": new_version_num,
-        "status": "draft",
+        "status": "backlog",
+        "approved": False,
         "release_ref": payload["release_ref"],
         "description": payload["description"],
         "requirement_refs": requirement_refs or current_version.get("requirement_refs", []),
@@ -912,7 +952,7 @@ def create_story_version(payload: Dict) -> Dict:
 
 
 def set_story_status(payload: Dict) -> Dict:
-    """Change status of story version (draft | ready_to_build | in_build | built)."""
+    """Change status of story version (backlog | released | discarded)."""
     stories = load_json(DATA_FILES["stories"])
 
     if "story_id" not in payload or "status" not in payload:
@@ -921,7 +961,7 @@ def set_story_status(payload: Dict) -> Dict:
     story_id = payload["story_id"]
     new_status = payload["status"]
 
-    valid_statuses = ("draft", "ready_to_build", "in_build", "built")
+    valid_statuses = ("backlog", "released", "discarded")
     if new_status not in valid_statuses:
         return error_response(f"Invalid status: {new_status}. Must be one of {valid_statuses}")
 
@@ -935,22 +975,24 @@ def set_story_status(payload: Dict) -> Dict:
         if not version:
             return error_response(f"Story {story_id} version {version_num} not found")
     else:
-        version_num = max(v["version"] for v in story["versions"])
-        version = next(v for v in story["versions"] if v["version"] == version_num)
+        # Find backlog version by default
+        backlog_versions = [v for v in story["versions"] if v.get("status") == "backlog"]
+        if backlog_versions:
+            version = backlog_versions[0]
+            version_num = version["version"]
+        else:
+            version_num = max(v["version"] for v in story["versions"])
+            version = next(v for v in story["versions"] if v["version"] == version_num)
 
-    if version["status"] == "superseded":
-        return error_response(f"Cannot modify superseded version {version_num}")
+    # Can't modify released or discarded versions
+    if version["status"] in ("released", "discarded"):
+        return error_response(f"Cannot modify {version['status']} version {version_num}")
 
-    if new_status in ("ready_to_build", "in_build", "built"):
-        ac = version.get("acceptance_criteria", [])
-        ti = version.get("test_intent", {})
-
-        if not ac:
-            return error_response(f"Cannot set status to '{new_status}': missing acceptance_criteria")
-
-        has_test_intent = ti.get("failure_modes") or ti.get("guarantees")
-        if not has_test_intent:
-            return error_response(f"Cannot set status to '{new_status}': test_intent must have at least one failure_mode or guarantee")
+    # Enforce single-backlog rule
+    if new_status == "backlog":
+        existing_backlog = [v for v in story["versions"] if v.get("status") == "backlog" and v["version"] != version_num]
+        if existing_backlog:
+            return error_response(f"Cannot set to backlog: version {existing_backlog[0]['version']} is already in backlog")
 
     version["status"] = new_status
     version["updated_at"] = now_iso()
@@ -962,6 +1004,188 @@ def set_story_status(payload: Dict) -> Dict:
     )
 
 
+def activate_domain_entry(payload: Dict) -> Dict:
+    """Transition domain entry status from draft to active."""
+    domain = load_json(DATA_FILES["domain"])
+
+    if "id" not in payload:
+        return error_response("Missing required field: id")
+
+    dom_id = payload["id"]
+    entry = find_record_by_id(dom_id, domain)
+    if not entry:
+        return error_response(f"Domain entry {dom_id} not found")
+
+    if entry.get("status") != "draft":
+        return error_response(f"Domain entry {dom_id} is not in draft status (current: {entry.get('status')})")
+
+    entry["status"] = "active"
+    entry["updated_at"] = now_iso()
+    save_json(DATA_FILES["domain"], domain)
+
+    return success_response(f"Domain entry {dom_id} activated", {"id": dom_id})
+
+
+def set_epic_approved(payload: Dict) -> Dict:
+    """Set approved boolean on epic version."""
+    epics = load_json(DATA_FILES["epics"])
+
+    if "epic_id" not in payload or "approved" not in payload:
+        return error_response("Missing required fields: epic_id, approved")
+
+    epic_id = payload["epic_id"]
+    approved = payload["approved"]
+
+    if not isinstance(approved, bool):
+        return error_response("'approved' must be a boolean")
+
+    epic = find_record_by_id(epic_id, epics)
+    if not epic:
+        return error_response(f"Epic {epic_id} not found")
+
+    version_num = payload.get("version")
+    if version_num:
+        version = next((v for v in epic["versions"] if v["version"] == version_num), None)
+        if not version:
+            return error_response(f"Epic {epic_id} version {version_num} not found")
+    else:
+        # Find backlog version by default
+        backlog_versions = [v for v in epic["versions"] if v.get("status") == "backlog"]
+        if backlog_versions:
+            version = backlog_versions[0]
+            version_num = version["version"]
+        else:
+            return error_response(f"Epic {epic_id} has no backlog version")
+
+    # Can only modify backlog versions
+    if version["status"] != "backlog":
+        return error_response(f"Cannot modify approved on {version['status']} version {version_num}")
+
+    version["approved"] = approved
+    version["updated_at"] = now_iso()
+    save_json(DATA_FILES["epics"], epics)
+
+    return success_response(
+        f"Epic {epic_id} version {version_num} approved set to {approved}",
+        {"id": epic_id, "version": version_num, "approved": approved}
+    )
+
+
+def set_story_approved(payload: Dict) -> Dict:
+    """Set approved boolean on story version."""
+    stories = load_json(DATA_FILES["stories"])
+
+    if "story_id" not in payload or "approved" not in payload:
+        return error_response("Missing required fields: story_id, approved")
+
+    story_id = payload["story_id"]
+    approved = payload["approved"]
+
+    if not isinstance(approved, bool):
+        return error_response("'approved' must be a boolean")
+
+    story = find_record_by_id(story_id, stories)
+    if not story:
+        return error_response(f"Story {story_id} not found")
+
+    version_num = payload.get("version")
+    if version_num:
+        version = next((v for v in story["versions"] if v["version"] == version_num), None)
+        if not version:
+            return error_response(f"Story {story_id} version {version_num} not found")
+    else:
+        # Find backlog version by default
+        backlog_versions = [v for v in story["versions"] if v.get("status") == "backlog"]
+        if backlog_versions:
+            version = backlog_versions[0]
+            version_num = version["version"]
+        else:
+            return error_response(f"Story {story_id} has no backlog version")
+
+    # Can only modify backlog versions
+    if version["status"] != "backlog":
+        return error_response(f"Cannot modify approved on {version['status']} version {version_num}")
+
+    # Validate completeness if setting approved to true
+    if approved:
+        ac = version.get("acceptance_criteria", [])
+        ti = version.get("test_intent", {})
+
+        if not ac:
+            return error_response("Cannot approve: missing acceptance_criteria")
+
+        has_test_intent = ti.get("failure_modes") or ti.get("guarantees")
+        if not has_test_intent:
+            return error_response("Cannot approve: test_intent must have at least one failure_mode or guarantee")
+
+    version["approved"] = approved
+    version["updated_at"] = now_iso()
+    save_json(DATA_FILES["stories"], stories)
+
+    return success_response(
+        f"Story {story_id} version {version_num} approved set to {approved}",
+        {"id": story_id, "version": version_num, "approved": approved}
+    )
+
+
+def deprecate_epic(payload: Dict) -> Dict:
+    """Deprecate an epic. Sets artifact status to deprecated and discards any backlog version."""
+    epics = load_json(DATA_FILES["epics"])
+
+    if "epic_id" not in payload:
+        return error_response("Missing required field: epic_id")
+
+    epic_id = payload["epic_id"]
+    epic = find_record_by_id(epic_id, epics)
+    if not epic:
+        return error_response(f"Epic {epic_id} not found")
+
+    if epic.get("status") == "deprecated":
+        return error_response(f"Epic {epic_id} is already deprecated")
+
+    timestamp = now_iso()
+
+    # Discard any backlog version
+    for version in epic.get("versions", []):
+        if version.get("status") == "backlog":
+            version["status"] = "discarded"
+            version["updated_at"] = timestamp
+
+    epic["status"] = "deprecated"
+    save_json(DATA_FILES["epics"], epics)
+
+    return success_response(f"Epic {epic_id} deprecated", {"id": epic_id})
+
+
+def deprecate_story(payload: Dict) -> Dict:
+    """Deprecate a story. Sets artifact status to deprecated and discards any backlog version."""
+    stories = load_json(DATA_FILES["stories"])
+
+    if "story_id" not in payload:
+        return error_response("Missing required field: story_id")
+
+    story_id = payload["story_id"]
+    story = find_record_by_id(story_id, stories)
+    if not story:
+        return error_response(f"Story {story_id} not found")
+
+    if story.get("status") == "deprecated":
+        return error_response(f"Story {story_id} is already deprecated")
+
+    timestamp = now_iso()
+
+    # Discard any backlog version
+    for version in story.get("versions", []):
+        if version.get("status") == "backlog":
+            version["status"] = "discarded"
+            version["updated_at"] = timestamp
+
+    story["status"] = "deprecated"
+    save_json(DATA_FILES["stories"], stories)
+
+    return success_response(f"Story {story_id} deprecated", {"id": story_id})
+
+
 # =============================================================================
 # CLI Entry Point
 # =============================================================================
@@ -971,6 +1195,7 @@ OPERATIONS = {
     "set_release_status": set_release_status,
     "add_domain_entry": add_domain_entry,
     "update_domain_entry": update_domain_entry,
+    "activate_domain_entry": activate_domain_entry,
     "deprecate_domain_entry": deprecate_domain_entry,
     "add_requirement": add_requirement,
     "update_requirement": update_requirement,
@@ -982,9 +1207,13 @@ OPERATIONS = {
     "add_epic": add_epic,
     "create_epic_version": create_epic_version,
     "set_epic_version_status": set_epic_version_status,
+    "set_epic_approved": set_epic_approved,
+    "deprecate_epic": deprecate_epic,
     "add_story": add_story,
     "create_story_version": create_story_version,
     "set_story_status": set_story_status,
+    "set_story_approved": set_story_approved,
+    "deprecate_story": deprecate_story,
 }
 
 

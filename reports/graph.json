@@ -11,7 +11,7 @@
       "id": "REL-2026-03-15",
       "type": "release",
       "title": "Eligibility Expansion",
-      "status": "active",
+      "status": "planned",
       "release_date": "2026-03-15"
     },
     {
@@ -26,21 +26,27 @@
       "type": "domain",
       "title": "Exam Eligibility Rules",
       "status": "active",
-      "domain_type": "rule"
+      "domain_type": [
+        "rule"
+      ]
     },
     {
       "id": "ART-002",
       "type": "domain",
       "title": "Credential Renewal Policy",
       "status": "active",
-      "domain_type": "policy"
+      "domain_type": [
+        "policy"
+      ]
     },
     {
       "id": "ART-003",
       "type": "domain",
       "title": "CPE Credit Rules",
       "status": "draft",
-      "domain_type": "rule"
+      "domain_type": [
+        "rule"
+      ]
     },
     {
       "id": "REQ-002",
@@ -84,13 +90,13 @@
       "id": "FEAT-002",
       "type": "feature",
       "title": "Credential Renewal Portal",
-      "status": "confirmed"
+      "status": "active"
     },
     {
       "id": "FEAT-003",
       "type": "feature",
       "title": "Continuing Education Tracking",
-      "status": "proposed"
+      "status": "active"
     },
     {
       "id": "EPIC-002",
@@ -103,7 +109,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-002",
       "version": 1,
-      "status": "approved",
+      "status": "released",
       "release_ref": "REL-2026-02-01",
       "summary": "Implement eligibility checking logic to determine which exams an auditor can purchase based on their standing, progression, and payment status"
     },
@@ -112,7 +118,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-002",
       "version": 2,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "summary": "Extend eligibility checks to include renewal status, outstanding invoices, and required attestations"
     },
@@ -127,7 +133,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-003",
       "version": 1,
-      "status": "draft",
+      "status": "discarded",
       "release_ref": "REL-2026-02-01",
       "summary": "Build the account page UI and purchase workflow for auditors to select and purchase exam invoices"
     },
@@ -136,7 +142,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-003",
       "version": 2,
-      "status": "ready_to_build",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "summary": "Add invoice preview, pricing breakdown, and post-purchase confirmation with next steps"
     },
@@ -151,7 +157,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-004",
       "version": 1,
-      "status": "approved",
+      "status": "released",
       "release_ref": "REL-2026-03-15",
       "summary": "Verify renewal eligibility based on credential status, CPE credits, and attestations"
     },
@@ -160,7 +166,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-004",
       "version": 2,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-05-01",
       "summary": "Add conditional eligibility for auditors with pending documentation and grace periods"
     },
@@ -175,7 +181,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-005",
       "version": 1,
-      "status": "draft",
+      "status": "backlog",
       "release_ref": "REL-2026-05-01",
       "summary": "Generate renewal fee invoices with tiered pricing and late penalties"
     },
@@ -190,7 +196,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-006",
       "version": 1,
-      "status": "confirmed",
+      "status": "released",
       "release_ref": "REL-2026-05-01",
       "summary": "Validate CPE credits against policy rules and highlight gaps"
     },
@@ -199,7 +205,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-006",
       "version": 2,
-      "status": "draft",
+      "status": "backlog",
       "release_ref": null,
       "summary": "Add automated CPE credit verification and bulk import capabilities"
     },
@@ -214,7 +220,7 @@
       "type": "epic_version",
       "epic_id": "EPIC-007",
       "version": 1,
-      "status": "draft",
+      "status": "backlog",
       "release_ref": null,
       "summary": "Build dashboard for auditors to view CPE credit status, compliance gaps, and reporting period summaries"
     },
@@ -229,7 +235,7 @@
       "type": "story_version",
       "story_id": "STORY-002",
       "version": 1,
-      "status": "draft",
+      "status": "discarded",
       "release_ref": "REL-2026-02-01",
       "description": "As an auditor, I want the system to verify my good standing status so that I can only purchase exams if I meet the membership and ethics requirements"
     },
@@ -238,7 +244,7 @@
       "type": "story_version",
       "story_id": "STORY-002",
       "version": 2,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "description": "As an auditor, I want eligibility checks to include renewal status so I can only purchase exams when my credentials are current"
     },
@@ -253,7 +259,7 @@
       "type": "story_version",
       "story_id": "STORY-003",
       "version": 1,
-      "status": "ready_to_build",
+      "status": "released",
       "release_ref": "REL-2026-02-01",
       "description": "As an auditor, I want the system to check my exam progression so that I can only purchase the next exam in sequence after passing the previous one"
     },
@@ -262,7 +268,7 @@
       "type": "story_version",
       "story_id": "STORY-003",
       "version": 2,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "description": "As an auditor, I want progression rules to account for retakes and exemptions so eligibility is accurate"
     },
@@ -277,7 +283,7 @@
       "type": "story_version",
       "story_id": "STORY-004",
       "version": 1,
-      "status": "in_build",
+      "status": "released",
       "release_ref": "REL-2026-02-01",
       "description": "As an auditor, I want to be notified of any unpaid invoices so that I can clear them before purchasing new exam invoices"
     },
@@ -286,7 +292,7 @@
       "type": "story_version",
       "story_id": "STORY-004",
       "version": 2,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "description": "As an auditor, I want unpaid invoice checks to include renewal fees so I can clear all obligations"
     },
@@ -301,7 +307,7 @@
       "type": "story_version",
       "story_id": "STORY-005",
       "version": 1,
-      "status": "built",
+      "status": "released",
       "release_ref": "REL-2026-02-01",
       "description": "As an auditor, I want to see a list of exams I am eligible to purchase so that I can select the one I want"
     },
@@ -310,7 +316,7 @@
       "type": "story_version",
       "story_id": "STORY-005",
       "version": 2,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "description": "As an auditor, I want to see pricing breakdowns and invoice previews before purchase"
     },
@@ -325,7 +331,7 @@
       "type": "story_version",
       "story_id": "STORY-006",
       "version": 1,
-      "status": "draft",
+      "status": "discarded",
       "release_ref": "REL-2026-02-01",
       "description": "As an auditor, I want to complete the purchase of an exam invoice so that I can register for the exam"
     },
@@ -334,7 +340,7 @@
       "type": "story_version",
       "story_id": "STORY-006",
       "version": 2,
-      "status": "ready_to_build",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "description": "As an auditor, I want a clear post-purchase confirmation so I know what to do next"
     },
@@ -349,7 +355,7 @@
       "type": "story_version",
       "story_id": "STORY-007",
       "version": 1,
-      "status": "approved",
+      "status": "released",
       "release_ref": "REL-2026-03-15",
       "description": "As an auditor, I want to submit required attestations so that I can complete credential renewal"
     },
@@ -358,7 +364,7 @@
       "type": "story_version",
       "story_id": "STORY-007",
       "version": 2,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-05-01",
       "description": "As an auditor, I want to upload supporting evidence for attestations when required"
     },
@@ -373,7 +379,7 @@
       "type": "story_version",
       "story_id": "STORY-008",
       "version": 1,
-      "status": "approved",
+      "status": "backlog",
       "release_ref": "REL-2026-03-15",
       "description": "As an auditor, I want to review my renewal eligibility so that I understand any gaps"
     },
@@ -388,7 +394,7 @@
       "type": "story_version",
       "story_id": "STORY-009",
       "version": 1,
-      "status": "draft",
+      "status": "backlog",
       "release_ref": "REL-2026-05-01",
       "description": "As an auditor, I want a renewal invoice generated so I can pay my renewal fee"
     },
@@ -403,7 +409,7 @@
       "type": "story_version",
       "story_id": "STORY-010",
       "version": 1,
-      "status": "confirmed",
+      "status": "released",
       "release_ref": "REL-2026-05-01",
       "description": "As an auditor, I want to log CPE activities so that my credits are tracked accurately"
     },
@@ -412,7 +418,7 @@
       "type": "story_version",
       "story_id": "STORY-010",
       "version": 2,
-      "status": "draft",
+      "status": "backlog",
       "release_ref": null,
       "description": "As an auditor, I want to bulk import CPE activities from provider transcripts"
     },
@@ -427,7 +433,7 @@
       "type": "story_version",
       "story_id": "STORY-011",
       "version": 1,
-      "status": "draft",
+      "status": "backlog",
       "release_ref": null,
       "description": "As an auditor, I want to view my CPE compliance status so I know if I'm meeting renewal requirements"
     }
@@ -1223,23 +1229,23 @@
     "node_count": 56,
     "edge_count": 157,
     "node_types": [
-      "epic",
-      "story_version",
-      "domain",
-      "release",
-      "story",
-      "requirement",
       "epic_version",
-      "feature"
+      "release",
+      "domain",
+      "epic",
+      "story",
+      "feature",
+      "story_version",
+      "requirement"
     ],
     "edge_types": [
-      "scoped_by",
-      "supersedes",
-      "references_domain",
-      "satisfies",
       "belongs_to",
       "version_of",
-      "assigned_to_release"
+      "satisfies",
+      "supersedes",
+      "references_domain",
+      "assigned_to_release",
+      "scoped_by"
     ]
   }
 }

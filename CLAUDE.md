@@ -72,10 +72,41 @@ Releases are not part of the core hierarchy. They bind specific versions to deli
 
 Release IDs are date-based. If multiple releases occur on the same date, use suffix: `REL-2026-01-10-a`
 
+## Status Model
+
+### Artifact Statuses
+
+| Artifact | Status Field | Valid Values |
+|----------|-------------|--------------|
+| **Releases** | status | `planned`, `released` |
+| **Domain** | status | `draft`, `active`, `deprecated` |
+| **Domain** | type | Array of strings (e.g., `["rule"]`, `["policy", "rule"]`) |
+| **Requirements** | status | `active`, `deprecated`, `provisional` |
+| **Features** | status | `active`, `deprecated` |
+| **Epics** | status (artifact) | `active`, `deprecated` |
+| **Epic Versions** | status | `backlog`, `released`, `discarded` |
+| **Epic Versions** | approved | boolean (default: false) |
+| **Stories** | status (artifact) | `active`, `deprecated` |
+| **Story Versions** | status | `backlog`, `released`, `discarded` |
+| **Story Versions** | approved | boolean (default: false) |
+
+### Version Status Semantics
+
+- **backlog**: Active work version (only ONE per artifact at any time)
+- **released**: Shipped with a release
+- **discarded**: Abandoned before completion
+
+### Approval Field Semantics
+
+- **approved: false**: Pending client sign-off
+- **approved: true**: Client has approved for development
+
+Stories with `approved: true` must have `acceptance_criteria` and `test_intent` with at least one `failure_mode` or `guarantee`.
+
 ## Releases and Version Binding
 
-- Every epic version and story version must have a `release_ref`
-- Releases have status: `planned | released | superseded`
+- Every epic version and story version should have a `release_ref` (can be null for unassigned backlog versions)
+- Releases have status: `planned | released`
 - Once a release is `released`, all assigned versions are closed
 - Any subsequent work requires a new version assigned to a new release
 - A version's `release_ref` cannot be changed once created
@@ -90,20 +121,23 @@ python scripts/mutate.py <operation> --payload-file <path>
 
 Key operations:
 - Releases: `create_release`, `set_release_status`
+- Domain: `add_domain_entry`, `update_domain_entry`, `activate_domain_entry`, `deprecate_domain_entry`
 - Requirements: `add_requirement`, `update_requirement`, `deprecate_requirement`, `supersede_requirement`
 - Features: `add_feature`, `update_feature`, `deprecate_feature`
-- Epics: `add_epic` (requires `release_ref`), `create_epic_version`, `set_epic_version_status`
-- Stories: `add_story` (requires `release_ref`), `create_story_version`, `set_story_status`
+- Epics: `add_epic` (requires `release_ref`), `create_epic_version`, `set_epic_version_status`, `set_epic_approved`, `deprecate_epic`
+- Stories: `add_story` (requires `release_ref`), `create_story_version`, `set_story_status`, `set_story_approved`, `deprecate_story`
 
 ## Validation Rules (Blocking)
 
 - Schema conformance for all `data/*.json`
 - ID uniqueness within each artifact family
 - Reference integrity (all refs resolve, including `release_ref`)
-- Release existence and closure (no versions added to `released` or `superseded` releases)
-- Temporal coherence (superseded versions must belong to earlier or equal releases)
+- Release existence and closure (no versions added to `released` releases)
 - Version lineage integrity (monotonic, no cycles)
-- Stories must have acceptance criteria and test intent before `ready_to_build` status
+- Single backlog rule: Only one version per epic/story can have `status: "backlog"`
+- Approved field required: Epic/story versions must have `approved: boolean`
+- Domain type is array: `type` field must be an array of valid type strings
+- Completeness for approved: Stories with `approved: true` must have `acceptance_criteria` and `test_intent`
 
 ## Test Intent
 

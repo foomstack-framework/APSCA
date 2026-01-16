@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apsca-version" content="2bdf5628476184810e51f347e19a44d9c5e00512">
-    <title>EPIC-005: Renewal Fee Invoicing - APSCA</title>
-    <style>
+"""
+assets.py - Static assets (CSS, JS, HTML) for documentation rendering.
+"""
+
+# Main CSS for all documentation pages
+CSS = """
 :root {
     --bg-primary: #f3f4f6;
     --bg-secondary: #ffffff;
@@ -996,124 +994,48 @@ body.has-version-banner .topbar {
 body.has-version-banner main {
     padding-top: 42px;
 }
-</style>
-</head>
-<body>
-    <div id="version-banner" class="version-banner hidden" role="alert">
-        <span class="version-banner-text">
-            A newer version is available.
-            <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
-        </span>
-        <button class="version-banner-refresh" onclick="location.reload(true)">Refresh Now</button>
-        <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
-    </div>
-    
-<header class="topbar">
-    <a class="brand" href="../story-map.html?nav=1">
-        <img class="brand-logo" src="../images/APSCA-logo.svg" alt="APSCA" width="36" height="36" />
-        <span class="brand-name">APSCA Requirements Dashboard</span>
-    </a>
-    <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1" class="active">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../domain/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
-    </nav>
-</header>
+"""
 
-    <main>
-        <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
-        
-<h1>EPIC-005: Renewal Fee Invoicing</h1>
+# Breadcrumb navigation styles
+BREADCRUMB_CSS = """
+/* Breadcrumb Navigation */
+.breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.82rem;
+    min-height: 1.5rem;
+}
 
-<div class="meta">
-    <span><strong>Documentation Status:</strong> <span class="status-badge" style="background-color: #16a34a">Active</span></span>
-    <span><strong>Version:</strong>
-        <select id="version-select" class="version-select">
-            <option value="1" selected>v1 — REL-2026-05-01</option>
-        </select>
-    </span>
-</div>
-<div class="version-panels">
+.breadcrumb-link {
+    color: var(--accent-color);
+    text-decoration: none;
+}
 
-    <div class="version-panel" data-version="1">
-        <div class="version-meta">
-            <strong>Version:</strong> v1 &nbsp;
-            <strong>Release:</strong> <a href="../releases/REL-2026-05-01.html">REL-2026-05-01</a>
-        </div>
-        <div class="section">
-            <h2>Summary</h2>
-            <p>Generate renewal fee invoices with tiered pricing and late penalties</p>
-        </div>
-<div class="section"><h2>Assumptions</h2><ul><li>Pricing tiers are configured in the billing system</li></ul></div><div class="section"><h2>Constraints</h2><ul><li>Late penalties must apply after grace period expiration</li></ul></div></div>
-</div>
-<script>
-(() => {
-    const select = document.getElementById('version-select');
-    const panels = Array.from(document.querySelectorAll('.version-panel'));
-    if (!select || panels.length === 0) return;
-    const params = new URLSearchParams(window.location.search);
-    const requestedVersion = params.get('version');
-    if (requestedVersion) {
-        const option = Array.from(select.options).find(opt => opt.value === requestedVersion);
-        if (option) {
-            select.value = requestedVersion;
-        }
-    }
-    function show(version) {
-        panels.forEach(panel => {
-            panel.classList.toggle('active', panel.dataset.version === version);
-        });
-    }
-    select.addEventListener('change', () => show(select.value));
-    show(select.value);
-})();
-</script>
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
 
-<div class="section">
-    <h2>Connected Records</h2>
-    <div class="connected-summary"><strong>Feature:</strong> <a href="../features/FEAT-002.html">FEAT-002</a></div>
-    <div class="tabs" data-tab-group="epic-connections"><div class="tab-list" role="tablist"><button class="tab-button active" type="button" role="tab" data-tab-target="epic-connections-stories" aria-selected="true">Stories</button><button class="tab-button" type="button" role="tab" data-tab-target="epic-connections-requirements" aria-selected="false">Requirements</button><button class="tab-button" type="button" role="tab" data-tab-target="epic-connections-business-artifacts" aria-selected="false">Business Artifacts</button></div><div class="tab-panels"><div class="tab-panel active" id="epic-connections-stories" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Summary</th><th>Release</th></tr></thead><tbody><tr><td class="record-cell"><a href="../stories/STORY-009.html">STORY-009</a><div class="cell-secondary">Generate Renewal Invoice</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want a renewal invoice generated so I can pay my renewal fee</div></td><td><a href="../releases/REL-2026-05-01.html">REL-2026-05-01</a></td></tr></tbody></table></div><div class="tab-panel" id="epic-connections-requirements" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Statement</th></tr></thead><tbody><tr><td class="record-cell"><a href="../requirements/REQ-002.html">REQ-002</a><div class="cell-secondary">Exam Invoice Purchasing</div></td><td class="summary-cell"><div class="cell-primary">Auditors must be able to purchase exam invoices from their account based on eligibility rules</div></td></tr><tr><td class="record-cell"><a href="../requirements/REQ-004.html">REQ-004</a><div class="cell-secondary">Invoice Payment Clearance</div></td><td class="summary-cell"><div class="cell-primary">Auditors with unpaid invoices must clear all outstanding payments before purchasing new exam invoices</div></td></tr></tbody></table></div><div class="tab-panel" id="epic-connections-business-artifacts" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td class="record-cell"><a href="../domain/ART-002.html">ART-002</a><div class="cell-secondary">Credential Renewal Policy</div></td><td class="summary-cell"><div class="cell-primary">Specifies renewal windows, required attestations, grace periods, and late fee policy. Renewal eligibility is driven by credential status, CPE compliance, and attestation completion. This policy is used to determine whether auditors can renew or continue purchasing exams.</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #3b82f6">Policy</span></div></td></tr></tbody></table></div></div></div>
-</div>
+.breadcrumb-separator {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    user-select: none;
+}
 
-    </main>
+.breadcrumb-ellipsis {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.breadcrumb-current {
+    color: var(--text-secondary);
+}
+"""
+
+# Breadcrumb navigation logic
+BREADCRUMB_JS = """
     <script>
-    (() => {
-        function initTabs() {
-            const groups = document.querySelectorAll('[data-tab-group]');
-            groups.forEach((group) => {
-                const buttons = Array.from(group.querySelectorAll('.tab-button'));
-                const panels = Array.from(group.querySelectorAll('[data-tab-panel]'));
-                if (buttons.length === 0 || panels.length === 0) return;
-
-                function setActive(button) {
-                    const targetId = button.dataset.tabTarget;
-                    const targetPanel = group.querySelector(`#${CSS.escape(targetId)}`);
-                    buttons.forEach((btn) => {
-                        btn.classList.remove('active');
-                        btn.setAttribute('aria-selected', 'false');
-                    });
-                    panels.forEach((panel) => panel.classList.remove('active'));
-                    button.classList.add('active');
-                    button.setAttribute('aria-selected', 'true');
-                    if (targetPanel) {
-                        targetPanel.classList.add('active');
-                    }
-                }
-
-                buttons.forEach((button) => {
-                    button.addEventListener('click', () => setActive(button));
-                });
-
-                const defaultButton = buttons.find(btn => btn.classList.contains('active')) || buttons[0];
-                setActive(defaultButton);
-            });
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initTabs);
-        } else {
-            initTabs();
-        }
-    })();
-
     // Breadcrumb Navigation
     const BreadcrumbNav = (() => {
         const STORAGE_KEY = 'apsca_nav_history';
@@ -1245,11 +1167,104 @@ body.has-version-banner main {
 
         return { init };
     })();
+    </script>
+"""
 
+# Version banner styles
+VERSION_BANNER_CSS = """
+/* Version Banner */
+.version-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #fef3c7;
+    border-bottom: 1px solid #f59e0b;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: #92400e;
+}
+
+.version-banner.hidden {
+    display: none;
+}
+
+.version-banner-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.version-banner-kbd {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    background: rgba(146, 64, 14, 0.1);
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
+    border: 1px solid rgba(146, 64, 14, 0.2);
+}
+
+.version-banner-refresh {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.version-banner-refresh:hover {
+    background: #d97706;
+}
+
+.version-banner-dismiss {
+    background: transparent;
+    border: none;
+    color: #92400e;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+}
+
+.version-banner-dismiss:hover {
+    opacity: 1;
+}
+
+body.has-version-banner .topbar {
+    top: 42px;
+}
+"""
+
+# Version banner HTML structure
+VERSION_BANNER_HTML = '''<div id="version-banner" class="version-banner hidden" role="alert">
+        <span class="version-banner-text">
+            A newer version is available.
+            <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
+        </span>
+        <button class="version-banner-refresh" onclick="location.reload(true)">Refresh Now</button>
+        <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
+    </div>'''
+
+# Version check logic
+VERSION_CHECK_JS = """
+    <script>
     // Version Check
     const VersionCheck = (() => {
         const DISMISSED_KEY = 'apsca_version_dismissed';
-        const VERSION_URL = '../version.json';
+        const VERSION_URL = 'version.json';
 
         function getPageVersion() {
             const meta = document.querySelector('meta[name="apsca-version"]');
@@ -1298,35 +1313,52 @@ body.has-version-banner main {
                     }
                 }
             } catch (e) {
-                // Network error or version.json missing - silent fail
+                // Silent fail on network error
+                console.debug('Version check failed:', e);
             }
         }
 
-        // Global function for dismiss button
         window.dismissVersionBanner = function() {
             const banner = document.getElementById('version-banner');
             if (banner) {
                 banner.classList.add('hidden');
                 document.body.classList.remove('has-version-banner');
+                // Fetch server version to dismiss it specifically
+                fetch(VERSION_URL + '?t=' + Date.now())
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.commit) setDismissedVersion(data.commit);
+                    })
+                    .catch(() => {});
             }
-            // Get server version to store as dismissed
-            fetch(VERSION_URL + '?t=' + Date.now())
-                .then(r => r.json())
-                .then(data => {
-                    if (data.commit) setDismissedVersion(data.commit);
-                })
-                .catch(() => {});
         };
 
-        // Run check after page loads
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkVersion);
-        } else {
-            checkVersion();
-        }
+        // Keyboard shortcut to refresh (Ctrl+Shift+R or Cmd+Shift+R)
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'r') {
+                e.preventDefault();
+                location.reload(true);
+            }
+        });
+
+        // Run check after a short delay
+        setTimeout(checkVersion, 2000);
 
         return { checkVersion };
     })();
     </script>
+"""
+
+# Redirect page HTML
+REDIRECT_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=story-map.html">
+    <title>Redirecting to Story Map...</title>
+    <script>window.location.href = "story-map.html";</script>
+</head>
+<body>
+    <p>Redirecting to <a href="story-map.html">Story Map</a>...</p>
 </body>
-</html>
+</html>"""

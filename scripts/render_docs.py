@@ -19,6 +19,15 @@ from html import escape
 from lib.config import DATA_FILES, DATA_DIR, DOCS_DIR, REPORTS_DIR, ROOT_DIR
 from lib.io import load_json
 from lib.versions import get_current_version
+from lib.assets import (
+    CSS,
+    BREADCRUMB_CSS,
+    BREADCRUMB_JS,
+    VERSION_BANNER_CSS,
+    VERSION_BANNER_HTML,
+    VERSION_CHECK_JS,
+    REDIRECT_HTML
+)
 
 # Version file path
 VERSION_FILE = DOCS_DIR / "version.json"
@@ -63,32 +72,43 @@ def format_status_label(status: str) -> str:
 def status_badge(status: str) -> str:
     """Generate status badge HTML."""
     colors = {
-        "planned": "#64748b",
-        "released": "#16a34a",
-        "superseded": "#9ca3af",
-        "active": "#16a34a",
-        "proposed": "#64748b",
-        "confirmed": "#2563eb",
-        "deprecated": "#dc2626",
-        "draft": "#94a3b8",
-        "approved": "#2563eb",
-        "ready_to_build": "#8b5cf6",
-        "in_build": "#ec4899",
-        "built": "#16a34a",
+        # Release statuses
+        "planned": "#64748b",      # Gray
+        "released": "#16a34a",     # Green
+        # Artifact lifecycle
+        "active": "#16a34a",       # Green
+        "deprecated": "#dc2626",   # Red
+        "draft": "#94a3b8",        # Light gray
+        "provisional": "#f59e0b",  # Amber
+        # Version statuses
+        "backlog": "#2563eb",      # Blue
+        "discarded": "#9ca3af",    # Gray
     }
     color = colors.get(status, "#6b7280")
     label = format_status_label(status)
     return f'<span class="status-badge" style="background-color: {color}">{e(label)}</span>'
 
 
-def artifact_type_badge(dom_type: str) -> str:
-    """Generate badge HTML for business artifact types."""
+def artifact_type_badge(dom_type) -> str:
+    """Generate badge HTML for business artifact types. Handles both string and array of types."""
+    if isinstance(dom_type, list):
+        dom_type = dom_type[0] if dom_type else "unknown"
     type_colors = {
         "policy": "#3b82f6",
         "catalog": "#10b981",
         "classification": "#8b5cf6",
         "rule": "#f59e0b",
     }
+
+    # Handle array of types
+    if isinstance(dom_type, list):
+        badges = []
+        for t in dom_type:
+            type_color = type_colors.get(t, "#6b7280")
+            badges.append(f'<span class="status-badge" style="background-color: {type_color}">{e(format_status_label(t))}</span>')
+        return " ".join(badges)
+
+    # Handle single string type
     type_color = type_colors.get(dom_type, "#6b7280")
     return f'<span class="status-badge" style="background-color: {type_color}">{e(format_status_label(dom_type))}</span>'
 
@@ -294,998 +314,6 @@ def build_artifact_rows(artifact_refs: List[str], artifact_lookup: Dict[str, Dic
 # HTML Layout
 # =============================================================================
 
-CSS = """
-:root {
-    --bg-primary: #f3f4f6;
-    --bg-secondary: #ffffff;
-    --bg-muted: #eef2f6;
-    --text-primary: #111827;
-    --text-secondary: #4b5563;
-    --text-muted: #9aa4b2;
-    --border-color: #d7dee8;
-    --accent-color: #2563eb;
-    --accent-soft: rgba(37, 99, 235, 0.12);
-    --success-color: #16a34a;
-    --warning-color: #d97706;
-    --danger-color: #dc2626;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-    --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.06);
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.45;
-    font-size: 20px;
-}
-
-a {
-    color: var(--accent-color);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.5rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    overflow: hidden;
-}
-
-.brand-logo {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    max-width: 36px;
-    min-height: 36px;
-    max-height: 36px;
-    aspect-ratio: 1;
-    object-fit: contain;
-}
-
-.brand-name {
-    font-size: 1.1rem;
-}
-
-.topbar-nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.topbar-nav a {
-    padding: 0.4rem 0.6rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    border: 1px solid transparent;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.topbar-nav a:hover,
-.topbar-nav a.active {
-    background: var(--accent-soft);
-    color: var(--accent-color);
-    border-color: rgba(37, 99, 235, 0.18);
-}
-
-main {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1rem 1.5rem 2rem;
-}
-
-h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0.4rem;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-}
-
-h2 {
-    font-size: 1.1rem;
-    margin: 1rem 0 0.5rem;
-    color: var(--text-primary);
-}
-
-h3 {
-    font-size: 0.95rem;
-    margin: 0.75rem 0 0.4rem;
-    color: var(--text-secondary);
-    font-weight: 600;
-}
-
-p,
-ul,
-ol {
-    margin-bottom: 0.6rem;
-}
-
-ul,
-ol {
-    padding-left: 1.2rem;
-}
-
-.muted {
-    color: var(--text-secondary);
-}
-
-.meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 0.9rem;
-    color: var(--text-secondary);
-    font-size: 0.82rem;
-    margin-bottom: 0.8rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 0.5rem 0.75rem;
-    box-shadow: var(--shadow-xs);
-}
-
-.meta strong {
-    color: var(--text-secondary);
-    font-weight: 600;
-}
-
-.status-badge {
-    display: inline-block;
-    padding: 0.18rem 0.45rem;
-    border-radius: 9999px;
-    color: white;
-    font-size: 0.62rem;
-    font-weight: 600;
-    text-transform: none;
-    letter-spacing: 0.02em;
-    box-shadow: none;
-}
-
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.eyebrow {
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 0.2rem;
-}
-
-.page-subtitle {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0;
-}
-
-.page-actions {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.65rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.82rem;
-    border: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    text-decoration: none;
-    box-shadow: var(--shadow-xs);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-}
-
-.button.primary {
-    background: var(--accent-color);
-    color: white;
-    border-color: transparent;
-}
-
-.button:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-}
-
-.card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 0.75rem 0.9rem;
-    margin-bottom: 0.75rem;
-    box-shadow: var(--shadow-xs);
-}
-
-.card-link {
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-}
-
-.card-link:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-    border-color: rgba(37, 99, 235, 0.2);
-}
-
-.quick-links {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.65rem;
-}
-
-.stat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.65rem;
-}
-
-.stat-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 0.75rem;
-    box-shadow: var(--shadow-xs);
-}
-
-.stat-label {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 0.35rem;
-}
-
-.stat-value {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.index-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: flex-end;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 0.6rem 0.75rem;
-    margin: 0.75rem 0 1rem;
-    box-shadow: var(--shadow-xs);
-}
-
-.toolbar-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    min-width: 160px;
-    flex: 1 1 200px;
-}
-
-.toolbar-field label {
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-}
-
-.toolbar-field input,
-.toolbar-field select {
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 0.4rem 0.6rem;
-    font-size: 0.82rem;
-    background: #ffffff;
-    color: var(--text-primary);
-}
-
-.toolbar-meta {
-    margin-left: auto;
-    padding: 0.3rem 0.6rem;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-primary);
-    font-size: 0.78rem;
-    color: var(--text-secondary);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0.75rem 0;
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    box-shadow: var(--shadow-xs);
-    border: 1px solid var(--border-color);
-}
-
-th,
-td {
-    text-align: left;
-    padding: 0.45rem 0.6rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-th {
-    background: var(--bg-primary);
-    font-weight: 600;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-secondary);
-}
-
-tbody tr:nth-child(even) {
-    background: rgba(248, 250, 252, 0.6);
-}
-
-tbody tr:hover {
-    background: rgba(226, 232, 240, 0.6);
-}
-
-td a {
-    font-weight: 600;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-.index-table td {
-    vertical-align: top;
-}
-
-.record-cell a {
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.cell-primary {
-    font-size: 0.85rem;
-    color: var(--text-primary);
-    line-height: 1.35;
-}
-
-.cell-secondary {
-    margin-top: 0.2rem;
-    font-size: 0.74rem;
-    color: var(--text-secondary);
-    line-height: 1.3;
-}
-
-.summary-cell .cell-secondary {
-    color: var(--text-muted);
-}
-
-.status-cell {
-    white-space: nowrap;
-}
-
-.badge-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-    align-items: center;
-}
-
-.tabs {
-    margin: 0.75rem 0 1rem;
-}
-
-.tab-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.35rem;
-}
-
-.tab-button {
-    border: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
-    padding: 0.35rem 0.6rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.tab-button.active {
-    background: var(--accent-soft);
-    color: var(--accent-color);
-    border-color: rgba(37, 99, 235, 0.2);
-    font-weight: 600;
-}
-
-.tab-panel {
-    display: none;
-    margin-top: 0.6rem;
-}
-
-.tab-panel.active {
-    display: block;
-}
-
-.connected-table {
-    margin-top: 0.4rem;
-}
-
-.connected-summary {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    margin: 0.3rem 0 0.35rem;
-}
-
-.connected-summary a {
-    font-weight: 600;
-}
-
-.empty-cell {
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 0.82rem;
-    padding: 0.8rem 0.6rem;
-}
-
-.section {
-    margin: 1rem 0;
-}
-
-code {
-    background: var(--bg-primary);
-    padding: 0.15rem 0.35rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.85em;
-}
-
-.version-select {
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 0.3rem 0.55rem;
-    font-size: 0.82rem;
-    background: #ffffff;
-    color: var(--text-primary);
-}
-
-.version-panel {
-    display: none;
-}
-
-.version-panel.active {
-    display: block;
-}
-
-.version-meta {
-    font-size: 0.78rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-}
-
-@media (max-width: 960px) {
-    .topbar {
-        padding: 0.5rem 0.75rem;
-    }
-
-    main {
-        padding: 0.75rem 1rem 1.5rem;
-    }
-}
-
-/* Stories Index Page Layout for Epic Drawer */
-body:has(.stories-layout) {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.stories-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 0;
-    grid-template-rows: 1fr;
-    --epic-drawer-width: 450px;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-}
-
-.stories-layout.drawer-open {
-    grid-template-columns: minmax(0, 1fr) var(--epic-drawer-width);
-}
-
-.stories-content {
-    min-width: 0;
-    padding: 1rem 1.5rem 2rem;
-    overflow-y: auto;
-}
-
-/* Epic Drawer */
-.epic-drawer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-secondary);
-    border-left: 1px solid var(--border-color);
-    box-shadow: -6px 0 16px rgba(15, 23, 42, 0.08);
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.stories-layout.drawer-open .epic-drawer {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.epic-drawer-resize-handle {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 6px;
-    cursor: ew-resize;
-    background: transparent;
-    z-index: 10;
-    transition: background 0.15s ease;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.stories-layout.drawer-open .epic-drawer-resize-handle {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.epic-drawer-resize-handle:hover,
-.epic-drawer-resize-handle.resizing {
-    background: var(--accent-color);
-}
-
-.epic-drawer-header {
-    padding: 0.85rem 1rem 0.65rem;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-}
-
-.epic-drawer-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.epic-drawer-title a {
-    color: var(--accent-color);
-}
-
-.epic-drawer-body {
-    padding: 0.75rem 1rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    overflow-y: auto;
-    flex: 1;
-}
-
-.epic-drawer-meta {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-}
-
-.epic-drawer-section {
-    margin-bottom: 0.6rem;
-}
-
-.epic-drawer-section-title {
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 0.35rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.epic-drawer-summary {
-    font-size: 0.85rem;
-    color: var(--text-primary);
-    line-height: 1.4;
-}
-
-/* Stories table inside epic drawer */
-.epic-stories-table-wrap {
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    background: #ffffff;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 120px;
-}
-
-.epic-stories-table-scroll {
-    overflow: auto;
-    flex: 1;
-}
-
-.epic-stories-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.78rem;
-    table-layout: fixed;
-}
-
-.epic-stories-table th,
-.epic-stories-table td {
-    padding: 0.4rem 0.45rem;
-    border-bottom: 1px solid var(--border-color);
-    text-align: left;
-    vertical-align: top;
-}
-
-.epic-stories-table th {
-    background: var(--bg-muted);
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-secondary);
-    position: sticky;
-    top: 0;
-}
-
-.epic-stories-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.epic-stories-table .story-id {
-    font-weight: 600;
-    font-size: 0.78rem;
-}
-
-.epic-stories-table .story-id a {
-    text-decoration: none;
-    color: var(--accent-color);
-}
-
-.epic-stories-table .story-id a:hover {
-    text-decoration: underline;
-}
-
-.epic-stories-table .story-title {
-    font-size: 0.74rem;
-    color: var(--text-secondary);
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.epic-stories-table .status-badge {
-    display: inline-block;
-    padding: 0.15rem 0.35rem;
-    border-radius: 9999px;
-    color: white;
-    font-size: 0.58rem;
-    font-weight: 600;
-    text-transform: none;
-    letter-spacing: 0.02em;
-}
-
-.epic-drawer-backdrop {
-    display: none;
-}
-
-/* Epic column styling */
-.epic-cell {
-    white-space: nowrap;
-}
-
-.epic-cell-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.15rem 0.35rem;
-    border-radius: var(--radius-sm);
-    background: rgba(139, 92, 246, 0.1);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    font-size: 0.78rem;
-    color: #7c3aed;
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-.epic-cell-link:hover {
-    background: rgba(139, 92, 246, 0.18);
-    border-color: rgba(139, 92, 246, 0.35);
-}
-
-.epic-cell-none {
-    color: var(--text-muted);
-    font-size: 0.78rem;
-    font-style: italic;
-}
-
-/* Multi-select dropdown for epic filter */
-.epic-filter-dropdown {
-    position: relative;
-    min-width: 200px;
-    flex: 1 1 220px;
-}
-
-.epic-filter-trigger {
-    width: 100%;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 0.4rem 0.6rem;
-    font-size: 0.82rem;
-    background: #ffffff;
-    color: var(--text-primary);
-    cursor: pointer;
-    text-align: left;
-}
-
-.epic-filter-menu {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    width: 100%;
-    min-width: 280px;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-sm);
-    padding: 0.5rem;
-    z-index: 30;
-    display: none;
-}
-
-.epic-filter-dropdown.open .epic-filter-menu {
-    display: block;
-}
-
-.epic-filter-search {
-    width: 100%;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 0.3rem 0.5rem;
-    font-size: 0.8rem;
-    margin-bottom: 0.4rem;
-}
-
-.epic-filter-list {
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    background: #ffffff;
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 0.35rem 0.5rem;
-}
-
-.epic-filter-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.35rem;
-    font-size: 0.78rem;
-    color: var(--text-secondary);
-    padding: 0.25rem 0.1rem;
-    cursor: pointer;
-}
-
-.epic-filter-item:hover {
-    background: var(--bg-muted);
-}
-
-.epic-filter-item input {
-    margin-top: 2px;
-}
-
-/* Mobile responsiveness for epic drawer */
-@media (max-width: 900px) {
-    .stories-layout.drawer-open {
-        grid-template-columns: 1fr;
-    }
-
-    .epic-drawer {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: min(85vw, 380px);
-        max-width: 380px;
-        z-index: 100;
-        transform: translateX(100%);
-        transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    .stories-layout.drawer-open .epic-drawer {
-        transform: translateX(0);
-    }
-
-    .epic-drawer-resize-handle {
-        display: none;
-    }
-
-    .epic-drawer-backdrop {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
-        z-index: 99;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-    }
-
-    .stories-layout.drawer-open .epic-drawer-backdrop {
-        opacity: 1;
-        pointer-events: auto;
-    }
-}
-
-/* Breadcrumb Navigation */
-.breadcrumb-nav {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.5rem 0;
-    margin-bottom: 0.5rem;
-    font-size: 0.82rem;
-    min-height: 1.5rem;
-}
-
-.breadcrumb-link {
-    color: var(--accent-color);
-    text-decoration: none;
-}
-
-.breadcrumb-link:hover {
-    text-decoration: underline;
-}
-
-.breadcrumb-separator {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    user-select: none;
-}
-
-.breadcrumb-ellipsis {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-}
-
-.breadcrumb-current {
-    color: var(--text-secondary);
-}
-
-/* Version Banner */
-.version-banner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: #fef3c7;
-    border-bottom: 1px solid #f59e0b;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    font-size: 0.85rem;
-    color: #92400e;
-}
-
-.version-banner.hidden {
-    display: none;
-}
-
-.version-banner-text {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.version-banner-kbd {
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    background: rgba(146, 64, 14, 0.1);
-    padding: 0.15rem 0.35rem;
-    border-radius: 3px;
-    border: 1px solid rgba(146, 64, 14, 0.2);
-}
-
-.version-banner-refresh {
-    background: #f59e0b;
-    color: white;
-    border: none;
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s ease;
-}
-
-.version-banner-refresh:hover {
-    background: #d97706;
-}
-
-.version-banner-dismiss {
-    background: transparent;
-    border: none;
-    color: #92400e;
-    font-size: 1.1rem;
-    cursor: pointer;
-    padding: 0.25rem;
-    line-height: 1;
-    opacity: 0.7;
-    transition: opacity 0.15s ease;
-}
-
-.version-banner-dismiss:hover {
-    opacity: 1;
-}
-
-body.has-version-banner .topbar {
-    top: 42px;
-}
-
-body.has-version-banner main {
-    padding-top: 42px;
-}
-"""
 
 
 def generate_navbar(active_section: str = "", depth: int = 1) -> str:
@@ -2609,22 +1637,28 @@ const storiesData = {stories_data_json};
 
     function getCurrentVersion(versions) {
         if (!versions || versions.length === 0) return null;
-        const active = versions.filter(v => v.status !== 'superseded');
-        if (active.length > 0) {
-            return active.reduce((a, b) => (a.version > b.version ? a : b));
+        // Look for backlog version first (active work version)
+        const backlog = versions.filter(v => v.status === 'backlog');
+        if (backlog.length > 0) {
+            return backlog.reduce((a, b) => (a.version > b.version ? a : b));
         }
+        // Fall back to highest version number
         return versions.reduce((a, b) => (a.version > b.version ? a : b));
     }
 
     function getStatusColor(status) {
         const colors = {
-            'draft': '#9aa4b2',
-            'ready_to_build': '#2563eb',
-            'in_progress': '#d97706',
-            'done': '#16a34a',
-            'accepted': '#16a34a',
-            'blocked': '#dc2626',
-            'superseded': '#6b7280'
+            // Release statuses
+            'planned': '#64748b',
+            'released': '#16a34a',
+            // Artifact lifecycle
+            'active': '#16a34a',
+            'deprecated': '#dc2626',
+            'draft': '#94a3b8',
+            'provisional': '#f59e0b',
+            // Version statuses
+            'backlog': '#2563eb',
+            'discarded': '#9ca3af'
         };
         return colors[status] || '#9aa4b2';
     }
@@ -2901,6 +1935,8 @@ def render_domain_entry(
 ) -> str:
     """Render a single business artifact entry as HTML."""
     dom_type = entry.get('type', 'unknown')
+    if isinstance(dom_type, list):
+        dom_type = dom_type[0] if dom_type else "unknown"
     type_colors = {
         "policy": "#3b82f6",
         "catalog": "#10b981",
@@ -3027,6 +2063,8 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
 
     for item in sorted(domain_entries, key=lambda x: x.get('id', '')):
         dom_type = item.get('type', 'unknown')
+        if isinstance(dom_type, list):
+            dom_type = dom_type[0] if dom_type else "unknown"
         status = item.get("status") or "unknown"
         description = item.get("description") or "Domain reference document"
         source = item.get("source", "unknown")
@@ -3099,18 +2137,7 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
 
 def render_index_redirect() -> str:
     """Render a simple redirect page that sends users to the Story Map."""
-    return """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=story-map.html">
-    <title>Redirecting to Story Map...</title>
-    <script>window.location.href = "story-map.html";</script>
-</head>
-<body>
-    <p>Redirecting to <a href="story-map.html">Story Map</a>...</p>
-</body>
-</html>"""
+    return REDIRECT_HTML
 
 
 def main():
@@ -3244,44 +2271,9 @@ def main():
         )
 
         # Add breadcrumb CSS if not already present
-        breadcrumb_css = """
-/* Breadcrumb Navigation */
-.breadcrumb-nav {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.5rem 1.25rem;
-    font-size: 0.82rem;
-    min-height: 1.5rem;
-}
-
-.breadcrumb-link {
-    color: var(--accent-color);
-    text-decoration: none;
-}
-
-.breadcrumb-link:hover {
-    text-decoration: underline;
-}
-
-.breadcrumb-separator {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    user-select: none;
-}
-
-.breadcrumb-ellipsis {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-}
-
-.breadcrumb-current {
-    color: var(--text-secondary);
-}
-"""
         if '.breadcrumb-current' not in story_map_content:
             # Insert CSS before closing </style> tag (check for .breadcrumb-current to ensure full CSS is present)
-            story_map_content = story_map_content.replace('</style>', breadcrumb_css + '</style>', 1)
+            story_map_content = story_map_content.replace('</style>', BREADCRUMB_CSS + '</style>', 1)
 
         # Add breadcrumb container if not present
         breadcrumb_container = '<nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>'
@@ -3295,144 +2287,9 @@ def main():
             )
 
         # Add breadcrumb JavaScript if not present
-        breadcrumb_js = """
-    <script>
-    // Breadcrumb Navigation
-    const BreadcrumbNav = (() => {
-        const STORAGE_KEY = 'apsca_nav_history';
-        const MAX_HISTORY = 10;
-        const TRUNCATE_DISPLAY = 5;
-
-        function getHistory() {
-            try {
-                const data = sessionStorage.getItem(STORAGE_KEY);
-                return data ? JSON.parse(data) : [];
-            } catch (e) { return []; }
-        }
-
-        function saveHistory(history) {
-            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
-        }
-
-        function getCurrentPageInfo() {
-            const path = window.location.pathname;
-            const parts = path.split('/').filter(Boolean);
-            const filename = parts.pop() || 'index.html';
-            const lastDir = parts.pop() || '';
-
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
-            const dir = knownSections.includes(lastDir) ? lastDir : '';
-
-            const sectionLabels = {
-                'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
-            };
-
-            let label;
-            if (filename === 'index.html') {
-                label = sectionLabels[dir] || 'Home';
-            } else if (filename === 'story-map.html') {
-                label = 'Story Map';
-            } else {
-                label = filename.replace('.html', '');
-            }
-
-            const url = dir ? dir + '/' + filename : filename;
-            return { url, label, timestamp: Date.now() };
-        }
-
-        function updateHistoryOnLoad() {
-            const params = new URLSearchParams(window.location.search);
-            const isNavClick = params.has('nav');
-
-            if (isNavClick) {
-                params.delete('nav');
-                const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
-                window.history.replaceState(null, '', newUrl);
-                sessionStorage.removeItem(STORAGE_KEY);
-            }
-
-            const history = isNavClick ? [] : getHistory();
-            const currentPage = getCurrentPageInfo();
-            const existingIndex = history.findIndex(e => e.url === currentPage.url);
-
-            if (existingIndex !== -1) {
-                const truncated = history.slice(0, existingIndex + 1);
-                truncated[truncated.length - 1].timestamp = Date.now();
-                saveHistory(truncated);
-            } else {
-                history.push(currentPage);
-                saveHistory(history);
-            }
-        }
-
-        function getRelativePath(fromUrl, toUrl) {
-            const fromParts = fromUrl.split('/');
-            const toParts = toUrl.split('/');
-            fromParts.pop();
-            const toFile = toParts.pop();
-            const fromDir = fromParts.join('/');
-            const toDir = toParts.join('/');
-            if (fromDir === toDir) {
-                return toFile;
-            }
-            const upLevels = fromParts.length;
-            return '../'.repeat(upLevels) + toUrl;
-        }
-
-        function renderBreadcrumbs() {
-            const history = getHistory();
-            const container = document.getElementById('breadcrumb-nav');
-            if (!container || history.length <= 1) {
-                if (container) container.style.display = 'none';
-                return;
-            }
-
-            const currentPage = history[history.length - 1];
-            const previousPages = history.slice(0, -1);
-            let display = previousPages;
-            let showEllipsis = false;
-
-            if (previousPages.length > TRUNCATE_DISPLAY) {
-                display = previousPages.slice(-TRUNCATE_DISPLAY);
-                showEllipsis = true;
-            }
-
-            let html = showEllipsis ? '<span class="breadcrumb-ellipsis">...</span><span class="breadcrumb-separator">›</span>' : '';
-
-            display.forEach((entry, idx) => {
-                if (idx > 0) html += '<span class="breadcrumb-separator">›</span>';
-                const href = getRelativePath(currentPage.url, entry.url);
-                html += '<a href="' + href + '" class="breadcrumb-link">' + entry.label + '</a>';
-            });
-
-            if (display.length > 0) {
-                html += '<span class="breadcrumb-separator">›</span>';
-            }
-            html += '<span class="breadcrumb-current">' + currentPage.label + '</span>';
-
-            container.innerHTML = html;
-            container.style.display = '';
-        }
-
-        function init() {
-            updateHistoryOnLoad();
-            renderBreadcrumbs();
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-
-        return { init };
-    })();
-    </script>
-"""
         if 'BreadcrumbNav' not in story_map_content:
             # Insert before closing </body> tag
-            story_map_content = story_map_content.replace('</body>', breadcrumb_js + '</body>')
+            story_map_content = story_map_content.replace('</body>', BREADCRUMB_JS + '</body>')
 
         # Add version detection features
         build_version = get_build_version()
@@ -3454,190 +2311,21 @@ def main():
         )
 
         # Add version banner CSS if not present
-        version_banner_css = """
-/* Version Banner */
-.version-banner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: #fef3c7;
-    border-bottom: 1px solid #f59e0b;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    font-size: 0.85rem;
-    color: #92400e;
-}
-
-.version-banner.hidden {
-    display: none;
-}
-
-.version-banner-text {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.version-banner-kbd {
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    background: rgba(146, 64, 14, 0.1);
-    padding: 0.15rem 0.35rem;
-    border-radius: 3px;
-    border: 1px solid rgba(146, 64, 14, 0.2);
-}
-
-.version-banner-refresh {
-    background: #f59e0b;
-    color: white;
-    border: none;
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s ease;
-}
-
-.version-banner-refresh:hover {
-    background: #d97706;
-}
-
-.version-banner-dismiss {
-    background: transparent;
-    border: none;
-    color: #92400e;
-    font-size: 1.1rem;
-    cursor: pointer;
-    padding: 0.25rem;
-    line-height: 1;
-    opacity: 0.7;
-    transition: opacity 0.15s ease;
-}
-
-.version-banner-dismiss:hover {
-    opacity: 1;
-}
-
-body.has-version-banner .topbar {
-    top: 42px;
-}
-"""
         if '.version-banner {' not in story_map_content:
-            story_map_content = story_map_content.replace('</style>', version_banner_css + '</style>', 1)
+            story_map_content = story_map_content.replace('</style>', VERSION_BANNER_CSS + '</style>', 1)
 
         # Add version banner HTML if not present
-        version_banner_html = '''<div id="version-banner" class="version-banner hidden" role="alert">
-        <span class="version-banner-text">
-            A newer version is available.
-            <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
-        </span>
-        <button class="version-banner-refresh" onclick="location.reload(true)">Refresh Now</button>
-        <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
-    </div>'''
         if 'id="version-banner"' not in story_map_content:
             story_map_content = re.sub(
                 r'(<body>)',
-                r'\1\n    ' + version_banner_html,
+                r'\1\n    ' + VERSION_BANNER_HTML,
                 story_map_content,
                 count=1
             )
 
         # Add version check JavaScript if not present
-        version_check_js = """
-    <script>
-    // Version Check
-    const VersionCheck = (() => {
-        const DISMISSED_KEY = 'apsca_version_dismissed';
-        const VERSION_URL = 'version.json';
-
-        function getPageVersion() {
-            const meta = document.querySelector('meta[name="apsca-version"]');
-            return meta ? meta.getAttribute('content') : '';
-        }
-
-        function getDismissedVersion() {
-            try {
-                return localStorage.getItem(DISMISSED_KEY) || '';
-            } catch (e) { return ''; }
-        }
-
-        function setDismissedVersion(version) {
-            try {
-                localStorage.setItem(DISMISSED_KEY, version);
-            } catch (e) {}
-        }
-
-        function showBanner() {
-            const banner = document.getElementById('version-banner');
-            if (banner) {
-                banner.classList.remove('hidden');
-                document.body.classList.add('has-version-banner');
-                // Update keyboard shortcut for Mac
-                if (navigator.platform.indexOf('Mac') !== -1) {
-                    const kbd = banner.querySelector('.version-banner-kbd');
-                    if (kbd) kbd.textContent = 'Cmd+Shift+R';
-                }
-            }
-        }
-
-        async function checkVersion() {
-            const pageVersion = getPageVersion();
-            if (!pageVersion) return; // No version embedded, skip check
-
-            try {
-                const response = await fetch(VERSION_URL + '?t=' + Date.now());
-                if (!response.ok) return;
-                const data = await response.json();
-                const serverVersion = data.commit || '';
-
-                if (serverVersion && serverVersion !== pageVersion) {
-                    const dismissed = getDismissedVersion();
-                    if (dismissed !== serverVersion) {
-                        showBanner();
-                    }
-                }
-            } catch (e) {
-                // Network error or version.json missing - silent fail
-            }
-        }
-
-        // Global function for dismiss button
-        window.dismissVersionBanner = function() {
-            const banner = document.getElementById('version-banner');
-            if (banner) {
-                banner.classList.add('hidden');
-                document.body.classList.remove('has-version-banner');
-            }
-            // Get server version to store as dismissed
-            fetch(VERSION_URL + '?t=' + Date.now())
-                .then(r => r.json())
-                .then(data => {
-                    if (data.commit) setDismissedVersion(data.commit);
-                })
-                .catch(() => {});
-        };
-
-        // Run check after page loads
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkVersion);
-        } else {
-            checkVersion();
-        }
-
-        return { checkVersion };
-    })();
-    </script>
-"""
         if 'VersionCheck' not in story_map_content:
-            story_map_content = story_map_content.replace('</body>', version_check_js + '</body>')
+            story_map_content = story_map_content.replace('</body>', VERSION_CHECK_JS + '</body>')
 
         story_map_path.write_text(story_map_content, encoding="utf-8")
 

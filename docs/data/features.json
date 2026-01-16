@@ -38,7 +38,7 @@
   {
     "id": "FEAT-002",
     "title": "Credential Renewal Portal",
-    "status": "confirmed",
+    "status": "active",
     "purpose": "Enable auditors to renew credentials, submit attestations, and pay renewal fees",
     "business_value": "Reduces manual renewal processing, improves compliance visibility, and gives auditors a self-service renewal experience",
     "in_scope": [
@@ -68,7 +68,7 @@
   {
     "id": "FEAT-003",
     "title": "Continuing Education Tracking",
-    "status": "proposed",
+    "status": "active",
     "purpose": "Track continuing education credits and surface compliance gaps",
     "business_value": "Improves compliance reporting and reduces renewal delays due to missing CPE credits",
     "in_scope": [

@@ -2,6 +2,7 @@
   {
     "id": "STORY-002",
     "title": "Check Good Standing Status",
+    "status": "active",
     "epic_ref": "EPIC-002",
     "tags": [],
     "owner": "",
@@ -9,7 +10,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "draft",
+        "status": "discarded",
+        "approved": false,
         "release_ref": "REL-2026-02-01",
         "description": "As an auditor, I want the system to verify my good standing status so that I can only purchase exams if I meet the membership and ethics requirements",
         "requirement_refs": [
@@ -54,7 +56,8 @@
       },
       {
         "version": 2,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "description": "As an auditor, I want eligibility checks to include renewal status so I can only purchase exams when my credentials are current",
         "requirement_refs": [
@@ -98,6 +101,7 @@
   {
     "id": "STORY-003",
     "title": "Verify Exam Progression",
+    "status": "active",
     "epic_ref": "EPIC-002",
     "tags": [],
     "owner": "",
@@ -105,7 +109,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "ready_to_build",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-02-01",
         "description": "As an auditor, I want the system to check my exam progression so that I can only purchase the next exam in sequence after passing the previous one",
         "requirement_refs": [
@@ -150,7 +155,8 @@
       },
       {
         "version": 2,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "description": "As an auditor, I want progression rules to account for retakes and exemptions so eligibility is accurate",
         "requirement_refs": [
@@ -188,6 +194,7 @@
   {
     "id": "STORY-004",
     "title": "Check Unpaid Invoices",
+    "status": "active",
     "epic_ref": "EPIC-002",
     "tags": [],
     "owner": "",
@@ -195,7 +202,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "in_build",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-02-01",
         "description": "As an auditor, I want to be notified of any unpaid invoices so that I can clear them before purchasing new exam invoices",
         "requirement_refs": [
@@ -237,7 +245,8 @@
       },
       {
         "version": 2,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "description": "As an auditor, I want unpaid invoice checks to include renewal fees so I can clear all obligations",
         "requirement_refs": [
@@ -275,6 +284,7 @@
   {
     "id": "STORY-005",
     "title": "Display Available Exams",
+    "status": "active",
     "epic_ref": "EPIC-003",
     "tags": [],
     "owner": "",
@@ -282,7 +292,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "built",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-02-01",
         "description": "As an auditor, I want to see a list of exams I am eligible to purchase so that I can select the one I want",
         "requirement_refs": [
@@ -326,7 +337,8 @@
       },
       {
         "version": 2,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "description": "As an auditor, I want to see pricing breakdowns and invoice previews before purchase",
         "requirement_refs": [
@@ -365,6 +377,7 @@
   {
     "id": "STORY-006",
     "title": "Purchase Exam Invoice",
+    "status": "active",
     "epic_ref": "EPIC-003",
     "tags": [],
     "owner": "",
@@ -372,7 +385,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "draft",
+        "status": "discarded",
+        "approved": false,
         "release_ref": "REL-2026-02-01",
         "description": "As an auditor, I want to complete the purchase of an exam invoice so that I can register for the exam",
         "requirement_refs": [
@@ -425,7 +439,8 @@
       },
       {
         "version": 2,
-        "status": "ready_to_build",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "description": "As an auditor, I want a clear post-purchase confirmation so I know what to do next",
         "requirement_refs": [
@@ -463,6 +478,7 @@
   {
     "id": "STORY-007",
     "title": "Submit Renewal Attestation",
+    "status": "active",
     "epic_ref": "EPIC-004",
     "tags": [],
     "owner": "",
@@ -470,7 +486,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "approved",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "description": "As an auditor, I want to submit required attestations so that I can complete credential renewal",
         "requirement_refs": [
@@ -505,7 +522,8 @@
       },
       {
         "version": 2,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-05-01",
         "description": "As an auditor, I want to upload supporting evidence for attestations when required",
         "requirement_refs": [
@@ -544,6 +562,7 @@
   {
     "id": "STORY-008",
     "title": "Review Renewal Eligibility",
+    "status": "active",
     "epic_ref": "EPIC-004",
     "tags": [],
     "owner": "",
@@ -551,7 +570,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "description": "As an auditor, I want to review my renewal eligibility so that I understand any gaps",
         "requirement_refs": [
@@ -589,6 +609,7 @@
   {
     "id": "STORY-009",
     "title": "Generate Renewal Invoice",
+    "status": "active",
     "epic_ref": "EPIC-005",
     "tags": [],
     "owner": "",
@@ -596,7 +617,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "draft",
+        "status": "backlog",
+        "approved": false,
         "release_ref": "REL-2026-05-01",
         "description": "As an auditor, I want a renewal invoice generated so I can pay my renewal fee",
         "requirement_refs": [
@@ -635,6 +657,7 @@
   {
     "id": "STORY-010",
     "title": "Log CPE Activity",
+    "status": "active",
     "epic_ref": "EPIC-006",
     "tags": [],
     "owner": "",
@@ -642,7 +665,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "confirmed",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-05-01",
         "description": "As an auditor, I want to log CPE activities so that my credits are tracked accurately",
         "requirement_refs": [
@@ -677,7 +701,8 @@
       },
       {
         "version": 2,
-        "status": "draft",
+        "status": "backlog",
+        "approved": false,
         "release_ref": null,
         "description": "As an auditor, I want to bulk import CPE activities from provider transcripts",
         "requirement_refs": [
@@ -715,6 +740,7 @@
   {
     "id": "STORY-011",
     "title": "View CPE Compliance Status",
+    "status": "active",
     "epic_ref": "EPIC-007",
     "tags": [],
     "owner": "",
@@ -722,7 +748,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "draft",
+        "status": "backlog",
+        "approved": false,
         "release_ref": null,
         "description": "As an auditor, I want to view my CPE compliance status so I know if I'm meeting renewal requirements",
         "requirement_refs": [

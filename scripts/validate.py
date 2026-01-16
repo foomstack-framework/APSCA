@@ -124,7 +124,7 @@ def validate_releases(result: ValidationResult, releases: List[Dict]) -> None:
 
     for release in releases:
         validate_required_fields(result, "releases", release, ["id", "status", "release_date", "description"])
-        validate_status(result, "releases", release, ["planned", "released", "superseded"])
+        validate_status(result, "releases", release, ["planned", "released"])
 
 
 def validate_domain(result: ValidationResult, domain: List[Dict]) -> None:
@@ -132,13 +132,22 @@ def validate_domain(result: ValidationResult, domain: List[Dict]) -> None:
     validate_id_format(result, "domain", domain)
     validate_id_uniqueness(result, "domain", domain)
 
-    for entry in domain:
-        validate_required_fields(result, "domain", entry, ["id", "title", "status", "type", "source", "doc_path"])
-        validate_status(result, "domain", entry, ["active", "deprecated"])
+    valid_types = ["policy", "catalog", "classification", "rule"]
 
+    for entry in domain:
+        entry_id = entry.get("id", "unknown")
+        validate_required_fields(result, "domain", entry, ["id", "title", "status", "type", "source", "doc_path"])
+        validate_status(result, "domain", entry, ["draft", "active", "deprecated"])
+
+        # Validate type is an array of valid types
         entry_type = entry.get("type")
-        if entry_type and entry_type not in ["policy", "catalog", "classification", "rule"]:
-            result.error(f"[domain] {entry.get('id')}: Invalid type '{entry_type}'")
+        if entry_type is not None:
+            if not isinstance(entry_type, list):
+                result.error(f"[domain] {entry_id}: type must be an array, got {type(entry_type).__name__}")
+            else:
+                for t in entry_type:
+                    if t not in valid_types:
+                        result.error(f"[domain] {entry_id}: Invalid type '{t}'. Must be one of {valid_types}")
 
 
 def validate_domain_doc_paths(result: ValidationResult, domain: List[Dict]) -> None:
@@ -162,7 +171,7 @@ def validate_requirements(result: ValidationResult, requirements: List[Dict], do
 
     for req in requirements:
         validate_required_fields(result, "requirements", req, ["id", "title", "status", "type", "statement", "rationale"])
-        validate_status(result, "requirements", req, ["active", "deprecated"])
+        validate_status(result, "requirements", req, ["active", "deprecated", "provisional"])
         validate_refs(result, "requirements", req, "domain_refs", domain_ids, "domain")
 
         req_type = req.get("type")
@@ -200,7 +209,12 @@ def validate_epics(result: ValidationResult, epics: List[Dict],
 
     for epic in epics:
         epic_id = epic.get("id", "unknown")
-        validate_required_fields(result, "epics", epic, ["id", "title", "feature_ref", "versions"])
+        validate_required_fields(result, "epics", epic, ["id", "title", "feature_ref", "status", "versions"])
+
+        # Validate artifact-level status
+        epic_status = epic.get("status")
+        if epic_status and epic_status not in ["active", "deprecated"]:
+            result.error(f"[epics] {epic_id}: Invalid artifact status '{epic_status}'. Must be 'active' or 'deprecated'")
 
         # Validate feature_ref
         feature_ref = epic.get("feature_ref")
@@ -213,6 +227,7 @@ def validate_epics(result: ValidationResult, epics: List[Dict],
             result.error(f"[epics] {epic_id}: Must have at least one version")
 
         version_nums = []
+        backlog_count = 0
         for version in versions:
             v_num = version.get("version")
             if v_num is None:
@@ -222,14 +237,23 @@ def validate_epics(result: ValidationResult, epics: List[Dict],
 
             # Validate version status
             v_status = version.get("status")
-            if v_status and v_status not in ["draft", "approved", "superseded"]:
-                result.error(f"[epics] {epic_id} v{v_num}: Invalid status '{v_status}'")
+            if v_status and v_status not in ["backlog", "released", "discarded"]:
+                result.error(f"[epics] {epic_id} v{v_num}: Invalid status '{v_status}'. Must be 'backlog', 'released', or 'discarded'")
 
-            # Validate release_ref
+            # Count backlog versions
+            if v_status == "backlog":
+                backlog_count += 1
+
+            # Validate approved field
+            approved = version.get("approved")
+            if approved is None:
+                result.error(f"[epics] {epic_id} v{v_num}: Missing required 'approved' field")
+            elif not isinstance(approved, bool):
+                result.error(f"[epics] {epic_id} v{v_num}: 'approved' must be a boolean")
+
+            # Validate release_ref (can be null for backlog versions)
             release_ref = version.get("release_ref")
-            if not release_ref:
-                result.error(f"[epics] {epic_id} v{v_num}: Missing required release_ref")
-            elif release_ref not in release_ids:
+            if release_ref is not None and release_ref not in release_ids:
                 result.error(f"[epics] {epic_id} v{v_num}: Invalid release_ref '{release_ref}'")
 
             # Validate refs
@@ -240,6 +264,10 @@ def validate_epics(result: ValidationResult, epics: List[Dict],
             supersedes = version.get("supersedes")
             if supersedes is not None and supersedes not in version_nums and supersedes >= v_num:
                 result.error(f"[epics] {epic_id} v{v_num}: Invalid supersedes '{supersedes}'")
+
+        # Validate single backlog rule
+        if backlog_count > 1:
+            result.error(f"[epics] {epic_id}: Only one version can have status 'backlog', found {backlog_count}")
 
         # Validate version lineage is monotonic
         if version_nums:
@@ -261,7 +289,12 @@ def validate_stories(result: ValidationResult, stories: List[Dict],
 
     for story in stories:
         story_id = story.get("id", "unknown")
-        validate_required_fields(result, "stories", story, ["id", "title", "epic_ref", "versions"])
+        validate_required_fields(result, "stories", story, ["id", "title", "epic_ref", "status", "versions"])
+
+        # Validate artifact-level status
+        story_status = story.get("status")
+        if story_status and story_status not in ["active", "deprecated"]:
+            result.error(f"[stories] {story_id}: Invalid artifact status '{story_status}'. Must be 'active' or 'deprecated'")
 
         # Validate epic_ref
         epic_ref = story.get("epic_ref")
@@ -274,6 +307,7 @@ def validate_stories(result: ValidationResult, stories: List[Dict],
             result.error(f"[stories] {story_id}: Must have at least one version")
 
         version_nums = []
+        backlog_count = 0
         for version in versions:
             v_num = version.get("version")
             if v_num is None:
@@ -283,36 +317,48 @@ def validate_stories(result: ValidationResult, stories: List[Dict],
 
             # Validate version status
             v_status = version.get("status")
-            valid_story_statuses = ["draft", "ready_to_build", "in_build", "built", "superseded"]
-            if v_status and v_status not in valid_story_statuses:
-                result.error(f"[stories] {story_id} v{v_num}: Invalid status '{v_status}'")
+            if v_status and v_status not in ["backlog", "released", "discarded"]:
+                result.error(f"[stories] {story_id} v{v_num}: Invalid status '{v_status}'. Must be 'backlog', 'released', or 'discarded'")
 
-            # Validate release_ref
+            # Count backlog versions
+            if v_status == "backlog":
+                backlog_count += 1
+
+            # Validate approved field
+            approved = version.get("approved")
+            if approved is None:
+                result.error(f"[stories] {story_id} v{v_num}: Missing required 'approved' field")
+            elif not isinstance(approved, bool):
+                result.error(f"[stories] {story_id} v{v_num}: 'approved' must be a boolean")
+
+            # Validate release_ref (can be null for unassigned backlog versions)
             release_ref = version.get("release_ref")
-            if not release_ref:
-                result.error(f"[stories] {story_id} v{v_num}: Missing required release_ref")
-            elif release_ref not in release_ids:
+            if release_ref is not None and release_ref not in release_ids:
                 result.error(f"[stories] {story_id} v{v_num}: Invalid release_ref '{release_ref}'")
 
             # Validate refs
             validate_refs(result, f"stories/{story_id}/v{v_num}", version, "requirement_refs", requirement_ids, "requirements")
             validate_refs(result, f"stories/{story_id}/v{v_num}", version, "domain_refs", domain_ids, "domain")
 
-            # Validate completeness for non-draft statuses
-            if v_status in ("ready_to_build", "in_build", "built"):
+            # Validate completeness for approved versions
+            if approved:
                 ac = version.get("acceptance_criteria", [])
                 if not ac:
-                    result.error(f"[stories] {story_id} v{v_num}: Status '{v_status}' requires acceptance_criteria")
+                    result.error(f"[stories] {story_id} v{v_num}: Approved versions require acceptance_criteria")
 
                 ti = version.get("test_intent", {})
                 has_test_intent = ti.get("failure_modes") or ti.get("guarantees")
                 if not has_test_intent:
-                    result.error(f"[stories] {story_id} v{v_num}: Status '{v_status}' requires test_intent with failure_modes or guarantees")
+                    result.error(f"[stories] {story_id} v{v_num}: Approved versions require test_intent with failure_modes or guarantees")
 
             # Validate supersedes
             supersedes = version.get("supersedes")
             if supersedes is not None and supersedes not in version_nums and supersedes >= v_num:
                 result.error(f"[stories] {story_id} v{v_num}: Invalid supersedes '{supersedes}'")
+
+        # Validate single backlog rule
+        if backlog_count > 1:
+            result.error(f"[stories] {story_id}: Only one version can have status 'backlog', found {backlog_count}")
 
         # Validate version lineage is monotonic
         if version_nums:
@@ -337,31 +383,31 @@ def validate_deprecated_refs(result: ValidationResult, stories: List[Dict], epic
         if feature_ref in deprecated_features:
             result.warning(f"[epics] {epic_id}: References deprecated feature '{feature_ref}'")
 
-        # Check latest version
+        # Check backlog version (active work version)
         versions = epic.get("versions", [])
-        if versions:
-            latest = max(versions, key=lambda v: v.get("version", 0))
-            if latest.get("status") != "superseded":
-                for ref in latest.get("requirement_refs", []):
-                    if ref in deprecated_reqs:
-                        result.warning(f"[epics] {epic_id} v{latest.get('version')}: References deprecated requirement '{ref}'")
-                for ref in latest.get("domain_refs", []):
-                    if ref in deprecated_domain:
-                        result.warning(f"[epics] {epic_id} v{latest.get('version')}: References deprecated domain '{ref}'")
+        backlog_versions = [v for v in versions if v.get("status") == "backlog"]
+        if backlog_versions:
+            current = backlog_versions[0]
+            for ref in current.get("requirement_refs", []):
+                if ref in deprecated_reqs:
+                    result.warning(f"[epics] {epic_id} v{current.get('version')}: References deprecated requirement '{ref}'")
+            for ref in current.get("domain_refs", []):
+                if ref in deprecated_domain:
+                    result.warning(f"[epics] {epic_id} v{current.get('version')}: References deprecated domain '{ref}'")
 
     # Check stories
     for story in stories:
         story_id = story.get("id")
         versions = story.get("versions", [])
-        if versions:
-            latest = max(versions, key=lambda v: v.get("version", 0))
-            if latest.get("status") != "superseded":
-                for ref in latest.get("requirement_refs", []):
-                    if ref in deprecated_reqs:
-                        result.warning(f"[stories] {story_id} v{latest.get('version')}: References deprecated requirement '{ref}'")
-                for ref in latest.get("domain_refs", []):
-                    if ref in deprecated_domain:
-                        result.warning(f"[stories] {story_id} v{latest.get('version')}: References deprecated domain '{ref}'")
+        backlog_versions = [v for v in versions if v.get("status") == "backlog"]
+        if backlog_versions:
+            current = backlog_versions[0]
+            for ref in current.get("requirement_refs", []):
+                if ref in deprecated_reqs:
+                    result.warning(f"[stories] {story_id} v{current.get('version')}: References deprecated requirement '{ref}'")
+            for ref in current.get("domain_refs", []):
+                if ref in deprecated_domain:
+                    result.warning(f"[stories] {story_id} v{current.get('version')}: References deprecated domain '{ref}'")
 
 
 # =============================================================================

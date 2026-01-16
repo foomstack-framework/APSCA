@@ -2,6 +2,7 @@
   {
     "id": "EPIC-002",
     "title": "Exam Eligibility Verification",
+    "status": "active",
     "feature_ref": "FEAT-001",
     "tags": [],
     "owner": "",
@@ -9,7 +10,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "approved",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-02-01",
         "summary": "Implement eligibility checking logic to determine which exams an auditor can purchase based on their standing, progression, and payment status",
         "assumptions": [
@@ -34,7 +36,8 @@
       },
       {
         "version": 2,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "summary": "Extend eligibility checks to include renewal status, outstanding invoices, and required attestations",
         "assumptions": [
@@ -64,6 +67,7 @@
   {
     "id": "EPIC-003",
     "title": "Exam Invoice Purchase Flow",
+    "status": "active",
     "feature_ref": "FEAT-001",
     "tags": [],
     "owner": "",
@@ -71,7 +75,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "draft",
+        "status": "discarded",
+        "approved": false,
         "release_ref": "REL-2026-02-01",
         "summary": "Build the account page UI and purchase workflow for auditors to select and purchase exam invoices",
         "assumptions": [
@@ -95,7 +100,8 @@
       },
       {
         "version": 2,
-        "status": "ready_to_build",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "summary": "Add invoice preview, pricing breakdown, and post-purchase confirmation with next steps",
         "assumptions": [
@@ -124,6 +130,7 @@
   {
     "id": "EPIC-004",
     "title": "Renewal Eligibility Checks",
+    "status": "active",
     "feature_ref": "FEAT-002",
     "tags": [],
     "owner": "",
@@ -131,7 +138,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "approved",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-03-15",
         "summary": "Verify renewal eligibility based on credential status, CPE credits, and attestations",
         "assumptions": [
@@ -156,7 +164,8 @@
       },
       {
         "version": 2,
-        "status": "approved",
+        "status": "backlog",
+        "approved": true,
         "release_ref": "REL-2026-05-01",
         "summary": "Add conditional eligibility for auditors with pending documentation and grace periods",
         "assumptions": [
@@ -183,6 +192,7 @@
   {
     "id": "EPIC-005",
     "title": "Renewal Fee Invoicing",
+    "status": "active",
     "feature_ref": "FEAT-002",
     "tags": [],
     "owner": "",
@@ -190,7 +200,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "draft",
+        "status": "backlog",
+        "approved": false,
         "release_ref": "REL-2026-05-01",
         "summary": "Generate renewal fee invoices with tiered pricing and late penalties",
         "assumptions": [
@@ -217,6 +228,7 @@
   {
     "id": "EPIC-006",
     "title": "CPE Credit Validation",
+    "status": "active",
     "feature_ref": "FEAT-003",
     "tags": [],
     "owner": "",
@@ -224,7 +236,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "confirmed",
+        "status": "released",
+        "approved": true,
         "release_ref": "REL-2026-05-01",
         "summary": "Validate CPE credits against policy rules and highlight gaps",
         "assumptions": [
@@ -248,7 +261,8 @@
       },
       {
         "version": 2,
-        "status": "draft",
+        "status": "backlog",
+        "approved": false,
         "release_ref": null,
         "summary": "Add automated CPE credit verification and bulk import capabilities",
         "assumptions": [
@@ -275,6 +289,7 @@
   {
     "id": "EPIC-007",
     "title": "CPE Reporting Dashboard",
+    "status": "active",
     "feature_ref": "FEAT-003",
     "tags": [],
     "owner": "",
@@ -282,7 +297,8 @@
     "versions": [
       {
         "version": 1,
-        "status": "draft",
+        "status": "backlog",
+        "approved": false,
         "release_ref": null,
         "summary": "Build dashboard for auditors to view CPE credit status, compliance gaps, and reporting period summaries",
         "assumptions": [

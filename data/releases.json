@@ -15,7 +15,7 @@
   {
     "id": "REL-2026-03-15",
     "title": "Eligibility Expansion",
-    "status": "active",
+    "status": "planned",
     "release_date": "2026-03-15",
     "description": "Expanded eligibility checks, invoice previews, and renewal-aware validations",
     "git_tag": null,

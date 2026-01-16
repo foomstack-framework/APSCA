@@ -11,7 +11,7 @@
       "id": "REL-2026-03-15",
       "type": "release",
       "title": "Eligibility Expansion",
-      "status": "active",
+      "status": "planned",
       "release_date": "2026-03-15"
     },
     "REL-2026-05-01": {
@@ -26,7 +26,9 @@
       "type": "domain",
       "title": "Exam Eligibility Rules",
       "status": "active",
-      "domain_type": "rule",
+      "domain_type": [
+        "rule"
+      ],
       "doc_path": "docs/domain/exam-eligibility-rules.md"
     },
     "ART-002": {
@@ -34,7 +36,9 @@
       "type": "domain",
       "title": "Credential Renewal Policy",
       "status": "active",
-      "domain_type": "policy",
+      "domain_type": [
+        "policy"
+      ],
       "doc_path": "docs/domain/credential-renewal-policy.md"
     },
     "ART-003": {
@@ -42,7 +46,9 @@
       "type": "domain",
       "title": "CPE Credit Rules",
       "status": "draft",
-      "domain_type": "rule",
+      "domain_type": [
+        "rule"
+      ],
       "doc_path": "docs/domain/cpe-credit-rules.md"
     },
     "REQ-002": {
@@ -108,7 +114,7 @@
       "id": "FEAT-002",
       "type": "feature",
       "title": "Credential Renewal Portal",
-      "status": "confirmed",
+      "status": "active",
       "requirement_refs": [
         "REQ-003",
         "REQ-004"
@@ -121,7 +127,7 @@
       "id": "FEAT-003",
       "type": "feature",
       "title": "Continuing Education Tracking",
-      "status": "proposed",
+      "status": "active",
       "requirement_refs": [
         "REQ-002"
       ],
@@ -136,7 +142,7 @@
       "feature_ref": "FEAT-001",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15"
     },
     "EPIC-003": {
@@ -146,7 +152,7 @@
       "feature_ref": "FEAT-001",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "ready_to_build",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15"
     },
     "EPIC-004": {
@@ -156,7 +162,7 @@
       "feature_ref": "FEAT-002",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-05-01"
     },
     "EPIC-005": {
@@ -166,7 +172,7 @@
       "feature_ref": "FEAT-002",
       "version_count": 1,
       "current_version": 1,
-      "current_status": "draft",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-05-01"
     },
     "EPIC-006": {
@@ -176,7 +182,7 @@
       "feature_ref": "FEAT-003",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "draft",
+      "current_status": "backlog",
       "current_release_ref": null
     },
     "EPIC-007": {
@@ -186,7 +192,7 @@
       "feature_ref": "FEAT-003",
       "version_count": 1,
       "current_version": 1,
-      "current_status": "draft",
+      "current_status": "backlog",
       "current_release_ref": null
     },
     "STORY-002": {
@@ -196,7 +202,7 @@
       "epic_ref": "EPIC-002",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -208,7 +214,7 @@
       "epic_ref": "EPIC-002",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -220,7 +226,7 @@
       "epic_ref": "EPIC-002",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -232,7 +238,7 @@
       "epic_ref": "EPIC-003",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -244,7 +250,7 @@
       "epic_ref": "EPIC-003",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "ready_to_build",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -256,7 +262,7 @@
       "epic_ref": "EPIC-004",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-05-01",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -268,7 +274,7 @@
       "epic_ref": "EPIC-004",
       "version_count": 1,
       "current_version": 1,
-      "current_status": "approved",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-03-15",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -280,7 +286,7 @@
       "epic_ref": "EPIC-005",
       "version_count": 1,
       "current_version": 1,
-      "current_status": "draft",
+      "current_status": "backlog",
       "current_release_ref": "REL-2026-05-01",
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -292,7 +298,7 @@
       "epic_ref": "EPIC-006",
       "version_count": 2,
       "current_version": 2,
-      "current_status": "draft",
+      "current_status": "backlog",
       "current_release_ref": null,
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -304,7 +310,7 @@
       "epic_ref": "EPIC-007",
       "version_count": 1,
       "current_version": 1,
-      "current_status": "draft",
+      "current_status": "backlog",
       "current_release_ref": null,
       "has_acceptance_criteria": true,
       "has_test_intent": true
@@ -356,46 +362,40 @@
   "by_status": {
     "planned": [
       "REL-2026-02-01",
+      "REL-2026-03-15",
       "REL-2026-05-01"
     ],
     "active": [
-      "REL-2026-03-15",
       "ART-001",
       "ART-002",
       "REQ-002",
       "REQ-003",
       "REQ-004",
       "REQ-005",
-      "FEAT-001"
+      "FEAT-001",
+      "FEAT-002",
+      "FEAT-003"
     ],
     "draft": [
-      "ART-003",
+      "ART-003"
+    ],
+    "backlog": [
+      "EPIC-002",
+      "EPIC-003",
+      "EPIC-004",
       "EPIC-005",
       "EPIC-006",
       "EPIC-007",
-      "STORY-009",
-      "STORY-010",
-      "STORY-011"
-    ],
-    "confirmed": [
-      "FEAT-002"
-    ],
-    "proposed": [
-      "FEAT-003"
-    ],
-    "approved": [
-      "EPIC-002",
-      "EPIC-004",
       "STORY-002",
       "STORY-003",
       "STORY-004",
       "STORY-005",
+      "STORY-006",
       "STORY-007",
-      "STORY-008"
-    ],
-    "ready_to_build": [
-      "EPIC-003",
-      "STORY-006"
+      "STORY-008",
+      "STORY-009",
+      "STORY-010",
+      "STORY-011"
     ]
   },
   "by_release": {
@@ -470,13 +470,10 @@
       "story": 10
     },
     "counts_by_status": {
-      "planned": 2,
-      "active": 8,
-      "draft": 7,
-      "confirmed": 1,
-      "proposed": 1,
-      "approved": 8,
-      "ready_to_build": 2
+      "planned": 3,
+      "active": 9,
+      "draft": 1,
+      "backlog": 16
     }
   }
 }
