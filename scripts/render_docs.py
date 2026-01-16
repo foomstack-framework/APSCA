@@ -567,6 +567,11 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
     const VersionCheck = (() => {{
         const DISMISSED_KEY = 'apsca_version_dismissed';
         const VERSION_URL = '{prefix}version.json';
+        const DEBUG_PREFIX = '[VersionCheck]';
+
+        function log(...args) {{
+            console.debug(DEBUG_PREFIX, ...args);
+        }}
 
         function getPageVersion() {{
             const meta = document.querySelector('meta[name="apsca-version"]');
@@ -582,7 +587,10 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
         function setDismissedVersion(version) {{
             try {{
                 localStorage.setItem(DISMISSED_KEY, version);
-            }} catch (e) {{}}
+                log('Stored dismissed version:', version.substring(0, 7));
+            }} catch (e) {{
+                log('Failed to store dismissed version:', e);
+            }}
         }}
 
         function showBanner() {{
@@ -590,6 +598,7 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
             if (banner) {{
                 banner.classList.remove('hidden');
                 document.body.classList.add('has-version-banner');
+                log('Banner shown');
                 // Update keyboard shortcut for Mac
                 if (navigator.platform.indexOf('Mac') !== -1) {{
                     const kbd = banner.querySelector('.version-banner-kbd');
@@ -600,27 +609,45 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
 
         async function checkVersion() {{
             const pageVersion = getPageVersion();
-            if (!pageVersion) return; // No version embedded, skip check
+            log('Check started - Page version:', pageVersion ? pageVersion.substring(0, 7) : '(none)');
+
+            if (!pageVersion) {{
+                log('No page version found, skipping check');
+                return;
+            }}
 
             try {{
                 const response = await fetch(VERSION_URL + '?t=' + Date.now());
-                if (!response.ok) return;
+                if (!response.ok) {{
+                    log('Fetch failed with status:', response.status);
+                    return;
+                }}
                 const data = await response.json();
                 const serverVersion = data.commit || '';
+                const dismissed = getDismissedVersion();
+
+                log('Server version:', serverVersion ? serverVersion.substring(0, 7) : '(none)');
+                log('Dismissed version:', dismissed ? dismissed.substring(0, 7) : '(none)');
 
                 if (serverVersion && serverVersion !== pageVersion) {{
-                    const dismissed = getDismissedVersion();
+                    log('Version mismatch detected');
                     if (dismissed !== serverVersion) {{
+                        log('Server version not dismissed, showing banner');
                         showBanner();
+                    }} else {{
+                        log('Server version already dismissed, hiding banner');
                     }}
+                }} else {{
+                    log('Versions match, no banner needed');
                 }}
             }} catch (e) {{
-                // Network error or version.json missing - silent fail
+                log('Check failed:', e.message || e);
             }}
         }}
 
         // Global function for dismiss button
         window.dismissVersionBanner = function() {{
+            log('Dismiss button clicked');
             const banner = document.getElementById('version-banner');
             if (banner) {{
                 banner.classList.add('hidden');
@@ -630,21 +657,33 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
             fetch(VERSION_URL + '?t=' + Date.now())
                 .then(r => r.json())
                 .then(data => {{
-                    if (data.commit) setDismissedVersion(data.commit);
+                    if (data.commit) {{
+                        log('Dismissing version:', data.commit.substring(0, 7));
+                        setDismissedVersion(data.commit);
+                    }}
                 }})
-                .catch(() => {{}});
+                .catch((e) => {{
+                    log('Failed to fetch version for dismiss:', e);
+                }});
         }};
 
         // Global function for refresh button - dismiss then refresh
         window.refreshWithDismiss = async function() {{
+            log('Refresh button clicked');
             try {{
                 // Fetch server version and store as dismissed before refreshing
                 const response = await fetch(VERSION_URL + '?t=' + Date.now());
                 if (response.ok) {{
                     const data = await response.json();
-                    if (data.commit) setDismissedVersion(data.commit);
+                    if (data.commit) {{
+                        log('Dismissing version before refresh:', data.commit.substring(0, 7));
+                        setDismissedVersion(data.commit);
+                    }}
                 }}
-            }} catch (e) {{}}
+            }} catch (e) {{
+                log('Failed to dismiss before refresh:', e);
+            }}
+            log('Refreshing page...');
             // Refresh with cache-busting query param
             location.href = location.pathname + '?refresh=' + Date.now();
         }};
