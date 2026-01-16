@@ -43,6 +43,7 @@ APSCA is a requirements management repository that stores structured requirement
 3. **Versioning** - Epics and stories are versioned; prior versions are immutable once superseded
 4. **Traceability** - Downstream artifacts reference upstream by stable IDs
 5. **Explicit timeline ownership** - Every version is bound to exactly one release
+6. **CRITICAL: Regenerate HTML after data changes** - The `docs/` folder contains generated HTML that must be rebuilt after any changes to `data/*.json` or `scripts/`. See "Build Process" section below.
 
 ## Artifact Relationships
 
@@ -146,6 +147,41 @@ Stories include test intent that separates concerns:
 - **Developers implement** tests to satisfy that intent
 
 This removes business reasoning burden from developers.
+
+## Build Process
+
+**IMPORTANT**: The HTML files in `docs/` are generated from `data/*.json`. They are NOT automatically updated when data changes. You MUST run the build scripts to regenerate the HTML before committing.
+
+### Required Build Steps
+
+After making any changes to `data/*.json` or `scripts/`, run these commands in order:
+
+```bash
+# 1. Validate data integrity (catches errors before rendering)
+python scripts/validate.py
+
+# 2. Regenerate HTML documentation
+python scripts/render_docs.py
+
+# 3. Rebuild graph and index (for traversal and search)
+python scripts/build_graph.py
+python scripts/build_index.py
+```
+
+### When to Rebuild
+
+Run all build scripts after:
+- Any mutation operation (`python scripts/mutate.py ...`)
+- Direct edits to `data/*.json` files
+- Changes to rendering scripts (`scripts/render_docs.py`, `scripts/lib/assets.py`)
+- Changes to validation rules (`scripts/validate.py`)
+
+### Verification
+
+After rebuilding, verify the changes took effect:
+- Open `docs/stories/index.html` in a browser to check story listings
+- Open `docs/story-map.html` to verify the interactive visualization
+- Check that `docs/data/*.json` files are updated (these are copies for the web UI)
 
 ## GitLab Pages
 

@@ -1287,6 +1287,14 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
     </div>
 """
 
+    # For stories, use "User Story Status" label and default to active
+    if artifact_type.lower() == "stories":
+        status_filter_label = "User Story Status"
+        status_filter_default = "active"
+    else:
+        status_filter_label = "Status"
+        status_filter_default = "all"
+
     html += f"""
 <div class="index-toolbar">
     <div class="toolbar-field">
@@ -1294,7 +1302,7 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
         <input type="search" id="search-input" placeholder="Search by ID, title, status, release..." />
     </div>
     <div class="toolbar-field">
-        <label for="status-filter">Status</label>
+        <label for="status-filter">{status_filter_label}</label>
         <select id="status-filter">
             <option value="all">All statuses</option>
             {status_options}
@@ -1303,6 +1311,14 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
     {epic_filter_html}
     <div class="toolbar-meta" id="results-count"></div>
 </div>
+<script>
+(function() {{
+    var statusFilter = document.getElementById('status-filter');
+    if (statusFilter && '{status_filter_default}' !== 'all') {{
+        statusFilter.value = '{status_filter_default}';
+    }}
+}})();
+</script>
 """
 
     def requirement_type_badge(req_type: str) -> str:
@@ -1353,7 +1369,7 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
     if artifact_type.lower() == "requirements":
         html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Type</th><th>Status</th></tr></thead><tbody>'
     elif artifact_type.lower() == "stories" and epic_lookup:
-        html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Epic</th><th>Status</th></tr></thead><tbody>'
+        html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Epic</th><th>Version</th><th>User Story Status</th><th>Version Status</th><th>Version Approval</th></tr></thead><tbody>'
     else:
         html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody>'
 
@@ -1438,6 +1454,13 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
                 epic_title = epic_data.get('title', '') if epic_data else ''
                 search_text_with_epic = f"{search_text} {epic_ref} {epic_title}".lower()
 
+            # Get version info for separate columns
+            current = get_current_version(item.get('versions', []))
+            version_num = f"v{current.get('version', '?')}" if current else "—"
+            version_status = current.get('status', 'unknown') if current else 'unknown'
+            version_approved = current.get('approved', False) if current else False
+            approval_badge = '<span class="status-badge" style="background-color: #059669">Yes</span>' if version_approved else '<span class="status-badge" style="background-color: #9ca3af">No</span>'
+
             html += (
                 f'<tr data-filter-item="true" data-status="{e(status)}" data-epic="{e(epic_ref)}" data-search-text="{e(search_text_with_epic)}">'
                 f'<td class="record-cell"><a href="{item_id}.html">{e(item_id)}</a>'
@@ -1445,7 +1468,10 @@ def render_index(artifact_type: str, items: List[Dict], title: str, domain_looku
                 f'<td class="summary-cell"><div class="cell-primary">{e(primary_summary)}</div>'
                 f'{format_secondary(secondary_summary)}</td>'
                 f'{epic_cell_html}'
-                f'<td class="status-cell"><div class="badge-stack">{"".join(status_badges)}</div></td>'
+                f'<td class="status-cell">{version_num}</td>'
+                f'<td class="status-cell">{status_badge(status)}</td>'
+                f'<td class="status-cell">{status_badge(version_status)}</td>'
+                f'<td class="status-cell">{approval_badge}</td>'
                 '</tr>'
             )
         else:
