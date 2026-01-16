@@ -20,6 +20,20 @@ from lib.config import DATA_FILES, DATA_DIR, DOCS_DIR, REPORTS_DIR, ROOT_DIR
 from lib.io import load_json
 from lib.versions import get_current_version
 
+# Version file path
+VERSION_FILE = DOCS_DIR / "version.json"
+
+
+def get_build_version() -> str:
+    """Get the build version from version.json, or empty string if not available."""
+    try:
+        if VERSION_FILE.exists():
+            version_data = json.loads(VERSION_FILE.read_text(encoding="utf-8"))
+            return version_data.get("commit", "")
+    except (json.JSONDecodeError, IOError):
+        pass
+    return ""
+
 # Output directories (script-specific, NOT domain/ - that's authored content)
 OUTPUT_DIRS = {
     "releases": DOCS_DIR / "releases",
@@ -1192,6 +1206,85 @@ body:has(.stories-layout) {
 .breadcrumb-current {
     color: var(--text-secondary);
 }
+
+/* Version Banner */
+.version-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #fef3c7;
+    border-bottom: 1px solid #f59e0b;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: #92400e;
+}
+
+.version-banner.hidden {
+    display: none;
+}
+
+.version-banner-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.version-banner-kbd {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    background: rgba(146, 64, 14, 0.1);
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
+    border: 1px solid rgba(146, 64, 14, 0.2);
+}
+
+.version-banner-refresh {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.version-banner-refresh:hover {
+    background: #d97706;
+}
+
+.version-banner-dismiss {
+    background: transparent;
+    border: none;
+    color: #92400e;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+}
+
+.version-banner-dismiss:hover {
+    opacity: 1;
+}
+
+body.has-version-banner .topbar {
+    top: 42px;
+}
+
+body.has-version-banner main {
+    padding-top: 42px;
+}
 """
 
 
@@ -1239,6 +1332,18 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
     """
     nav_html = generate_navbar(active_section, depth)
     breadcrumb_html = '<nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>'
+    prefix = "../" * depth
+    build_version = get_build_version()
+
+    # Version banner HTML (hidden by default, shown by JS when version mismatch detected)
+    version_banner = '''<div id="version-banner" class="version-banner hidden" role="alert">
+        <span class="version-banner-text">
+            A newer version is available.
+            <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
+        </span>
+        <button class="version-banner-refresh" onclick="location.reload(true)">Refresh Now</button>
+        <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
+    </div>'''
 
     if custom_main:
         main_section = content
@@ -1250,10 +1355,12 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apsca-version" content="{e(build_version)}">
     <title>{e(title)} - APSCA</title>
     <style>{CSS}</style>
 </head>
 <body>
+    {version_banner}
     {nav_html}
     {main_section}
     <script>
@@ -1426,6 +1533,88 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
         }}
 
         return {{ init }};
+    }})();
+
+    // Version Check
+    const VersionCheck = (() => {{
+        const DISMISSED_KEY = 'apsca_version_dismissed';
+        const VERSION_URL = '{prefix}version.json';
+
+        function getPageVersion() {{
+            const meta = document.querySelector('meta[name="apsca-version"]');
+            return meta ? meta.getAttribute('content') : '';
+        }}
+
+        function getDismissedVersion() {{
+            try {{
+                return localStorage.getItem(DISMISSED_KEY) || '';
+            }} catch (e) {{ return ''; }}
+        }}
+
+        function setDismissedVersion(version) {{
+            try {{
+                localStorage.setItem(DISMISSED_KEY, version);
+            }} catch (e) {{}}
+        }}
+
+        function showBanner() {{
+            const banner = document.getElementById('version-banner');
+            if (banner) {{
+                banner.classList.remove('hidden');
+                document.body.classList.add('has-version-banner');
+                // Update keyboard shortcut for Mac
+                if (navigator.platform.indexOf('Mac') !== -1) {{
+                    const kbd = banner.querySelector('.version-banner-kbd');
+                    if (kbd) kbd.textContent = 'Cmd+Shift+R';
+                }}
+            }}
+        }}
+
+        async function checkVersion() {{
+            const pageVersion = getPageVersion();
+            if (!pageVersion) return; // No version embedded, skip check
+
+            try {{
+                const response = await fetch(VERSION_URL + '?t=' + Date.now());
+                if (!response.ok) return;
+                const data = await response.json();
+                const serverVersion = data.commit || '';
+
+                if (serverVersion && serverVersion !== pageVersion) {{
+                    const dismissed = getDismissedVersion();
+                    if (dismissed !== serverVersion) {{
+                        showBanner();
+                    }}
+                }}
+            }} catch (e) {{
+                // Network error or version.json missing - silent fail
+            }}
+        }}
+
+        // Global function for dismiss button
+        window.dismissVersionBanner = function() {{
+            const banner = document.getElementById('version-banner');
+            if (banner) {{
+                banner.classList.add('hidden');
+                document.body.classList.remove('has-version-banner');
+            }}
+            // Get server version to store as dismissed
+            fetch(VERSION_URL + '?t=' + Date.now())
+                .then(r => r.json())
+                .then(data => {{
+                    if (data.commit) setDismissedVersion(data.commit);
+                }})
+                .catch(() => {{}});
+        }};
+
+        // Run check after page loads
+        if (document.readyState === 'loading') {{
+            document.addEventListener('DOMContentLoaded', checkVersion);
+        }} else {{
+            checkVersion();
+        }}
+
+        return {{ checkVersion }};
     }})();
     </script>
 </body>
@@ -3244,6 +3433,211 @@ def main():
         if 'BreadcrumbNav' not in story_map_content:
             # Insert before closing </body> tag
             story_map_content = story_map_content.replace('</body>', breadcrumb_js + '</body>')
+
+        # Add version detection features
+        build_version = get_build_version()
+
+        # Add version meta tag if not present
+        if 'name="apsca-version"' not in story_map_content:
+            story_map_content = re.sub(
+                r'(<meta name="viewport"[^>]*>)',
+                r'\1\n    <meta name="apsca-version" content="">',
+                story_map_content,
+                count=1
+            )
+
+        # Update version meta tag content
+        story_map_content = re.sub(
+            r'<meta name="apsca-version" content="[^"]*">',
+            f'<meta name="apsca-version" content="{build_version}">',
+            story_map_content
+        )
+
+        # Add version banner CSS if not present
+        version_banner_css = """
+/* Version Banner */
+.version-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #fef3c7;
+    border-bottom: 1px solid #f59e0b;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: #92400e;
+}
+
+.version-banner.hidden {
+    display: none;
+}
+
+.version-banner-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.version-banner-kbd {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    background: rgba(146, 64, 14, 0.1);
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
+    border: 1px solid rgba(146, 64, 14, 0.2);
+}
+
+.version-banner-refresh {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.version-banner-refresh:hover {
+    background: #d97706;
+}
+
+.version-banner-dismiss {
+    background: transparent;
+    border: none;
+    color: #92400e;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+}
+
+.version-banner-dismiss:hover {
+    opacity: 1;
+}
+
+body.has-version-banner .topbar {
+    top: 42px;
+}
+"""
+        if '.version-banner {' not in story_map_content:
+            story_map_content = story_map_content.replace('</style>', version_banner_css + '</style>', 1)
+
+        # Add version banner HTML if not present
+        version_banner_html = '''<div id="version-banner" class="version-banner hidden" role="alert">
+        <span class="version-banner-text">
+            A newer version is available.
+            <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
+        </span>
+        <button class="version-banner-refresh" onclick="location.reload(true)">Refresh Now</button>
+        <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
+    </div>'''
+        if 'id="version-banner"' not in story_map_content:
+            story_map_content = re.sub(
+                r'(<body>)',
+                r'\1\n    ' + version_banner_html,
+                story_map_content,
+                count=1
+            )
+
+        # Add version check JavaScript if not present
+        version_check_js = """
+    <script>
+    // Version Check
+    const VersionCheck = (() => {
+        const DISMISSED_KEY = 'apsca_version_dismissed';
+        const VERSION_URL = 'version.json';
+
+        function getPageVersion() {
+            const meta = document.querySelector('meta[name="apsca-version"]');
+            return meta ? meta.getAttribute('content') : '';
+        }
+
+        function getDismissedVersion() {
+            try {
+                return localStorage.getItem(DISMISSED_KEY) || '';
+            } catch (e) { return ''; }
+        }
+
+        function setDismissedVersion(version) {
+            try {
+                localStorage.setItem(DISMISSED_KEY, version);
+            } catch (e) {}
+        }
+
+        function showBanner() {
+            const banner = document.getElementById('version-banner');
+            if (banner) {
+                banner.classList.remove('hidden');
+                document.body.classList.add('has-version-banner');
+                // Update keyboard shortcut for Mac
+                if (navigator.platform.indexOf('Mac') !== -1) {
+                    const kbd = banner.querySelector('.version-banner-kbd');
+                    if (kbd) kbd.textContent = 'Cmd+Shift+R';
+                }
+            }
+        }
+
+        async function checkVersion() {
+            const pageVersion = getPageVersion();
+            if (!pageVersion) return; // No version embedded, skip check
+
+            try {
+                const response = await fetch(VERSION_URL + '?t=' + Date.now());
+                if (!response.ok) return;
+                const data = await response.json();
+                const serverVersion = data.commit || '';
+
+                if (serverVersion && serverVersion !== pageVersion) {
+                    const dismissed = getDismissedVersion();
+                    if (dismissed !== serverVersion) {
+                        showBanner();
+                    }
+                }
+            } catch (e) {
+                // Network error or version.json missing - silent fail
+            }
+        }
+
+        // Global function for dismiss button
+        window.dismissVersionBanner = function() {
+            const banner = document.getElementById('version-banner');
+            if (banner) {
+                banner.classList.add('hidden');
+                document.body.classList.remove('has-version-banner');
+            }
+            // Get server version to store as dismissed
+            fetch(VERSION_URL + '?t=' + Date.now())
+                .then(r => r.json())
+                .then(data => {
+                    if (data.commit) setDismissedVersion(data.commit);
+                })
+                .catch(() => {});
+        };
+
+        // Run check after page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkVersion);
+        } else {
+            checkVersion();
+        }
+
+        return { checkVersion };
+    })();
+    </script>
+"""
+        if 'VersionCheck' not in story_map_content:
+            story_map_content = story_map_content.replace('</body>', version_check_js + '</body>')
 
         story_map_path.write_text(story_map_content, encoding="utf-8")
 

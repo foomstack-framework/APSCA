@@ -28,6 +28,7 @@ jobs:
 
       - name: Build site
         run: |
+          python scripts/build_version.py
           python scripts/build_graph.py
           python scripts/build_index.py
           python scripts/render_docs.py

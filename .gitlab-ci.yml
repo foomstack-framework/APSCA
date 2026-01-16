@@ -8,6 +8,7 @@ pages:
   image: python:3.11
   script:
     # - python scripts/validate.py  # TODO: Re-enable after fixing data issues
+    - python scripts/build_version.py
     - python scripts/build_graph.py
     - python scripts/build_index.py
     - python scripts/render_docs.py
