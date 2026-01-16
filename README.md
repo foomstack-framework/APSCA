@@ -2,6 +2,12 @@
 
 This repository serves as the single source of truth for APSCA requirements, features, epics, stories, and releases. It is designed to be edited by Project Managers (PMs) using AI assistance and published automatically to a read-only dashboard.
 
+## 📄 Live Documentation
+
+**GitHub Pages:** https://foomstack-framework.github.io/APSCA/story-map.html
+
+> **Note:** GitLab Pages deployment is pending server configuration. Once enabled, the documentation will also be available via GitLab Pages.
+
 ---
 
 ## 🚀 Workflow for Project Managers
@@ -33,6 +39,7 @@ You do not edit the JSON data files manually. You use an AI assistant to make ch
     git commit -m "Added Student Exam Registration feature"
     git push
     ```
+    > **Dual-Remote Setup:** This repository is configured to push to both GitLab and GitHub simultaneously. A single `git push` updates both remotes, triggering CI pipelines on both platforms.
 
 ### 3. Merging Changes
 If you are working with other PMs, you may encounter "Merge Conflicts" if you both edit the same file (e.g., `stories.json`) at the same time.
@@ -85,3 +92,26 @@ If using Claude Code or a compatible agent, you can use these slash commands:
 
 *   **No Dependencies:** This project uses only the Python Standard Library. No `pip install` required.
 *   **Validation:** Run `python scripts/validate.py` to ensure data integrity.
+
+---
+
+## 🔗 Repository Mirrors
+
+This project is mirrored to two remotes:
+
+| Platform | Repository URL | CI/CD |
+|----------|----------------|-------|
+| GitLab | https://gitlab.ksensetech.com/client-project-documentation-experimental/apsca-react-docs | GitLab CI (Pages pending) |
+| GitHub | https://github.com/foomstack-framework/APSCA | GitHub Actions → GitHub Pages |
+
+### Setting Up Dual-Remote Push (New Clone)
+
+If you clone this repository fresh, you can configure `git push` to update both remotes:
+
+```bash
+# Add GitHub as a push target for origin
+git remote set-url --add --push origin https://gitlab.ksensetech.com/client-project-documentation-experimental/apsca-react-docs.git
+git remote set-url --add --push origin https://github.com/foomstack-framework/APSCA.git
+```
+
+After this, `git push` will update both GitLab and GitHub simultaneously.
