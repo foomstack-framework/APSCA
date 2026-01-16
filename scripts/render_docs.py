@@ -52,6 +52,9 @@ OUTPUT_DIRS = {
     "stories": DOCS_DIR / "stories",
 }
 
+TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
+_TEMPLATE_CACHE: Dict[str, str] = {}
+
 
 # =============================================================================
 # HTML Helpers
@@ -60,6 +63,27 @@ OUTPUT_DIRS = {
 def e(text: str) -> str:
     """Escape HTML entities."""
     return escape(str(text)) if text else ""
+
+
+def load_template(name: str) -> str:
+    """Load and cache an HTML template by filename."""
+    if name in _TEMPLATE_CACHE:
+        return _TEMPLATE_CACHE[name]
+    template_path = TEMPLATES_DIR / name
+    content = template_path.read_text(encoding="utf-8")
+    _TEMPLATE_CACHE[name] = content
+    return content
+
+
+def render_template(name: str, replacements: Dict[str, str]) -> str:
+    """Render a template by replacing <!--TOKEN--> placeholders."""
+    content = load_template(name)
+    for key, value in replacements.items():
+        placeholder = f"<!--{key}-->"
+        if placeholder not in content:
+            raise ValueError(f"Missing placeholder {placeholder} in template {name}")
+        content = content.replace(placeholder, value, 1)
+    return content
 
 
 def format_status_label(status: str) -> str:
@@ -363,35 +387,14 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
     prefix = "../" * depth
     build_version = get_build_version()
 
-    # Version banner HTML (hidden by default, shown by JS when version mismatch detected)
-    version_banner = '''<div id="version-banner" class="version-banner hidden" role="alert">
-        <span class="version-banner-text">
-            A newer version is available.
-            <span>Or press <kbd class="version-banner-kbd">Ctrl+Shift+R</kbd></span>
-        </span>
-        <button class="version-banner-refresh" onclick="refreshWithDismiss()">Refresh Now</button>
-        <button class="version-banner-dismiss" onclick="dismissVersionBanner()" aria-label="Dismiss">&times;</button>
-    </div>'''
+    version_banner = VERSION_BANNER_HTML
 
     if custom_main:
         main_section = content
     else:
         main_section = f"<main>\n        {breadcrumb_html}\n        {content}\n    </main>"
 
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apsca-version" content="{e(build_version)}">
-    <title>{e(title)} - APSCA</title>
-    <style>{CSS}</style>
-</head>
-<body>
-    {version_banner}
-    {nav_html}
-    {main_section}
-    <script>
+    page_scripts = f"""<script>
     (() => {{
         function initTabs() {{
             const groups = document.querySelectorAll('[data-tab-group]');
@@ -574,7 +577,7 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
         }}
 
         function getPageVersion() {{
-            const meta = document.querySelector('meta[name="apsca-version"]');
+            const meta = document.querySelector('meta[name=\"apsca-version\"]');
             return meta ? meta.getAttribute('content') : '';
         }}
 
@@ -697,10 +700,40 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
 
         return {{ checkVersion }};
     }})();
-    </script>
-</body>
-</html>
-"""
+    </script>"""
+
+    return render_template(
+        "page.html",
+        {
+            "BUILD_VERSION": e(build_version),
+            "TITLE": e(title),
+            "CSS": CSS,
+            "VERSION_BANNER": version_banner,
+            "NAVBAR": nav_html,
+            "MAIN": main_section,
+            "SCRIPTS": page_scripts,
+        },
+    )
+
+
+def render_story_map() -> str:
+    """Render the Story Map HTML from the template."""
+    build_version = get_build_version()
+    nav_html = generate_navbar(active_section="", depth=0)
+    breadcrumb_html = '<nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>'
+    return render_template(
+        "story-map.html",
+        {
+            "BUILD_VERSION": e(build_version),
+            "NAVBAR": nav_html,
+            "BREADCRUMBS": breadcrumb_html,
+            "VERSION_BANNER": VERSION_BANNER_HTML,
+            "BREADCRUMB_CSS": BREADCRUMB_CSS,
+            "VERSION_BANNER_CSS": VERSION_BANNER_CSS,
+            "BREADCRUMB_JS": BREADCRUMB_JS,
+            "VERSION_CHECK_JS": VERSION_CHECK_JS,
+        },
+    )
 
 
 # =============================================================================
@@ -2347,79 +2380,9 @@ def main():
     index_redirect = render_index_redirect()
     (DOCS_DIR / "index.html").write_text(index_redirect, encoding="utf-8")
 
-    # Update story-map.html navbar and add breadcrumb support
-    story_map_path = DOCS_DIR / "story-map.html"
-    if story_map_path.exists():
-        story_map_content = story_map_path.read_text(encoding="utf-8")
-        # Generate navbar with active section set to "" (Story Map is active)
-        new_navbar = generate_navbar(active_section="", depth=0)
-        # Replace the navbar section (from <header class="topbar"> to </header>)
-        import re
-        story_map_content = re.sub(
-            r'<header class="topbar">.*?</header>',
-            new_navbar.strip(),
-            story_map_content,
-            flags=re.DOTALL
-        )
-
-        # Add breadcrumb CSS if not already present
-        if '.breadcrumb-current' not in story_map_content:
-            # Insert CSS before closing </style> tag (check for .breadcrumb-current to ensure full CSS is present)
-            story_map_content = story_map_content.replace('</style>', BREADCRUMB_CSS + '</style>', 1)
-
-        # Add breadcrumb container if not present
-        breadcrumb_container = '<nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>'
-        if 'id="breadcrumb-nav"' not in story_map_content:
-            # Insert after </header> and before the stats-bar
-            story_map_content = re.sub(
-                r'(</header>\s*)',
-                r'\1\n    ' + breadcrumb_container + '\n',
-                story_map_content,
-                count=1
-            )
-
-        # Add breadcrumb JavaScript if not present
-        if 'BreadcrumbNav' not in story_map_content:
-            # Insert before closing </body> tag
-            story_map_content = story_map_content.replace('</body>', BREADCRUMB_JS + '</body>')
-
-        # Add version detection features
-        build_version = get_build_version()
-
-        # Add version meta tag if not present
-        if 'name="apsca-version"' not in story_map_content:
-            story_map_content = re.sub(
-                r'(<meta name="viewport"[^>]*>)',
-                r'\1\n    <meta name="apsca-version" content="">',
-                story_map_content,
-                count=1
-            )
-
-        # Update version meta tag content
-        story_map_content = re.sub(
-            r'<meta name="apsca-version" content="[^"]*">',
-            f'<meta name="apsca-version" content="{build_version}">',
-            story_map_content
-        )
-
-        # Add version banner CSS if not present
-        if '.version-banner {' not in story_map_content:
-            story_map_content = story_map_content.replace('</style>', VERSION_BANNER_CSS + '</style>', 1)
-
-        # Add version banner HTML if not present
-        if 'id="version-banner"' not in story_map_content:
-            story_map_content = re.sub(
-                r'(<body>)',
-                r'\1\n    ' + VERSION_BANNER_HTML,
-                story_map_content,
-                count=1
-            )
-
-        # Add version check JavaScript if not present
-        if 'VersionCheck' not in story_map_content:
-            story_map_content = story_map_content.replace('</body>', VERSION_CHECK_JS + '</body>')
-
-        story_map_path.write_text(story_map_content, encoding="utf-8")
+    # Render story-map.html from template
+    story_map_content = render_story_map()
+    (DOCS_DIR / "story-map.html").write_text(story_map_content, encoding="utf-8")
 
     # Copy data and reports to docs for local testing and story map access
     docs_data = DOCS_DIR / "data"

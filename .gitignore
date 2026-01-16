@@ -44,3 +44,4 @@ Gemfile.lock
 # Backup files
 *.bak
 *.backup
+backups/

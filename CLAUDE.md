@@ -23,6 +23,7 @@ APSCA is a requirements management repository that stores structured requirement
 - `docs/` (except `docs/domain/`) - GitLab Pages views rendered from JSON
 - `reports/graph.json` - Structural relationship graph for traversal
 - `reports/index.json` - Denormalized lookup index
+ - `scripts/templates/` - HTML templates used by `render_docs.py`
 
 **Scripts** (`scripts/`):
 - `mutate.py` - All canonical JSON modifications go through this
@@ -46,9 +47,10 @@ APSCA is a requirements management repository that stores structured requirement
 - `docs/stories/*.html` - Generated from `data/stories.json`
 - `docs/requirements/*.html` - Generated from `data/requirements.json`
 - `docs/domain/*.html` - Generated from `data/domain.json`
+ - `docs/story-map.html` - Generated from `scripts/templates/story-map.html`
 
 **Safe to edit directly:**
-- `docs/story-map.html` - Static file (only navbar/breadcrumbs/version are updated by build)
+- `scripts/templates/story-map.html` - Story map layout/template (rendered into `docs/story-map.html`)
 - `docs/domain/*.md` - Authored markdown content (not generated)
 - `scripts/render_docs.py` - Edit this to change generated page structure/layout
 - `data/*.json` - Via mutation scripts only (see Key Principles)
@@ -57,8 +59,8 @@ APSCA is a requirements management repository that stores structured requirement
 | Change Type | Edit This |
 |-------------|-----------|
 | Data (titles, descriptions, refs) | `data/*.json` via `mutate.py` |
-| Page layout/styling for generated pages | `scripts/render_docs.py` |
-| Story map functionality (filters, etc.) | `docs/story-map.html` |
+| Page layout/styling for generated pages | `scripts/render_docs.py`, `scripts/templates/*.html` |
+| Story map functionality (filters, etc.) | `scripts/templates/story-map.html` |
 | Domain reference prose | `docs/domain/*.md` |
 
 ## Key Principles
