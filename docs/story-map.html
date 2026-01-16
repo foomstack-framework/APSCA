@@ -23,7 +23,7 @@
             --feature-border: #b7ccff;
             --epic-bg: #efe7ff;
             --epic-border: #cbb6ff;
-            --story-border: #8fd9a8;
+            --story-border: #22c55e;
             --release-bg: #f1f3f6;
             --release-border: #d6dbe3;
         }
@@ -642,23 +642,24 @@
             color: var(--text-secondary);
         }
 
-        .corner-cell {
-            background: var(--bg-muted);
-            min-width: 140px;
-            width: 140px;
+        .map-grid th.corner-cell {
+            background: var(--release-bg);
+            min-width: 150px;
+            width: 150px;
+            vertical-align: middle;
+            border-left: 3px solid var(--release-border);
         }
 
-        .feature-group {
+        .map-grid thead th.feature-group {
             text-align: left;
-            background: var(--feature-bg);
-            border-left: 3px solid var(--feature-border);
+            background: #dbeafe;
+            border-left: 3px solid #3b82f6;
         }
 
         .feature-id {
-            font-size: 0.6rem;
+            font-size: 0.62rem;
             color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+            margin-top: 0.15rem;
         }
 
         .feature-title {
@@ -668,10 +669,10 @@
             line-height: 1.2;
         }
 
-        .epic-header {
+        .map-grid thead th.epic-header {
             text-align: left;
-            background: var(--epic-bg);
-            border-left: 3px solid var(--epic-border);
+            background: #ede9fe;
+            border-left: 3px solid #8b5cf6;
         }
 
         .epic-title {
@@ -695,42 +696,54 @@
             margin-left: 0.4rem;
         }
 
-        .release-header {
+        .map-grid th.release-header {
             background: var(--release-bg);
-            min-width: 140px;
-            width: 140px;
-            text-align: left;
-            padding: 0.35rem 0.4rem;
+            min-width: 150px;
+            width: 150px;
+            padding: 0.5rem 0.6rem;
             border-left: 3px solid var(--release-border);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
         }
 
-        .release-label {
+        .map-grid th.release-label {
             background: var(--release-bg);
-            min-width: 140px;
-            width: 140px;
-            max-width: 160px;
-            padding: 0.35rem 0.4rem;
+            min-width: 150px;
+            width: 150px;
+            max-width: 170px;
+            padding: 0.5rem 0.6rem;
             word-break: break-word;
             border-left: 3px solid var(--release-border);
+            border-top: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .release-label a {
+            text-decoration: none;
+            display: block;
+        }
+
+        .release-label a:hover .release-id {
+            color: var(--accent-color);
         }
 
         .release-id {
-            font-size: 0.68rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: var(--text-primary);
         }
 
         .release-title {
-            font-size: 0.7rem;
+            font-size: 0.78rem;
             color: var(--text-secondary);
-            margin-top: 0.2rem;
-            line-height: 1.2;
+            margin-top: 0.15rem;
+            line-height: 1.25;
         }
 
         .release-date {
-            font-size: 0.6rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
-            margin-top: 0.2rem;
+            margin-top: 0.15rem;
         }
 
         .story-cell {
@@ -756,23 +769,22 @@
             font-size: 0.82rem;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
             line-height: 1.3;
         }
 
-        .story-meta {
-            display: flex;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
+        .story-id {
+            font-size: 0.62rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
         }
 
-        .story-id,
         .story-version {
             background: var(--bg-muted);
             padding: 0.15rem 0.3rem;
             border-radius: 3px;
+            font-size: 0.62rem;
+            margin-left: 0.4rem;
         }
 
         .empty-cell {
@@ -1264,7 +1276,7 @@
                 lanes.unshift({
                     key: 'UNRELEASED',
                     releaseId: null,
-                    release: { id: 'UNRELEASED', title: 'Unreleased', release_date: '—' },
+                    release: { id: 'Unreleased', title: '', release_date: '' },
                     isUnreleased: true
                 });
             }
@@ -1328,8 +1340,8 @@
                 const feature = group.feature;
                 const colSpan = group.epics.length || 1;
                 const featureLabel = `
-                    <div class="feature-id">${escapeHtml(feature.id || '')}</div>
                     <div class="feature-title">${escapeHtml(feature.title || feature.id || '')}</div>
+                    <div class="feature-id">${escapeHtml(feature.id || '')}</div>
                 `;
                 const featureLink = feature.id && feature.id !== 'UNASSIGNED'
                     ? `<a href="features/${escapeHtml(feature.id)}.html">${featureLabel}</a>`
@@ -1338,7 +1350,7 @@
             });
             html += '</tr>';
 
-            html += '<tr class="epic-row"><th class="release-header">Release</th>';
+            html += '<tr class="epic-row"><th class="release-header"></th>';
             epicColumns.forEach(entry => {
                 const epic = entry.epic;
                 if (entry.placeholder) {
@@ -1360,12 +1372,18 @@
             lanes.forEach(lane => {
                 let releaseHasVisibleStory = false;
                 const showEmptyReleaseRow = !hideEmptyGroups || (selectedReleases.size && selectedReleases.has(lane.releaseId));
+                const releaseTitle = lane.release.title ? `<div class="release-title">${escapeHtml(lane.release.title)}</div>` : '';
+                const releaseDate = lane.release.release_date ? `<div class="release-date">${escapeHtml(lane.release.release_date)}</div>` : '';
+                const releaseContent = `
+                    <div class="release-id">${escapeHtml(lane.release.id || '')}</div>
+                    ${releaseTitle}
+                    ${releaseDate}
+                `;
+                const releaseLabelContent = lane.isUnreleased
+                    ? releaseContent
+                    : `<a href="releases/${escapeHtml(lane.release.id)}.html">${releaseContent}</a>`;
                 let rowHtml = `<tr class="release-row">
-                    <th class="release-label">
-                        <div class="release-id">${escapeHtml(lane.release.id || '')}</div>
-                        <div class="release-title">${escapeHtml(lane.release.title || '')}</div>
-                        <div class="release-date">${escapeHtml(lane.release.release_date || 'TBD')}</div>
-                    </th>
+                    <th class="release-label">${releaseLabelContent}</th>
                 `;
 
                 epicColumns.forEach(entry => {
@@ -1392,18 +1410,15 @@
                         const hasDescription = description.trim() !== '';
                         
                         rowHtml += `
-                            <div class="story-card" 
+                            <div class="story-card"
                                  data-story-id="${storyId}"
                                  data-story-version="${escapeHtml(item.storyVersion.version || '')}"
                                  ${hasDescription ? `data-description="${escapeHtml(description)}"` : ''}
                                  onclick="window.location.href='stories/${storyId}.html'"
                                  ${hasDescription ? `onmouseenter="showTooltip(this)" onmouseleave="scheduleHideTooltip()"` : ''}>
                                 <div class="story-title">${escapeHtml(item.story.title || item.story.id)}</div>
-                                    <div class="story-meta">
-                                    <span class="story-id">${storyId}</span>
-                                    <span class="story-version">v${escapeHtml(item.storyVersion.version || '')}</span>
-                                    </div>
-                                </div>
+                                <div class="story-id">${storyId}<span class="story-version">v${escapeHtml(item.storyVersion.version || '')}</span></div>
+                            </div>
                             `;
                         });
                     rowHtml += '</td>';
