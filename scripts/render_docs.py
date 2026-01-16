@@ -308,11 +308,11 @@ CSS = """
 }
 
 body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.45;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 a {
@@ -345,16 +345,22 @@ a:hover {
     color: var(--text-primary);
     letter-spacing: 0.02em;
     text-decoration: none;
+    overflow: hidden;
 }
 
 .brand-logo {
     width: 36px;
     height: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    min-height: 36px;
+    max-height: 36px;
+    aspect-ratio: 1;
     object-fit: contain;
 }
 
 .brand-name {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
 }
 
 .topbar-nav {
@@ -365,9 +371,9 @@ a:hover {
 }
 
 .topbar-nav a {
-    padding: 0.35rem 0.55rem;
+    padding: 0.4rem 0.6rem;
     border-radius: var(--radius-sm);
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
     border: 1px solid transparent;
     transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -1211,8 +1217,8 @@ def generate_navbar(active_section: str = "", depth: int = 1) -> str:
     return f"""
 <header class="topbar">
     <a class="brand" href="{prefix}story-map.html?nav=1">
-        <img class="brand-logo" src="{prefix}images/apsca_logo_primary.jpg" alt="APSCA" />
-        <span class="brand-name">APSCA</span>
+        <img class="brand-logo" src="{prefix}images/APSCA-logo.svg" alt="APSCA" width="36" height="36" />
+        <span class="brand-name">APSCA Requirements Dashboard</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
         {' '.join(nav_links)}
