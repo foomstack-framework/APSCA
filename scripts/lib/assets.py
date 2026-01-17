@@ -2,6 +2,71 @@
 assets.py - Static assets (CSS, JS, HTML) for documentation rendering.
 """
 
+# Shared topbar/brand CSS used by both main pages and story map
+TOPBAR_CSS = """
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.brand-logo {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    max-width: 72px;
+    min-height: 72px;
+    max-height: 72px;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-size: 1.1rem;
+}
+
+.topbar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.topbar-nav a {
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.topbar-nav a:hover,
+.topbar-nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.18);
+}
+"""
+
 # Main CSS for all documentation pages
 CSS = """
 :root {
@@ -47,72 +112,8 @@ a:hover {
     text-decoration: none;
 }
 
-.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.5rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    overflow: hidden;
-}
-
-.brand-logo {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    max-width: 36px;
-    min-height: 36px;
-    max-height: 36px;
-    aspect-ratio: 1;
-    object-fit: contain;
-}
-
-.brand-name {
-    font-size: 1.1rem;
-}
-
-.topbar-nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.topbar-nav a {
-    padding: 0.4rem 0.6rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    border: 1px solid transparent;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.topbar-nav a:hover,
-.topbar-nav a.active {
-    background: var(--accent-soft);
-    color: var(--accent-color);
-    border-color: rgba(37, 99, 235, 0.18);
-}
-
 main {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
     padding: 1rem 1.5rem 2rem;
 }
 

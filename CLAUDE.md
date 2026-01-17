@@ -31,11 +31,13 @@ APSCA is a requirements management repository that stores structured requirement
 - `build_graph.py` - Generates `reports/graph.json`
 - `build_index.py` - Generates `reports/index.json`
 - `render_docs.py` - Generates HTML documentation
+- `renderers/*.py` - Page-specific HTML renderers
 
 **Shared utilities** (`scripts/lib/`):
 - `config.py` - Shared path constants (DATA_FILES, DATA_DIR, etc.)
 - `io.py` - JSON I/O utilities (load_json, save_json)
 - `versions.py` - Version utilities (get_current_version)
+- `html_helpers.py` - Shared HTML helpers and template rendering
 
 ## Generated vs Source Files (CRITICAL)
 
@@ -52,14 +54,16 @@ APSCA is a requirements management repository that stores structured requirement
 **Safe to edit directly:**
 - `scripts/templates/story-map.html` - Story map layout/template (rendered into `docs/story-map.html`)
 - `docs/domain/*.md` - Authored markdown content (not generated)
-- `scripts/render_docs.py` - Edit this to change generated page structure/layout
+- `scripts/render_docs.py` - Orchestrates rendering
+- `scripts/renderers/*.py` - Edit these to change generated page structure/layout
+- `scripts/lib/html_helpers.py` - Shared HTML/page layout helpers
 - `data/*.json` - Via mutation scripts only (see Key Principles)
 
 **Where to make changes:**
 | Change Type | Edit This |
 |-------------|-----------|
 | Data (titles, descriptions, refs) | `data/*.json` via `mutate.py` |
-| Page layout/styling for generated pages | `scripts/render_docs.py`, `scripts/templates/*.html` |
+| Page layout/styling for generated pages | `scripts/renderers/*.py`, `scripts/lib/html_helpers.py`, `scripts/templates/*.html` |
 | Story map functionality (filters, etc.) | `scripts/templates/story-map.html` |
 | Domain reference prose | `docs/domain/*.md` |
 
@@ -201,7 +205,7 @@ python scripts/build_index.py
 Run all build scripts after:
 - Any mutation operation (`python scripts/mutate.py ...`)
 - Direct edits to `data/*.json` files
-- Changes to rendering scripts (`scripts/render_docs.py`, `scripts/lib/assets.py`)
+- Changes to rendering scripts (`scripts/render_docs.py`, `scripts/renderers/*.py`, `scripts/lib/html_helpers.py`, `scripts/lib/assets.py`)
 - Changes to validation rules (`scripts/validate.py`)
 
 ### Verification

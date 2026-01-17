@@ -6,6 +6,68 @@
     <meta name="apsca-version" content="6695115aec738d9dda71f4110fdc1967b826de87">
     <title>Stories - APSCA</title>
     <style>
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.brand-logo {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    max-width: 72px;
+    min-height: 72px;
+    max-height: 72px;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-size: 1.1rem;
+}
+
+.topbar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.topbar-nav a {
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.topbar-nav a:hover,
+.topbar-nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.18);
+}
+
 :root {
     --bg-primary: #f3f4f6;
     --bg-secondary: #ffffff;
@@ -49,72 +111,8 @@ a:hover {
     text-decoration: none;
 }
 
-.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.5rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    overflow: hidden;
-}
-
-.brand-logo {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    max-width: 36px;
-    min-height: 36px;
-    max-height: 36px;
-    aspect-ratio: 1;
-    object-fit: contain;
-}
-
-.brand-name {
-    font-size: 1.1rem;
-}
-
-.topbar-nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.topbar-nav a {
-    padding: 0.4rem 0.6rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    border: 1px solid transparent;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.topbar-nav a:hover,
-.topbar-nav a.active {
-    background: var(--accent-soft);
-    color: var(--accent-color);
-    border-color: rgba(37, 99, 235, 0.18);
-}
-
 main {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
     padding: 1rem 1.5rem 2rem;
 }
 
@@ -1086,7 +1084,7 @@ body.has-version-banner main {
     }
 })();
 </script>
-<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Epic</th><th>Version</th><th>User Story Status</th><th>Version Status</th><th>Version Approval</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-epic="EPIC-002" data-search-text="story-002 check good standing status active rel-2026-03-15 as an auditor, i want eligibility checks to include renewal status so i can only purchase exams when my credentials are current release: rel-2026-03-15 epic-002 exam eligibility verification"><td class="record-cell"><a href="STORY-002.html">STORY-002</a><div class="cell-secondary">Check Good Standing Status</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want eligibility checks to include renewal status so I can only purchase exams when my credentials are current</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-002" aria-label="View epic details">EPIC-002</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Yes</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-002" data-search-text="story-003 verify exam progression active rel-2026-03-15 as an auditor, i want progression rules to account for retakes and exemptions so eligibility is accurate release: rel-2026-03-15 epic-002 exam eligibility verification"><td class="record-cell"><a href="STORY-003.html">STORY-003</a><div class="cell-secondary">Verify Exam Progression</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want progression rules to account for retakes and exemptions so eligibility is accurate</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-002" aria-label="View epic details">EPIC-002</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Yes</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-002" data-search-text="story-004 check unpaid invoices active rel-2026-03-15 as an auditor, i want unpaid invoice checks to include renewal fees so i can clear all obligations release: rel-2026-03-15 epic-002 exam eligibility verification"><td class="record-cell"><a href="STORY-004.html">STORY-004</a><div class="cell-secondary">Check Unpaid Invoices</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want unpaid invoice checks to include renewal fees so I can clear all obligations</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-002" aria-label="View epic details">EPIC-002</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Yes</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-003" data-search-text="story-005 display available exams active rel-2026-03-15 as an auditor, i want to see pricing breakdowns and invoice previews before purchase release: rel-2026-03-15 epic-003 exam invoice purchase flow"><td class="record-cell"><a href="STORY-005.html">STORY-005</a><div class="cell-secondary">Display Available Exams</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to see pricing breakdowns and invoice previews before purchase</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-003" aria-label="View epic details">EPIC-003</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Yes</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-003" data-search-text="story-006 purchase exam invoice active rel-2026-03-15 as an auditor, i want a clear post-purchase confirmation so i know what to do next release: rel-2026-03-15 epic-003 exam invoice purchase flow"><td class="record-cell"><a href="STORY-006.html">STORY-006</a><div class="cell-secondary">Purchase Exam Invoice</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want a clear post-purchase confirmation so I know what to do next</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-003" aria-label="View epic details">EPIC-003</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Yes</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-004" data-search-text="story-007 submit renewal attestation active rel-2026-05-01 as an auditor, i want to upload supporting evidence for attestations when required release: rel-2026-05-01 epic-004 renewal eligibility checks"><td class="record-cell"><a href="STORY-007.html">STORY-007</a><div class="cell-secondary">Submit Renewal Attestation</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to upload supporting evidence for attestations when required</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-004" aria-label="View epic details">EPIC-004</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Yes</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-004" data-search-text="story-008 review renewal eligibility active rel-2026-03-15 as an auditor, i want to review my renewal eligibility so that i understand any gaps release: rel-2026-03-15 epic-004 renewal eligibility checks"><td class="record-cell"><a href="STORY-008.html">STORY-008</a><div class="cell-secondary">Review Renewal Eligibility</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to review my renewal eligibility so that I understand any gaps</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-004" aria-label="View epic details">EPIC-004</button></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Yes</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-005" data-search-text="story-009 generate renewal invoice active rel-2026-05-01 as an auditor, i want a renewal invoice generated so i can pay my renewal fee release: rel-2026-05-01 epic-005 renewal fee invoicing"><td class="record-cell"><a href="STORY-009.html">STORY-009</a><div class="cell-secondary">Generate Renewal Invoice</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want a renewal invoice generated so I can pay my renewal fee</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-005" aria-label="View epic details">EPIC-005</button></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">No</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-006" data-search-text="story-010 log cpe activity active as an auditor, i want to bulk import cpe activities from provider transcripts release: unassigned epic-006 cpe credit validation"><td class="record-cell"><a href="STORY-010.html">STORY-010</a><div class="cell-secondary">Log CPE Activity</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to bulk import CPE activities from provider transcripts</div><div class="cell-secondary">Release: Unassigned</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-006" aria-label="View epic details">EPIC-006</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">No</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-007" data-search-text="story-011 view cpe compliance status active as an auditor, i want to view my cpe compliance status so i know if i&#x27;m meeting renewal requirements release: unassigned epic-007 cpe reporting dashboard"><td class="record-cell"><a href="STORY-011.html">STORY-011</a><div class="cell-secondary">View CPE Compliance Status</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to view my CPE compliance status so I know if I&#x27;m meeting renewal requirements</div><div class="cell-secondary">Release: Unassigned</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-007" aria-label="View epic details">EPIC-007</button></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">No</span></td></tr></tbody></table></div>
+<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Epic</th><th>Version</th><th>User Story Status</th><th>Version Status</th><th>Version Approval</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-epic="EPIC-002" data-search-text="story-002 check good standing status active rel-2026-03-15 as an auditor, i want eligibility checks to include renewal status so i can only purchase exams when my credentials are current release: rel-2026-03-15 epic-002 exam eligibility verification"><td class="record-cell"><a href="STORY-002.html">STORY-002</a><div class="cell-secondary">Check Good Standing Status</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want eligibility checks to include renewal status so I can only purchase exams when my credentials are current</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-002" aria-label="View epic details">EPIC-002</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-002" data-search-text="story-003 verify exam progression active rel-2026-03-15 as an auditor, i want progression rules to account for retakes and exemptions so eligibility is accurate release: rel-2026-03-15 epic-002 exam eligibility verification"><td class="record-cell"><a href="STORY-003.html">STORY-003</a><div class="cell-secondary">Verify Exam Progression</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want progression rules to account for retakes and exemptions so eligibility is accurate</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-002" aria-label="View epic details">EPIC-002</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-002" data-search-text="story-004 check unpaid invoices active rel-2026-03-15 as an auditor, i want unpaid invoice checks to include renewal fees so i can clear all obligations release: rel-2026-03-15 epic-002 exam eligibility verification"><td class="record-cell"><a href="STORY-004.html">STORY-004</a><div class="cell-secondary">Check Unpaid Invoices</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want unpaid invoice checks to include renewal fees so I can clear all obligations</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-002" aria-label="View epic details">EPIC-002</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-003" data-search-text="story-005 display available exams active rel-2026-03-15 as an auditor, i want to see pricing breakdowns and invoice previews before purchase release: rel-2026-03-15 epic-003 exam invoice purchase flow"><td class="record-cell"><a href="STORY-005.html">STORY-005</a><div class="cell-secondary">Display Available Exams</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to see pricing breakdowns and invoice previews before purchase</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-003" aria-label="View epic details">EPIC-003</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-003" data-search-text="story-006 purchase exam invoice active rel-2026-03-15 as an auditor, i want a clear post-purchase confirmation so i know what to do next release: rel-2026-03-15 epic-003 exam invoice purchase flow"><td class="record-cell"><a href="STORY-006.html">STORY-006</a><div class="cell-secondary">Purchase Exam Invoice</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want a clear post-purchase confirmation so I know what to do next</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-003" aria-label="View epic details">EPIC-003</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-004" data-search-text="story-007 submit renewal attestation active rel-2026-05-01 as an auditor, i want to upload supporting evidence for attestations when required release: rel-2026-05-01 epic-004 renewal eligibility checks"><td class="record-cell"><a href="STORY-007.html">STORY-007</a><div class="cell-secondary">Submit Renewal Attestation</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to upload supporting evidence for attestations when required</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-004" aria-label="View epic details">EPIC-004</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-004" data-search-text="story-008 review renewal eligibility active rel-2026-03-15 as an auditor, i want to review my renewal eligibility so that i understand any gaps release: rel-2026-03-15 epic-004 renewal eligibility checks"><td class="record-cell"><a href="STORY-008.html">STORY-008</a><div class="cell-secondary">Review Renewal Eligibility</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to review my renewal eligibility so that I understand any gaps</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-004" aria-label="View epic details">EPIC-004</button></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-005" data-search-text="story-009 generate renewal invoice active rel-2026-05-01 as an auditor, i want a renewal invoice generated so i can pay my renewal fee release: rel-2026-05-01 epic-005 renewal fee invoicing"><td class="record-cell"><a href="STORY-009.html">STORY-009</a><div class="cell-secondary">Generate Renewal Invoice</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want a renewal invoice generated so I can pay my renewal fee</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-005" aria-label="View epic details">EPIC-005</button></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-006" data-search-text="story-010 log cpe activity active as an auditor, i want to bulk import cpe activities from provider transcripts release: unassigned epic-006 cpe credit validation"><td class="record-cell"><a href="STORY-010.html">STORY-010</a><div class="cell-secondary">Log CPE Activity</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to bulk import CPE activities from provider transcripts</div><div class="cell-secondary">Release: Unassigned</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-006" aria-label="View epic details">EPIC-006</button></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr><tr data-filter-item="true" data-status="active" data-epic="EPIC-007" data-search-text="story-011 view cpe compliance status active as an auditor, i want to view my cpe compliance status so i know if i&#x27;m meeting renewal requirements release: unassigned epic-007 cpe reporting dashboard"><td class="record-cell"><a href="STORY-011.html">STORY-011</a><div class="cell-secondary">View CPE Compliance Status</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to view my CPE compliance status so I know if I&#x27;m meeting renewal requirements</div><div class="cell-secondary">Release: Unassigned</div></td><td class="epic-cell"><button type="button" class="epic-cell-link" data-epic-id="EPIC-007" aria-label="View epic details">EPIC-007</button></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr></tbody></table></div>
 <aside class="epic-drawer" id="epic-drawer" aria-hidden="true" aria-label="Epic details">
     <div class="epic-drawer-resize-handle" id="epic-drawer-resize-handle" aria-hidden="true"></div>
     <div class="epic-drawer-header">

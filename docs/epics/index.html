@@ -6,6 +6,68 @@
     <meta name="apsca-version" content="6695115aec738d9dda71f4110fdc1967b826de87">
     <title>Epics - APSCA</title>
     <style>
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.brand-logo {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    max-width: 72px;
+    min-height: 72px;
+    max-height: 72px;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-size: 1.1rem;
+}
+
+.topbar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.topbar-nav a {
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.topbar-nav a:hover,
+.topbar-nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    border-color: rgba(37, 99, 235, 0.18);
+}
+
 :root {
     --bg-primary: #f3f4f6;
     --bg-secondary: #ffffff;
@@ -49,72 +111,8 @@ a:hover {
     text-decoration: none;
 }
 
-.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.5rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    overflow: hidden;
-}
-
-.brand-logo {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    max-width: 36px;
-    min-height: 36px;
-    max-height: 36px;
-    aspect-ratio: 1;
-    object-fit: contain;
-}
-
-.brand-name {
-    font-size: 1.1rem;
-}
-
-.topbar-nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.topbar-nav a {
-    padding: 0.4rem 0.6rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    border: 1px solid transparent;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.topbar-nav a:hover,
-.topbar-nav a.active {
-    background: var(--accent-soft);
-    color: var(--accent-color);
-    border-color: rgba(37, 99, 235, 0.18);
-}
-
 main {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
     padding: 1rem 1.5rem 2rem;
 }
 
@@ -1029,7 +1027,7 @@ body.has-version-banner main {
         <input type="search" id="search-input" placeholder="Search by ID, title, status, release..." />
     </div>
     <div class="toolbar-field">
-        <label for="status-filter">Status</label>
+        <label for="status-filter">Epic Status</label>
         <select id="status-filter">
             <option value="all">All statuses</option>
             <option value="active">Active</option>
@@ -1047,7 +1045,7 @@ body.has-version-banner main {
     }
 })();
 </script>
-<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-search-text="epic-002 exam eligibility verification active rel-2026-03-15 extend eligibility checks to include renewal status, outstanding invoices, and required attestations release: rel-2026-03-15"><td class="record-cell"><a href="EPIC-002.html">EPIC-002</a><div class="cell-secondary">Exam Eligibility Verification</div></td><td class="summary-cell"><div class="cell-primary">Extend eligibility checks to include renewal status, outstanding invoices, and required attestations</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span><span class="status-badge" style="background-color: #2563eb">Backlog</span><span class="status-badge" style="background-color: #059669">Approved</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-003 exam invoice purchase flow active rel-2026-03-15 add invoice preview, pricing breakdown, and post-purchase confirmation with next steps release: rel-2026-03-15"><td class="record-cell"><a href="EPIC-003.html">EPIC-003</a><div class="cell-secondary">Exam Invoice Purchase Flow</div></td><td class="summary-cell"><div class="cell-primary">Add invoice preview, pricing breakdown, and post-purchase confirmation with next steps</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span><span class="status-badge" style="background-color: #2563eb">Backlog</span><span class="status-badge" style="background-color: #059669">Approved</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-004 renewal eligibility checks active rel-2026-05-01 add conditional eligibility for auditors with pending documentation and grace periods release: rel-2026-05-01"><td class="record-cell"><a href="EPIC-004.html">EPIC-004</a><div class="cell-secondary">Renewal Eligibility Checks</div></td><td class="summary-cell"><div class="cell-primary">Add conditional eligibility for auditors with pending documentation and grace periods</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span><span class="status-badge" style="background-color: #2563eb">Backlog</span><span class="status-badge" style="background-color: #059669">Approved</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-005 renewal fee invoicing active rel-2026-05-01 generate renewal fee invoices with tiered pricing and late penalties release: rel-2026-05-01"><td class="record-cell"><a href="EPIC-005.html">EPIC-005</a><div class="cell-secondary">Renewal Fee Invoicing</div></td><td class="summary-cell"><div class="cell-primary">Generate renewal fee invoices with tiered pricing and late penalties</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span><span class="status-badge" style="background-color: #2563eb">Backlog</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-006 cpe credit validation active add automated cpe credit verification and bulk import capabilities release: unassigned"><td class="record-cell"><a href="EPIC-006.html">EPIC-006</a><div class="cell-secondary">CPE Credit Validation</div></td><td class="summary-cell"><div class="cell-primary">Add automated CPE credit verification and bulk import capabilities</div><div class="cell-secondary">Release: Unassigned</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span><span class="status-badge" style="background-color: #2563eb">Backlog</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-007 cpe reporting dashboard active build dashboard for auditors to view cpe credit status, compliance gaps, and reporting period summaries release: unassigned"><td class="record-cell"><a href="EPIC-007.html">EPIC-007</a><div class="cell-secondary">CPE Reporting Dashboard</div></td><td class="summary-cell"><div class="cell-primary">Build dashboard for auditors to view CPE credit status, compliance gaps, and reporting period summaries</div><div class="cell-secondary">Release: Unassigned</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span><span class="status-badge" style="background-color: #2563eb">Backlog</span></div></td></tr></tbody></table>
+<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Version</th><th>Epic Status</th><th>Version Status</th><th>Version Approval</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-search-text="epic-002 exam eligibility verification active rel-2026-03-15 extend eligibility checks to include renewal status, outstanding invoices, and required attestations release: rel-2026-03-15"><td class="record-cell"><a href="EPIC-002.html">EPIC-002</a><div class="cell-secondary">Exam Eligibility Verification</div></td><td class="summary-cell"><div class="cell-primary">Extend eligibility checks to include renewal status, outstanding invoices, and required attestations</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-003 exam invoice purchase flow active rel-2026-03-15 add invoice preview, pricing breakdown, and post-purchase confirmation with next steps release: rel-2026-03-15"><td class="record-cell"><a href="EPIC-003.html">EPIC-003</a><div class="cell-secondary">Exam Invoice Purchase Flow</div></td><td class="summary-cell"><div class="cell-primary">Add invoice preview, pricing breakdown, and post-purchase confirmation with next steps</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-004 renewal eligibility checks active rel-2026-05-01 add conditional eligibility for auditors with pending documentation and grace periods release: rel-2026-05-01"><td class="record-cell"><a href="EPIC-004.html">EPIC-004</a><div class="cell-secondary">Renewal Eligibility Checks</div></td><td class="summary-cell"><div class="cell-primary">Add conditional eligibility for auditors with pending documentation and grace periods</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-005 renewal fee invoicing active rel-2026-05-01 generate renewal fee invoices with tiered pricing and late penalties release: rel-2026-05-01"><td class="record-cell"><a href="EPIC-005.html">EPIC-005</a><div class="cell-secondary">Renewal Fee Invoicing</div></td><td class="summary-cell"><div class="cell-primary">Generate renewal fee invoices with tiered pricing and late penalties</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-006 cpe credit validation active add automated cpe credit verification and bulk import capabilities release: unassigned"><td class="record-cell"><a href="EPIC-006.html">EPIC-006</a><div class="cell-secondary">CPE Credit Validation</div></td><td class="summary-cell"><div class="cell-primary">Add automated CPE credit verification and bulk import capabilities</div><div class="cell-secondary">Release: Unassigned</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-007 cpe reporting dashboard active build dashboard for auditors to view cpe credit status, compliance gaps, and reporting period summaries release: unassigned"><td class="record-cell"><a href="EPIC-007.html">EPIC-007</a><div class="cell-secondary">CPE Reporting Dashboard</div></td><td class="summary-cell"><div class="cell-primary">Build dashboard for auditors to view CPE credit status, compliance gaps, and reporting period summaries</div><div class="cell-secondary">Release: Unassigned</div></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr></tbody></table>
 <script>
 (() => {
     const searchInput = document.getElementById('search-input');
