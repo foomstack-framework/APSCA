@@ -21,6 +21,7 @@ from renderers.index_pages import render_artifacts_index, render_index, render_i
 from renderers.releases import render_release
 from renderers.requirements import render_requirement
 from renderers.stories import render_story
+from renderers.definitions import render_definitions
 from renderers.story_map import render_story_map
 
 # Output directories (script-specific, NOT artifacts/ - that's authored content)
@@ -156,6 +157,10 @@ def main():
     # Render story-map.html from template
     story_map_content = render_story_map()
     (DOCS_DIR / "story-map.html").write_text(story_map_content, encoding="utf-8")
+
+    # Render definitions.html
+    definitions_content = render_definitions()
+    (DOCS_DIR / "definitions.html").write_text(definitions_content, encoding="utf-8")
 
     # Copy data and reports to docs for local testing and story map access
     docs_data = DOCS_DIR / "data"

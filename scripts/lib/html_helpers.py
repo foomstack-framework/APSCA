@@ -325,6 +325,7 @@ def generate_navbar(active_section: str = "", depth: int = 1) -> str:
         ("requirements", "Requirements", "requirements/index.html"),
         ("artifacts", "Business Artifacts", "artifacts/index.html"),
         ("releases", "Releases", "releases/index.html"),
+        ("definitions", "Definitions", "definitions.html"),
     ]
 
     nav_links = []

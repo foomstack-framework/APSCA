@@ -24,12 +24,12 @@ def render_index(
     """Render an index page for a collection."""
     html = f'<h1>{e(title)}</h1>\n'
     subtitle_map = {
-        "releases": "Release snapshots that bind versions to dates.",
-        "requirements": "Non-negotiable rules and obligations for the system.",
-        "features": "Top-level capability boundaries that organize epics.",
-        "epics": "Stable user intent groupings that organize stories.",
-        "stories": "Atomic user capabilities with supporting criteria.",
-        "artifacts": "Business artifacts, policies, rules, and reference documentation.",
+        "releases": "Planned delivery milestones that bind versions to dates.",
+        "requirements": "Verifiable business rules that must remain valid regardless of implementation.",
+        "features": "Major, stable business capabilities that organize the system into long-lived areas.",
+        "epics": "Coherent workflows or responsibilities that group related stories under a feature.",
+        "stories": "User-centered capabilities with acceptance criteria, derived from Epics and Requirements.",
+        "artifacts": "Source documents that describe business rules - sources of truth, not system behavior.",
     }
     subtitle = subtitle_map.get(artifact_type.lower())
     if subtitle:
@@ -778,7 +778,7 @@ const storiesData = {stories_data_json};
 def render_artifacts_index(artifact_entries: List[Dict]) -> str:
     """Render a business artifacts index page listing all business artifacts."""
     html = '<h1>Business Artifacts</h1>\n'
-    html += '<p>Business artifacts, policies, rules, and reference documentation.</p>\n'
+    html += '<p class="page-subtitle">Source documents that describe business rules - sources of truth, not system behavior.</p>\n'
 
     if not artifact_entries:
         html += '<p><em>No business artifacts yet.</em></p>'

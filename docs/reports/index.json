@@ -1,138 +1,26 @@
 {
-  "by_id": {
-    "REL-2026-06-01": {
-      "id": "REL-2026-06-01",
-      "type": "release",
-      "title": "REL-2026-06-01",
-      "status": "planned",
-      "release_date": "2026-06-01"
-    },
-    "ART-001": {
-      "id": "ART-001",
-      "type": "artifact",
-      "title": "Exam Eligibility Rules",
-      "status": "draft",
-      "artifact_type": [
-        "rule"
-      ],
-      "doc_path": "docs/artifacts/exam-eligibility-rules.md"
-    },
-    "REQ-001": {
-      "id": "REQ-001",
-      "type": "requirement",
-      "title": "Enforce exam eligibility before purchase",
-      "status": "active",
-      "req_type": "functional",
-      "invariant": false,
-      "artifact_refs": [
-        "ART-001"
-      ],
-      "superseded_by": null
-    },
-    "FEAT-001": {
-      "id": "FEAT-001",
-      "type": "feature",
-      "title": "Exam Purchase Eligibility Checks",
-      "status": "active",
-      "requirement_refs": [
-        "REQ-001"
-      ],
-      "artifact_refs": [
-        "ART-001"
-      ]
-    },
-    "EPIC-001": {
-      "id": "EPIC-001",
-      "type": "epic",
-      "title": "Eligibility Enforcement",
-      "feature_ref": "FEAT-001",
-      "version_count": 1,
-      "current_version": 1,
-      "current_status": "backlog",
-      "current_release_ref": "REL-2026-06-01"
-    },
-    "STORY-001": {
-      "id": "STORY-001",
-      "type": "story",
-      "title": "Block purchase when ineligible",
-      "epic_ref": "EPIC-001",
-      "version_count": 2,
-      "current_version": 2,
-      "current_status": "backlog",
-      "current_release_ref": "REL-2026-06-01",
-      "has_acceptance_criteria": true,
-      "has_test_intent": true
-    }
-  },
+  "by_id": {},
   "by_type": {
-    "release": [
-      "REL-2026-06-01"
-    ],
-    "artifact": [
-      "ART-001"
-    ],
-    "requirement": [
-      "REQ-001"
-    ],
-    "feature": [
-      "FEAT-001"
-    ],
-    "epic": [
-      "EPIC-001"
-    ],
-    "story": [
-      "STORY-001"
-    ]
+    "release": [],
+    "artifact": [],
+    "requirement": [],
+    "feature": [],
+    "epic": [],
+    "story": []
   },
-  "by_status": {
-    "planned": [
-      "REL-2026-06-01"
-    ],
-    "draft": [
-      "ART-001"
-    ],
-    "active": [
-      "REQ-001",
-      "FEAT-001"
-    ],
-    "backlog": [
-      "EPIC-001",
-      "STORY-001"
-    ]
-  },
-  "by_release": {
-    "REL-2026-06-01": {
-      "epics": [
-        "EPIC-001"
-      ],
-      "stories": [
-        "STORY-001"
-      ]
-    }
-  },
-  "summaries": {
-    "REL-2026-06-01": "REL-2026-06-01: Test release for artifact rename validation",
-    "ART-001": "ART-001: Exam Eligibility Rules",
-    "REQ-001": "REQ-001: Enforce exam eligibility before purchase",
-    "FEAT-001": "FEAT-001: Exam Purchase Eligibility Checks",
-    "EPIC-001": "EPIC-001: Eligibility Enforcement - Enforce eligibility rules before exam purchase.",
-    "STORY-001": "STORY-001: Block purchase when ineligible - System blocks exam purchase if eligibility checks "
-  },
+  "by_status": {},
+  "by_release": {},
+  "summaries": {},
   "metadata": {
-    "total_count": 6,
+    "total_count": 0,
     "counts_by_type": {
-      "release": 1,
-      "artifact": 1,
-      "requirement": 1,
-      "feature": 1,
-      "epic": 1,
-      "story": 1
+      "release": 0,
+      "artifact": 0,
+      "requirement": 0,
+      "feature": 0,
+      "epic": 0,
+      "story": 0
     },
-    "counts_by_status": {
-      "planned": 1,
-      "draft": 1,
-      "active": 2,
-      "backlog": 2
-    }
+    "counts_by_status": {}
   }
 }
