@@ -1,10 +1,3170 @@
 {
-  "nodes": [],
-  "edges": [],
+  "nodes": [
+    {
+      "id": "REL-2026-06-01",
+      "type": "release",
+      "title": "Examination System Backlog",
+      "status": "planned",
+      "release_date": "2026-06-01"
+    },
+    {
+      "id": "REL-2026-12-01",
+      "type": "release",
+      "title": "Platform Features Backlog",
+      "status": "planned",
+      "release_date": "2026-12-01"
+    },
+    {
+      "id": "ART-001",
+      "type": "artifact",
+      "title": "Fee Schedule",
+      "status": "draft",
+      "artifact_type": [
+        "rule"
+      ]
+    },
+    {
+      "id": "ART-002",
+      "type": "artifact",
+      "title": "Exam Eligibility Rules",
+      "status": "draft",
+      "artifact_type": [
+        "rule"
+      ]
+    },
+    {
+      "id": "ART-003",
+      "type": "artifact",
+      "title": "Exam Template Data",
+      "status": "draft",
+      "artifact_type": [
+        "rule"
+      ]
+    },
+    {
+      "id": "ART-004",
+      "type": "artifact",
+      "title": "ProctorU Status Mapping",
+      "status": "draft",
+      "artifact_type": [
+        "rule"
+      ]
+    },
+    {
+      "id": "ART-005",
+      "type": "artifact",
+      "title": "Time Zone Mapping",
+      "status": "draft",
+      "artifact_type": [
+        "rule"
+      ]
+    },
+    {
+      "id": "ART-006",
+      "type": "artifact",
+      "title": "Exam Scheduling Rules",
+      "status": "draft",
+      "artifact_type": [
+        "rule"
+      ]
+    },
+    {
+      "id": "ART-007",
+      "type": "artifact",
+      "title": "Remediation Policy",
+      "status": "draft",
+      "artifact_type": [
+        "policy"
+      ]
+    },
+    {
+      "id": "ART-008",
+      "type": "artifact",
+      "title": "Part 3 Interviewer Configuration",
+      "status": "draft",
+      "artifact_type": [
+        "rule"
+      ]
+    },
+    {
+      "id": "REQ-001",
+      "type": "requirement",
+      "title": "Exam Invoice Good Standing Gate",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-002",
+      "type": "requirement",
+      "title": "Exam Invoice Financial Gate",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-003",
+      "type": "requirement",
+      "title": "Sequential Exam Progression",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-004",
+      "type": "requirement",
+      "title": "Part 3 Audit Log Prerequisite",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-005",
+      "type": "requirement",
+      "title": "Part 1/2 No Audit Log Required",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-006",
+      "type": "requirement",
+      "title": "Exam Invoice Auto-Expiration",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-007",
+      "type": "requirement",
+      "title": "Language Preference Capture",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-008",
+      "type": "requirement",
+      "title": "Bulk Auditor Selection",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-009",
+      "type": "requirement",
+      "title": "Individual Eligibility Validation",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-010",
+      "type": "requirement",
+      "title": "Consolidated Bulk Invoice",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-011",
+      "type": "requirement",
+      "title": "Firm Payer Tracking",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-012",
+      "type": "requirement",
+      "title": "Ineligible Auditor Exclusion",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-013",
+      "type": "requirement",
+      "title": "Schedule Button Payment Gate",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-014",
+      "type": "requirement",
+      "title": "ProctorU Slot Retrieval",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-015",
+      "type": "requirement",
+      "title": "Part 3 Calendly Interface",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-016",
+      "type": "requirement",
+      "title": "Part 3 ProctorU Auto-Reservation",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-017",
+      "type": "requirement",
+      "title": "ProctorU Account Sync",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-018",
+      "type": "requirement",
+      "title": "Exam Metadata Population",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-019",
+      "type": "requirement",
+      "title": "Time Zone Mapping",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-020",
+      "type": "requirement",
+      "title": "Lead Time Enforcement",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-021",
+      "type": "requirement",
+      "title": "Platform-Only Scheduling",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-022",
+      "type": "requirement",
+      "title": "Reschedule/Cancel Buttons",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-023",
+      "type": "requirement",
+      "title": "Time-Based Fee Application",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-024",
+      "type": "requirement",
+      "title": "Firm-Paid Fee Payer Selection",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-025",
+      "type": "requirement",
+      "title": "No-Change Window Enforcement",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-026",
+      "type": "requirement",
+      "title": "Reschedule Limit Enforcement",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-027",
+      "type": "requirement",
+      "title": "Invoice Re-Availability",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-028",
+      "type": "requirement",
+      "title": "Outstanding Fees Scheduling Block",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-029",
+      "type": "requirement",
+      "title": "Firm Change Request Submission",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-030",
+      "type": "requirement",
+      "title": "Change Request Types",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-031",
+      "type": "requirement",
+      "title": "Change Request Status Tracking",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-032",
+      "type": "requirement",
+      "title": "Change Request Notifications",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-033",
+      "type": "requirement",
+      "title": "Credit Transfer Between Auditors",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-034",
+      "type": "requirement",
+      "title": "Change Request Audit Trail",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-035",
+      "type": "requirement",
+      "title": "Start Exam Button Availability",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-036",
+      "type": "requirement",
+      "title": "ProctorU Auto-Auth Link",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-037",
+      "type": "requirement",
+      "title": "Backup Launch URL Email",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-038",
+      "type": "requirement",
+      "title": "Exam In Progress Status",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-039",
+      "type": "requirement",
+      "title": "ProctorU Webhook Processing",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-040",
+      "type": "requirement",
+      "title": "ProctorU Status Mapping",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-041",
+      "type": "requirement",
+      "title": "Results Pending Status",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-042",
+      "type": "requirement",
+      "title": "Manual Score Entry",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-043",
+      "type": "requirement",
+      "title": "Exam Completed Status",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-044",
+      "type": "requirement",
+      "title": "No-Show Penalty Application",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-045",
+      "type": "requirement",
+      "title": "IT Issue Rebooking",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-046",
+      "type": "requirement",
+      "title": "Audit Log Status Snapshot",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-047",
+      "type": "requirement",
+      "title": "Part 3 Failure Count Tracking",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-048",
+      "type": "requirement",
+      "title": "Waiting Period Trigger",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-049",
+      "type": "requirement",
+      "title": "Training Requirement (3-5 Failures)",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-050",
+      "type": "requirement",
+      "title": "Auto Eligibility Restoration",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-051",
+      "type": "requirement",
+      "title": "Audit Log Redo (6+ Failures)",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-052",
+      "type": "requirement",
+      "title": "Training Block for 6+ Failures",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-053",
+      "type": "requirement",
+      "title": "Restoration Notification",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-054",
+      "type": "requirement",
+      "title": "Exam Template Database",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-055",
+      "type": "requirement",
+      "title": "Exam Metadata Storage",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-056",
+      "type": "requirement",
+      "title": "Exam Template Management",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-057",
+      "type": "requirement",
+      "title": "Active Template Usage",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-058",
+      "type": "requirement",
+      "title": "Admin Exam Search",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-059",
+      "type": "requirement",
+      "title": "Admin Proxy Scheduling",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-060",
+      "type": "requirement",
+      "title": "Admin Fee/Timing Override",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-061",
+      "type": "requirement",
+      "title": "Admin Eligibility Override",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-062",
+      "type": "requirement",
+      "title": "Override Reason Required",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "REQ-063",
+      "type": "requirement",
+      "title": "Admin Action Logging",
+      "status": "active",
+      "req_type": "functional",
+      "invariant": false
+    },
+    {
+      "id": "FEAT-001",
+      "type": "feature",
+      "title": "Examination System",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-002",
+      "type": "feature",
+      "title": "Auditor Lifecycle Management",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-003",
+      "type": "feature",
+      "title": "CPD Management",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-004",
+      "type": "feature",
+      "title": "Financial Management",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-005",
+      "type": "feature",
+      "title": "User Identity & Access Control",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-006",
+      "type": "feature",
+      "title": "Membership Management",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-007",
+      "type": "feature",
+      "title": "Firm Profile Management",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-008",
+      "type": "feature",
+      "title": "Reporting & Analytics",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-009",
+      "type": "feature",
+      "title": "Data Governance & Security",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-010",
+      "type": "feature",
+      "title": "External Integrations & APIs",
+      "status": "active"
+    },
+    {
+      "id": "FEAT-011",
+      "type": "feature",
+      "title": "Ethics & Compliance",
+      "status": "active"
+    },
+    {
+      "id": "EPIC-001",
+      "type": "epic",
+      "title": "Exam Eligibility & Invoice Generation",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-001:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-001",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "Logic to determine if an auditor can purchase a specific exam (Part 1, 2, or 3). Includes prerequisites (status, sequencing), generating the invoice line item, capturing exam language preferences, and enforcing invoice validity periods."
+    },
+    {
+      "id": "EPIC-002",
+      "type": "epic",
+      "title": "Firm Bulk Exam Purchasing",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-002:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-002",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "Workflow for Firm users to select multiple employed auditors, validate their eligibility in batch, and generate a single bulk invoice for multiple exams."
+    },
+    {
+      "id": "EPIC-003",
+      "type": "epic",
+      "title": "Exam Scheduling & Integration",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-003:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-003",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "The API integration with ProctorU (for Part 1/2) and the hybrid Calendly-to-ProctorU flow (for Part 3). Includes enforcing lead times, mapping time zones, and creating/linking ProctorU accounts via API."
+    },
+    {
+      "id": "EPIC-004",
+      "type": "epic",
+      "title": "Cancellations, Rescheduling & Fees",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-004:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-004",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "Logic for auditor self-service exam changes. Includes enforcing fee windows, reschedule limits, and determining payer based on original invoice ownership."
+    },
+    {
+      "id": "EPIC-005",
+      "type": "epic",
+      "title": "Exam Change Requests (Firm-Initiated)",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-005:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-005",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "A ticketing workflow for Firms to request changes for exams they funded. Includes logic to transfer credits, cancel exams without auditor consent, and manage disputes."
+    },
+    {
+      "id": "EPIC-006",
+      "type": "epic",
+      "title": "Exam Launch & Proctoring",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-006:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-006",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "The day-of workflow for exam delivery. Generating the unique launch link, managing status transitions, and providing backup access if the platform is inaccessible."
+    },
+    {
+      "id": "EPIC-007",
+      "type": "epic",
+      "title": "Exam Results & Status Updates",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-007:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-007",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "Processing webhooks from ProctorU, mapping external statuses to APSCA statuses, and handling manual score entry."
+    },
+    {
+      "id": "EPIC-008",
+      "type": "epic",
+      "title": "Exam Remediation Pathways",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-008:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-008",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "Automation of status changes and requirements based on failure counts. Enforces waiting periods and training/audit log redo requirements."
+    },
+    {
+      "id": "EPIC-009",
+      "type": "epic",
+      "title": "Exam Template & Configuration Management",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-009:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-009",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "Backend management of exam type definitions containing metadata required by the ProctorU API (duration, allowed resources, proctor notes) for each exam type and language variant."
+    },
+    {
+      "id": "EPIC-010",
+      "type": "epic",
+      "title": "Admin Exam Management",
+      "feature_ref": "FEAT-001"
+    },
+    {
+      "id": "EPIC-010:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-010",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-06-01",
+      "summary": "Administrative interface to view, schedule, reschedule, or force-cancel exams on behalf of auditors, including the ability to override standard business rules."
+    },
+    {
+      "id": "EPIC-011",
+      "type": "epic",
+      "title": "Enrollment & Onboarding",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-011:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-011",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Firm submits new auditor, admin review, member number assignment, login activation. Visibility rules during draft/pending states."
+    },
+    {
+      "id": "EPIC-012",
+      "type": "epic",
+      "title": "Employment Management",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-012:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-012",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Auditor-firm associations, active/inactive employments, visibility permissions, duplicate prevention, disassociation workflows."
+    },
+    {
+      "id": "EPIC-013",
+      "type": "epic",
+      "title": "Audit Log Submission",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-013:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-013",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Auditor submits individual audit activity records (dates, firm, country, standard). Progress tracking toward 20-day requirement. Date collision blocking, 5-year age limit, 10-day cap on second-party audits."
+    },
+    {
+      "id": "EPIC-014",
+      "type": "epic",
+      "title": "Audit Log Verification",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-014:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-014",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Firm supervisor approval workflow. Per-entry approve/reject. External delegate verification via unique links. Confidentiality masking for third-party audits."
+    },
+    {
+      "id": "EPIC-015",
+      "type": "epic",
+      "title": "Status Automation",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-015:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-015",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Rules engine for automatic status transitions (e.g., unpaid fees -> lapsed, lapsed > 24 months -> expired). Daily/weekly cron jobs."
+    },
+    {
+      "id": "EPIC-016",
+      "type": "epic",
+      "title": "Level Progression",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-016:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-016",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "ASCA to CSCA transition upon Part 3 pass. Level assignment, certificate generation, digital ID updates."
+    },
+    {
+      "id": "EPIC-017",
+      "type": "epic",
+      "title": "Lapse & Expiration",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-017:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-017",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Logic for membership lapse triggers (unpaid invoices, unsigned FOA, CPD non-compliance). Expiration after extended lapse period."
+    },
+    {
+      "id": "EPIC-018",
+      "type": "epic",
+      "title": "Status Restoration",
+      "feature_ref": "FEAT-002"
+    },
+    {
+      "id": "EPIC-018:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-018",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Checklist-based restoration (pay fees, sign FOA, complete CPD). Automated status update upon checklist completion."
+    },
+    {
+      "id": "EPIC-019",
+      "type": "epic",
+      "title": "CPD Submission & Tracking",
+      "feature_ref": "FEAT-003"
+    },
+    {
+      "id": "EPIC-019:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-019",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Auditors submit CPD records (course, hours, date). Progress visualization toward annual requirement."
+    },
+    {
+      "id": "EPIC-020",
+      "type": "epic",
+      "title": "Firm CPD Approval",
+      "feature_ref": "FEAT-003"
+    },
+    {
+      "id": "EPIC-020:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-020",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Firm supervisors review and approve auditor CPD submissions."
+    },
+    {
+      "id": "EPIC-021",
+      "type": "epic",
+      "title": "Training Course Recognition",
+      "feature_ref": "FEAT-003"
+    },
+    {
+      "id": "EPIC-021:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-021",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Firms submit courses for APSCA recognition. Admin review workflow. Public/private course designation. Badge generation upon approval."
+    },
+    {
+      "id": "EPIC-022",
+      "type": "epic",
+      "title": "Annual CPD Compliance",
+      "feature_ref": "FEAT-003"
+    },
+    {
+      "id": "EPIC-022:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-022",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Year-end compliance check. Status impacts (lapse trigger if non-compliant). CPD override for auditors who passed exams in current year."
+    },
+    {
+      "id": "EPIC-023",
+      "type": "epic",
+      "title": "CPD Reporting",
+      "feature_ref": "FEAT-003"
+    },
+    {
+      "id": "EPIC-023:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-023",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Dashboards showing compliance rates, submissions pending review, auditor progress."
+    },
+    {
+      "id": "EPIC-024",
+      "type": "epic",
+      "title": "Invoice Generation",
+      "feature_ref": "FEAT-004"
+    },
+    {
+      "id": "EPIC-024:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-024",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Creation of invoices for exams, membership, cancellation fees, etc. Line item management."
+    },
+    {
+      "id": "EPIC-025",
+      "type": "epic",
+      "title": "Payment Processing",
+      "feature_ref": "FEAT-004"
+    },
+    {
+      "id": "EPIC-025:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-025",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Stripe integration for credit card payments. Payment status tracking. Receipt generation."
+    },
+    {
+      "id": "EPIC-026",
+      "type": "epic",
+      "title": "QuickBooks Integration",
+      "feature_ref": "FEAT-004"
+    },
+    {
+      "id": "EPIC-026:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-026",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Two-way sync of invoices, payments, and customer records with QuickBooks Online."
+    },
+    {
+      "id": "EPIC-027",
+      "type": "epic",
+      "title": "Firm Self-Invoicing",
+      "feature_ref": "FEAT-004"
+    },
+    {
+      "id": "EPIC-027:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-027",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Firms report monthly audit totals and auto-generate their own invoices based on per-audit fee."
+    },
+    {
+      "id": "EPIC-028",
+      "type": "epic",
+      "title": "Anomaly Detection",
+      "feature_ref": "FEAT-004"
+    },
+    {
+      "id": "EPIC-028:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-028",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Flagging of unusual self-reported figures (e.g., significantly lower than historical average)."
+    },
+    {
+      "id": "EPIC-029",
+      "type": "epic",
+      "title": "Bulk Credits & Drawdown",
+      "feature_ref": "FEAT-004"
+    },
+    {
+      "id": "EPIC-029:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-029",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Firms pay lump sums; individual auditor fees draw down from credit balance."
+    },
+    {
+      "id": "EPIC-030",
+      "type": "epic",
+      "title": "Membership Fee Processing",
+      "feature_ref": "FEAT-004"
+    },
+    {
+      "id": "EPIC-030:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-030",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Annual membership fee invoicing. Inactive member discounts. Fee waivers and adjustments."
+    },
+    {
+      "id": "EPIC-031",
+      "type": "epic",
+      "title": "Authentication & MFA",
+      "feature_ref": "FEAT-005"
+    },
+    {
+      "id": "EPIC-031:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-031",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Login flow, multi-factor authentication, password reset, session management."
+    },
+    {
+      "id": "EPIC-032",
+      "type": "epic",
+      "title": "Role-Based Access Control",
+      "feature_ref": "FEAT-005"
+    },
+    {
+      "id": "EPIC-032:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-032",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Role definitions (Auditor, Firm Contact, Firm Supervisor, Admin, etc.). Permission matrices."
+    },
+    {
+      "id": "EPIC-033",
+      "type": "epic",
+      "title": "Multi-Role Management",
+      "feature_ref": "FEAT-005"
+    },
+    {
+      "id": "EPIC-033:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-033",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Users with multiple roles (e.g., auditor who is also firm contact). Role toggle within platform."
+    },
+    {
+      "id": "EPIC-034",
+      "type": "epic",
+      "title": "Role-Specific Redirects",
+      "feature_ref": "FEAT-005"
+    },
+    {
+      "id": "EPIC-034:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-034",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Dashboard routing based on active role. Homepage assignment per role."
+    },
+    {
+      "id": "EPIC-035",
+      "type": "epic",
+      "title": "Profile Validation",
+      "feature_ref": "FEAT-005"
+    },
+    {
+      "id": "EPIC-035:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-035",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Required fields enforcement (e.g., country of residence before exam scheduling). Profile completeness checks."
+    },
+    {
+      "id": "EPIC-036",
+      "type": "epic",
+      "title": "Firm Membership Status",
+      "feature_ref": "FEAT-006"
+    },
+    {
+      "id": "EPIC-036:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-036",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Active, suspended, terminated states. Status change workflows."
+    },
+    {
+      "id": "EPIC-037",
+      "type": "epic",
+      "title": "Individual Membership Status",
+      "feature_ref": "FEAT-006"
+    },
+    {
+      "id": "EPIC-037:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-037",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Auditor membership tiers and states (Provisional, Full, Lapsed, Expired)."
+    },
+    {
+      "id": "EPIC-038",
+      "type": "epic",
+      "title": "Member Categories",
+      "feature_ref": "FEAT-006"
+    },
+    {
+      "id": "EPIC-038:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-038",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Firm categorization (A/B/C). Category assignment and change logic."
+    },
+    {
+      "id": "EPIC-039",
+      "type": "epic",
+      "title": "Agreements & Consent Tracking",
+      "feature_ref": "FEAT-006"
+    },
+    {
+      "id": "EPIC-039:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-039",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Form of Acceptance, Code of Conduct, Confidentiality Framework. Signature tracking, expiration, renewal."
+    },
+    {
+      "id": "EPIC-040",
+      "type": "epic",
+      "title": "Annual Renewal Processing",
+      "feature_ref": "FEAT-006"
+    },
+    {
+      "id": "EPIC-040:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-040",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Yearly renewal workflow. FOA signature requirement. Fee generation. Status updates."
+    },
+    {
+      "id": "EPIC-041",
+      "type": "epic",
+      "title": "Firm Profile Updates",
+      "feature_ref": "FEAT-007"
+    },
+    {
+      "id": "EPIC-041:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-041",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Self-service editing of firm details (logo, contact info, website, addresses)."
+    },
+    {
+      "id": "EPIC-042",
+      "type": "epic",
+      "title": "Auditor Association Management",
+      "feature_ref": "FEAT-007"
+    },
+    {
+      "id": "EPIC-042:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-042",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "View associated auditors. Manage employment relationships. Access restrictions on PII for active/disassociated auditors."
+    },
+    {
+      "id": "EPIC-043",
+      "type": "epic",
+      "title": "Accreditation Management",
+      "feature_ref": "FEAT-007"
+    },
+    {
+      "id": "EPIC-043:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-043",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Programs/brands the firm is accredited for (SMETA, BSCI, Disney, etc.). Self-service updates."
+    },
+    {
+      "id": "EPIC-044",
+      "type": "epic",
+      "title": "Geographic Coverage",
+      "feature_ref": "FEAT-007"
+    },
+    {
+      "id": "EPIC-044:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-044",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Countries/regions where firm conducts audits. Self-service updates."
+    },
+    {
+      "id": "EPIC-045",
+      "type": "epic",
+      "title": "Embeddable Public Lists",
+      "feature_ref": "FEAT-007"
+    },
+    {
+      "id": "EPIC-045:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-045",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Auto-updating HTML embeds for public website (member firm lists, accredited programs)."
+    },
+    {
+      "id": "EPIC-046",
+      "type": "epic",
+      "title": "Real-Time Dashboards",
+      "feature_ref": "FEAT-008"
+    },
+    {
+      "id": "EPIC-046:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-046",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Live views of key metrics (auditor counts by level/region, exam pass rates, CPD compliance)."
+    },
+    {
+      "id": "EPIC-047",
+      "type": "epic",
+      "title": "Geographic Visualizations",
+      "feature_ref": "FEAT-008"
+    },
+    {
+      "id": "EPIC-047:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-047",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Map-based displays of auditor capacity by country. Interactive filtering."
+    },
+    {
+      "id": "EPIC-048",
+      "type": "epic",
+      "title": "Custom Report Builder",
+      "feature_ref": "FEAT-008"
+    },
+    {
+      "id": "EPIC-048:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-048",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Admin ability to create ad-hoc reports from available data sets."
+    },
+    {
+      "id": "EPIC-049",
+      "type": "epic",
+      "title": "Metabase Integration",
+      "feature_ref": "FEAT-008"
+    },
+    {
+      "id": "EPIC-049:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-049",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Connection to Metabase for advanced analytics and visualization."
+    },
+    {
+      "id": "EPIC-050",
+      "type": "epic",
+      "title": "Progress Tracking Visualizations",
+      "feature_ref": "FEAT-008"
+    },
+    {
+      "id": "EPIC-050:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-050",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Visual progress bars for audit log, CPD, certification journey. Color-coded status indicators."
+    },
+    {
+      "id": "EPIC-051",
+      "type": "epic",
+      "title": "Audit Trail & Logging",
+      "feature_ref": "FEAT-009"
+    },
+    {
+      "id": "EPIC-051:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-051",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Record of all status changes, data modifications, admin actions. Timestamp, user, before/after values."
+    },
+    {
+      "id": "EPIC-052",
+      "type": "epic",
+      "title": "Data Encryption",
+      "feature_ref": "FEAT-009"
+    },
+    {
+      "id": "EPIC-052:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-052",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Encryption at rest and in transit. Key management."
+    },
+    {
+      "id": "EPIC-053",
+      "type": "epic",
+      "title": "Data Retention & Archiving",
+      "feature_ref": "FEAT-009"
+    },
+    {
+      "id": "EPIC-053:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-053",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Retention policies by data category. Archival process. Secure deletion at end-of-life."
+    },
+    {
+      "id": "EPIC-054",
+      "type": "epic",
+      "title": "Backup & Recovery",
+      "feature_ref": "FEAT-009"
+    },
+    {
+      "id": "EPIC-054:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-054",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Automated backups. Disaster recovery procedures. Restore testing."
+    },
+    {
+      "id": "EPIC-055",
+      "type": "epic",
+      "title": "Incident Response",
+      "feature_ref": "FEAT-009"
+    },
+    {
+      "id": "EPIC-055:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-055",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Security monitoring. Failed login detection. Breach response procedures."
+    },
+    {
+      "id": "EPIC-056",
+      "type": "epic",
+      "title": "Email Deliverability",
+      "feature_ref": "FEAT-009"
+    },
+    {
+      "id": "EPIC-056:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-056",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "SendGrid authentication. CNAME/SPF/DKIM configuration. Spam filter avoidance."
+    },
+    {
+      "id": "EPIC-057",
+      "type": "epic",
+      "title": "Partner Verification API",
+      "feature_ref": "FEAT-010"
+    },
+    {
+      "id": "EPIC-057:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-057",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "REST API for partners (Sedex, BSCI) to verify auditor/firm status in real-time. Replaces manual CSV uploads."
+    },
+    {
+      "id": "EPIC-058",
+      "type": "epic",
+      "title": "LMS Integration",
+      "feature_ref": "FEAT-010"
+    },
+    {
+      "id": "EPIC-058:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-058",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Data exchange with Learning Management System for exam scheduling, CPD course completion, training records."
+    },
+    {
+      "id": "EPIC-059",
+      "type": "epic",
+      "title": "Public Register Embeds",
+      "feature_ref": "FEAT-010"
+    },
+    {
+      "id": "EPIC-059:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-059",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Auto-updating public website content (member firm list, recognized training courses, certified auditors)."
+    },
+    {
+      "id": "EPIC-060",
+      "type": "epic",
+      "title": "ZenDesk Integration",
+      "feature_ref": "FEAT-010"
+    },
+    {
+      "id": "EPIC-060:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-060",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "Knowledge base widget. Role-specific article display. Support ticket creation."
+    },
+    {
+      "id": "EPIC-061",
+      "type": "epic",
+      "title": "Ethics Case Management",
+      "feature_ref": "FEAT-011"
+    },
+    {
+      "id": "EPIC-061:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-061",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "TBD - requires dedicated discovery. Placeholder epic for ethics case management workflows."
+    },
+    {
+      "id": "EPIC-062",
+      "type": "epic",
+      "title": "Compliance Data Tracking",
+      "feature_ref": "FEAT-011"
+    },
+    {
+      "id": "EPIC-062:v1",
+      "type": "epic_version",
+      "epic_id": "EPIC-062",
+      "version": 1,
+      "status": "backlog",
+      "release_ref": "REL-2026-12-01",
+      "summary": "TBD - requires dedicated discovery. Placeholder epic for compliance data tracking workflows."
+    }
+  ],
+  "edges": [
+    {
+      "source": "FEAT-001",
+      "target": "REQ-001",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-005",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-006",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-007",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-008",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-009",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-010",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-011",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-012",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-013",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-014",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-015",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-016",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-017",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-018",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-019",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-020",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-021",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-022",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-023",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-024",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-025",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-026",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-027",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-028",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-029",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-030",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-031",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-032",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-033",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-034",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-035",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-036",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-037",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-038",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-039",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-040",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-041",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-042",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-043",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-044",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-045",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-046",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-047",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-048",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-049",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-050",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-051",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-052",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-053",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-054",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-055",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-056",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-057",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-058",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-059",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-060",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-061",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-062",
+      "type": "satisfies"
+    },
+    {
+      "source": "FEAT-001",
+      "target": "REQ-063",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "EPIC-001",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-001",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-002",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-003",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-004",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-005",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-006",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-001:v1",
+      "target": "REQ-007",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-002",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-002:v1",
+      "target": "EPIC-002",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-002:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-002:v1",
+      "target": "REQ-008",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-002:v1",
+      "target": "REQ-009",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-002:v1",
+      "target": "REQ-010",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-002:v1",
+      "target": "REQ-011",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-002:v1",
+      "target": "REQ-012",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "EPIC-003",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-013",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-014",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-015",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-016",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-017",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-018",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-019",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-020",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-003:v1",
+      "target": "REQ-021",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "EPIC-004",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-022",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-023",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-024",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-025",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-026",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-027",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-004:v1",
+      "target": "REQ-028",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "EPIC-005",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-029",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-030",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-031",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-032",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-033",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-005:v1",
+      "target": "REQ-034",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "EPIC-006",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REQ-035",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REQ-036",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REQ-037",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-006:v1",
+      "target": "REQ-038",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "EPIC-007",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-039",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-040",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-041",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-042",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-043",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-044",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-045",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-007:v1",
+      "target": "REQ-046",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-008",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "EPIC-008",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REQ-047",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REQ-048",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REQ-049",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REQ-050",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REQ-051",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REQ-052",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-008:v1",
+      "target": "REQ-053",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-009",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-009:v1",
+      "target": "EPIC-009",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-009:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-009:v1",
+      "target": "REQ-054",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-009:v1",
+      "target": "REQ-055",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-009:v1",
+      "target": "REQ-056",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-009:v1",
+      "target": "REQ-057",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-010",
+      "target": "FEAT-001",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "EPIC-010",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "REL-2026-06-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "REQ-058",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "REQ-059",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "REQ-060",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "REQ-061",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "REQ-062",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-010:v1",
+      "target": "REQ-063",
+      "type": "satisfies"
+    },
+    {
+      "source": "EPIC-011",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-011:v1",
+      "target": "EPIC-011",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-011:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-012",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-012:v1",
+      "target": "EPIC-012",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-012:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-013",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-013:v1",
+      "target": "EPIC-013",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-013:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-014",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-014:v1",
+      "target": "EPIC-014",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-014:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-015",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-015:v1",
+      "target": "EPIC-015",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-015:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-016",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-016:v1",
+      "target": "EPIC-016",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-016:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-017",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-017:v1",
+      "target": "EPIC-017",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-017:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-018",
+      "target": "FEAT-002",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-018:v1",
+      "target": "EPIC-018",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-018:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-019",
+      "target": "FEAT-003",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-019:v1",
+      "target": "EPIC-019",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-019:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-020",
+      "target": "FEAT-003",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-020:v1",
+      "target": "EPIC-020",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-020:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-021",
+      "target": "FEAT-003",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-021:v1",
+      "target": "EPIC-021",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-021:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-022",
+      "target": "FEAT-003",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-022:v1",
+      "target": "EPIC-022",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-022:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-023",
+      "target": "FEAT-003",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-023:v1",
+      "target": "EPIC-023",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-023:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-024",
+      "target": "FEAT-004",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-024:v1",
+      "target": "EPIC-024",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-024:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-025",
+      "target": "FEAT-004",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-025:v1",
+      "target": "EPIC-025",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-025:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-026",
+      "target": "FEAT-004",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-026:v1",
+      "target": "EPIC-026",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-026:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-027",
+      "target": "FEAT-004",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-027:v1",
+      "target": "EPIC-027",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-027:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-028",
+      "target": "FEAT-004",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-028:v1",
+      "target": "EPIC-028",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-028:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-029",
+      "target": "FEAT-004",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-029:v1",
+      "target": "EPIC-029",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-029:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-030",
+      "target": "FEAT-004",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-030:v1",
+      "target": "EPIC-030",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-030:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-031",
+      "target": "FEAT-005",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-031:v1",
+      "target": "EPIC-031",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-031:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-032",
+      "target": "FEAT-005",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-032:v1",
+      "target": "EPIC-032",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-032:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-033",
+      "target": "FEAT-005",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-033:v1",
+      "target": "EPIC-033",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-033:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-034",
+      "target": "FEAT-005",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-034:v1",
+      "target": "EPIC-034",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-034:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-035",
+      "target": "FEAT-005",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-035:v1",
+      "target": "EPIC-035",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-035:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-036",
+      "target": "FEAT-006",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-036:v1",
+      "target": "EPIC-036",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-036:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-037",
+      "target": "FEAT-006",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-037:v1",
+      "target": "EPIC-037",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-037:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-038",
+      "target": "FEAT-006",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-038:v1",
+      "target": "EPIC-038",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-038:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-039",
+      "target": "FEAT-006",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-039:v1",
+      "target": "EPIC-039",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-039:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-040",
+      "target": "FEAT-006",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-040:v1",
+      "target": "EPIC-040",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-040:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-041",
+      "target": "FEAT-007",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-041:v1",
+      "target": "EPIC-041",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-041:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-042",
+      "target": "FEAT-007",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-042:v1",
+      "target": "EPIC-042",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-042:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-043",
+      "target": "FEAT-007",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-043:v1",
+      "target": "EPIC-043",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-043:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-044",
+      "target": "FEAT-007",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-044:v1",
+      "target": "EPIC-044",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-044:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-045",
+      "target": "FEAT-007",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-045:v1",
+      "target": "EPIC-045",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-045:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-046",
+      "target": "FEAT-008",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-046:v1",
+      "target": "EPIC-046",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-046:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-047",
+      "target": "FEAT-008",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-047:v1",
+      "target": "EPIC-047",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-047:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-048",
+      "target": "FEAT-008",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-048:v1",
+      "target": "EPIC-048",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-048:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-049",
+      "target": "FEAT-008",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-049:v1",
+      "target": "EPIC-049",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-049:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-050",
+      "target": "FEAT-008",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-050:v1",
+      "target": "EPIC-050",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-050:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-051",
+      "target": "FEAT-009",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-051:v1",
+      "target": "EPIC-051",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-051:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-052",
+      "target": "FEAT-009",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-052:v1",
+      "target": "EPIC-052",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-052:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-053",
+      "target": "FEAT-009",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-053:v1",
+      "target": "EPIC-053",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-053:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-054",
+      "target": "FEAT-009",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-054:v1",
+      "target": "EPIC-054",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-054:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-055",
+      "target": "FEAT-009",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-055:v1",
+      "target": "EPIC-055",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-055:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-056",
+      "target": "FEAT-009",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-056:v1",
+      "target": "EPIC-056",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-056:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-057",
+      "target": "FEAT-010",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-057:v1",
+      "target": "EPIC-057",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-057:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-058",
+      "target": "FEAT-010",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-058:v1",
+      "target": "EPIC-058",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-058:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-059",
+      "target": "FEAT-010",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-059:v1",
+      "target": "EPIC-059",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-059:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-060",
+      "target": "FEAT-010",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-060:v1",
+      "target": "EPIC-060",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-060:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-061",
+      "target": "FEAT-011",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-061:v1",
+      "target": "EPIC-061",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-061:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    },
+    {
+      "source": "EPIC-062",
+      "target": "FEAT-011",
+      "type": "scoped_by"
+    },
+    {
+      "source": "EPIC-062:v1",
+      "target": "EPIC-062",
+      "type": "version_of"
+    },
+    {
+      "source": "EPIC-062:v1",
+      "target": "REL-2026-12-01",
+      "type": "assigned_to_release"
+    }
+  ],
   "metadata": {
-    "node_count": 0,
-    "edge_count": 0,
-    "node_types": [],
-    "edge_types": []
+    "node_count": 208,
+    "edge_count": 312,
+    "node_types": [
+      "release",
+      "epic",
+      "requirement",
+      "artifact",
+      "epic_version",
+      "feature"
+    ],
+    "edge_types": [
+      "satisfies",
+      "scoped_by",
+      "assigned_to_release",
+      "version_of"
+    ]
   }
 }

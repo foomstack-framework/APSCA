@@ -1020,7 +1020,61 @@ body.has-version-banner main {
         <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
         <h1>Releases</h1>
 <p class="page-subtitle">Planned delivery milestones that bind versions to dates.</p>
-<p><em>No items yet.</em></p>
+
+<div class="index-toolbar">
+    <div class="toolbar-field">
+        <label for="search-input">Search</label>
+        <input type="search" id="search-input" placeholder="Search by ID, title, status, release..." />
+    </div>
+    <div class="toolbar-field">
+        <label for="status-filter">Status</label>
+        <select id="status-filter">
+            <option value="all">All statuses</option>
+            <option value="planned">Planned</option>
+        </select>
+    </div>
+    
+    <div class="toolbar-meta" id="results-count"></div>
+</div>
+<script>
+(function() {
+    var statusFilter = document.getElementById('status-filter');
+    if (statusFilter && 'all' !== 'all') {
+        statusFilter.value = 'all';
+    }
+})();
+</script>
+<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-12-01 platform features backlog planned release date: 2026-12-01 backlog release for the 10 remaining platform features (auditor lifecycle, cpd, financial, iam, membership, firm profile, reporting, security, integrations, ethics). backlog release for the 10 remaining platform features (auditor lifecycle, cpd, financial, iam, membership, firm profile, reporting, security, integrations, ethics)."><td class="record-cell"><a href="REL-2026-12-01.html">REL-2026-12-01</a><div class="cell-secondary">Platform Features Backlog</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-12-01</div><div class="cell-secondary">Backlog release for the 10 remaining platform features (Auditor Lifecycle, CPD, Financial, IAM, Membership, Firm Profile, Reporting, Security, Integrations, Ethics).</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Planned</span></div></td></tr><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-06-01 examination system backlog planned release date: 2026-06-01 initial backlog release for the examination system feature. contains all epics and requirements for the exam management capability. initial backlog release for the examination system feature. contains all epics and requirements for the exam management capability."><td class="record-cell"><a href="REL-2026-06-01.html">REL-2026-06-01</a><div class="cell-secondary">Examination System Backlog</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-06-01</div><div class="cell-secondary">Initial backlog release for the Examination System feature. Contains all epics and requirements for the exam management capability.</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Planned</span></div></td></tr></tbody></table>
+<script>
+(() => {
+    const searchInput = document.getElementById('search-input');
+    const statusFilter = document.getElementById('status-filter');
+    const items = Array.from(document.querySelectorAll('[data-filter-item]'));
+    const countEl = document.getElementById('results-count');
+    if (!searchInput || !statusFilter || !countEl) return;
+
+    function applyFilters() {
+        const term = searchInput.value.trim().toLowerCase();
+        const status = statusFilter.value.toLowerCase();
+        let visible = 0;
+        items.forEach((item) => {
+            const text = (item.dataset.searchText || '').toLowerCase();
+            const itemStatus = (item.dataset.status || '').toLowerCase();
+            const matchesTerm = !term || text.includes(term);
+            const matchesStatus = status === 'all' || itemStatus === status;
+            const show = matchesTerm && matchesStatus;
+            item.style.display = show ? '' : 'none';
+            if (show) visible += 1;
+        });
+        countEl.textContent = `${visible} of ${items.length} shown`;
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    applyFilters();
+})();
+</script>
+
     </main>
     <script>
     (() => {

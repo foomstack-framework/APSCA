@@ -1020,7 +1020,52 @@ body.has-version-banner main {
         <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
         <h1>Business Artifacts</h1>
 <p class="page-subtitle">Source documents that describe business rules - sources of truth, not system behavior.</p>
-<p><em>No business artifacts yet.</em></p>
+
+<div class="index-toolbar">
+    <div class="toolbar-field">
+        <label for="search-input">Search</label>
+        <input type="search" id="search-input" placeholder="Search by ID, title, type, status..." />
+    </div>
+    <div class="toolbar-field">
+        <label for="status-filter">Status</label>
+        <select id="status-filter">
+            <option value="all">All statuses</option>
+            <option value="draft">Draft</option>
+        </select>
+    </div>
+    <div class="toolbar-meta" id="results-count"></div>
+</div>
+<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Type</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="draft" data-search-text="art-001 fee schedule matrix defining exam fees, cancellation/reschedule fees by time window, maximum reschedule attempts, and penalty amounts for no-shows. covers part 1, part 2, and part 3 exams. rule draft apsca policy"><td class="record-cell"><a href="ART-001.html">ART-001</a><div class="cell-secondary">Fee Schedule</div></td><td class="summary-cell"><div class="cell-primary">Matrix defining exam fees, cancellation/reschedule fees by time window, maximum reschedule attempts, and penalty amounts for no-shows. Covers Part 1, Part 2, and Part 3 exams.</div><div class="cell-secondary">Source: APSCA Policy</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr><tr data-filter-item="true" data-status="draft" data-search-text="art-002 exam eligibility rules prerequisites for each exam type including required auditor status, exam sequencing rules, and audit log requirements. defines what &#x27;in good standing&#x27; means in the exam context. rule draft apsca policy"><td class="record-cell"><a href="ART-002.html">ART-002</a><div class="cell-secondary">Exam Eligibility Rules</div></td><td class="summary-cell"><div class="cell-primary">Prerequisites for each exam type including required auditor status, exam sequencing rules, and audit log requirements. Defines what &#x27;In Good Standing&#x27; means in the exam context.</div><div class="cell-secondary">Source: APSCA Policy</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr><tr data-filter-item="true" data-status="draft" data-search-text="art-003 exam template data configuration data for each exam type and language variant including duration, permitted resources, proctor instructions, and exam platform details sent to proctoru api. rule draft apsca technical"><td class="record-cell"><a href="ART-003.html">ART-003</a><div class="cell-secondary">Exam Template Data</div></td><td class="summary-cell"><div class="cell-primary">Configuration data for each exam type and language variant including duration, permitted resources, proctor instructions, and exam platform details sent to ProctorU API.</div><div class="cell-secondary">Source: APSCA Technical</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr><tr data-filter-item="true" data-status="draft" data-search-text="art-004 proctoru status mapping mapping table between proctoru webhook statuses and apsca exam statuses. defines which statuses allow rebooking vs. require new invoice vs. trigger penalties. rule draft apsca technical"><td class="record-cell"><a href="ART-004.html">ART-004</a><div class="cell-secondary">ProctorU Status Mapping</div></td><td class="summary-cell"><div class="cell-primary">Mapping table between ProctorU webhook statuses and APSCA exam statuses. Defines which statuses allow rebooking vs. require new invoice vs. trigger penalties.</div><div class="cell-secondary">Source: APSCA Technical</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr><tr data-filter-item="true" data-status="draft" data-search-text="art-005 time zone mapping mapping table between apsca/calendly time zones and the 98 accepted proctoru time zone ids. rule draft apsca technical"><td class="record-cell"><a href="ART-005.html">ART-005</a><div class="cell-secondary">Time Zone Mapping</div></td><td class="summary-cell"><div class="cell-primary">Mapping table between APSCA/Calendly time zones and the 98 accepted ProctorU time zone IDs.</div><div class="cell-secondary">Source: APSCA Technical</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr><tr data-filter-item="true" data-status="draft" data-search-text="art-006 exam scheduling rules lead time requirements (14 days for part 1/2, 30 days for part 3), pre-exam launch window, invoice validity period, and other scheduling constraints. rule draft apsca policy"><td class="record-cell"><a href="ART-006.html">ART-006</a><div class="cell-secondary">Exam Scheduling Rules</div></td><td class="summary-cell"><div class="cell-primary">Lead time requirements (14 days for Part 1/2, 30 days for Part 3), pre-exam launch window, invoice validity period, and other scheduling constraints.</div><div class="cell-secondary">Source: APSCA Policy</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr><tr data-filter-item="true" data-status="draft" data-search-text="art-007 remediation policy failure thresholds, waiting period durations, training requirements for 3-5 failures, and audit log redo requirements for 6+ failures. policy draft apsca policy"><td class="record-cell"><a href="ART-007.html">ART-007</a><div class="cell-secondary">Remediation Policy</div></td><td class="summary-cell"><div class="cell-primary">Failure thresholds, waiting period durations, training requirements for 3-5 failures, and audit log redo requirements for 6+ failures.</div><div class="cell-secondary">Source: APSCA Policy</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #3b82f6">Policy</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr><tr data-filter-item="true" data-status="draft" data-search-text="art-008 part 3 interviewer configuration calendly event type mappings by language, interviewer assignment rules, and booking constraints. rule draft apsca technical"><td class="record-cell"><a href="ART-008.html">ART-008</a><div class="cell-secondary">Part 3 Interviewer Configuration</div></td><td class="summary-cell"><div class="cell-primary">Calendly event type mappings by language, interviewer assignment rules, and booking constraints.</div><div class="cell-secondary">Source: APSCA Technical</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #94a3b8">Draft</span></div></td></tr></tbody></table>
+<script>
+(() => {
+    const searchInput = document.getElementById('search-input');
+    const statusFilter = document.getElementById('status-filter');
+    const items = Array.from(document.querySelectorAll('[data-filter-item]'));
+    const countEl = document.getElementById('results-count');
+    if (!searchInput || !statusFilter || !countEl) return;
+
+    function applyFilters() {
+        const term = searchInput.value.trim().toLowerCase();
+        const status = statusFilter.value.toLowerCase();
+        let visible = 0;
+        items.forEach((item) => {
+            const text = (item.dataset.searchText || '').toLowerCase();
+            const itemStatus = (item.dataset.status || '').toLowerCase();
+            const matchesTerm = !term || text.includes(term);
+            const matchesStatus = status === 'all' || itemStatus === status;
+            const show = matchesTerm && matchesStatus;
+            item.style.display = show ? '' : 'none';
+            if (show) visible += 1;
+        });
+        countEl.textContent = `${visible} of ${items.length} shown`;
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    applyFilters();
+})();
+</script>
+
     </main>
     <script>
     (() => {

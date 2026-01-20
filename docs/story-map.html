@@ -1300,12 +1300,69 @@ body.has-version-banner .topbar {
             return matchesTerm && matchesRequirement;
         }
 
+        function epicMatchesFilters(epic, epicVersion, feature, release) {
+            const term = (filters.term || '').toLowerCase();
+
+            // Collect requirement refs from epic version and feature
+            const requirementRefs = new Set();
+            if (epicVersion && Array.isArray(epicVersion.requirement_refs)) {
+                epicVersion.requirement_refs.forEach(ref => requirementRefs.add(ref));
+            }
+            if (feature && Array.isArray(feature.requirement_refs)) {
+                feature.requirement_refs.forEach(ref => requirementRefs.add(ref));
+            }
+
+            const requirementText = Array.from(requirementRefs).map(ref => {
+                const title = requirementLookup.get(ref) || '';
+                return `${ref} ${title}`;
+            }).join(' ');
+
+            const text = [
+                epic?.id,
+                epic?.title,
+                feature?.id,
+                feature?.title,
+                release?.id,
+                release?.title,
+                requirementText
+            ].filter(Boolean).join(' ').toLowerCase();
+
+            const matchesTerm = !term || text.includes(term);
+
+            if (!filters.requirements.length) {
+                return matchesTerm;
+            }
+
+            const selected = new Set(filters.requirements);
+            const matchesRequirement = Array.from(requirementRefs).some(ref => selected.has(ref));
+            return matchesTerm && matchesRequirement;
+        }
+
         function renderStoryMap() {
             const storyMapEl = document.getElementById('story-map');
             const selectedFeatures = new Set(filters.features || []);
             const selectedEpics = new Set(filters.epics || []);
             const selectedReleases = new Set(filters.releases || []);
-            const activeFeatures = selectedFeatures.size
+            const selectedRequirements = new Set(filters.requirements || []);
+
+            // Helper: Check if an epic has any version with matching requirement_refs
+            function epicHasMatchingRequirements(epic) {
+                if (!selectedRequirements.size) return true;
+                const versions = epic.versions || [];
+                return versions.some(version => {
+                    const refs = version.requirement_refs || [];
+                    return refs.some(ref => selectedRequirements.has(ref));
+                });
+            }
+
+            // Helper: Check if a feature has matching requirement_refs
+            function featureHasMatchingRequirements(feature) {
+                if (!selectedRequirements.size) return true;
+                const refs = feature.requirement_refs || [];
+                return refs.some(ref => selectedRequirements.has(ref));
+            }
+
+            let activeFeatures = selectedFeatures.size
                 ? features.filter(feature => selectedFeatures.has(feature.id))
                 : features;
             let activeEpics = selectedEpics.size
@@ -1313,6 +1370,17 @@ body.has-version-banner .topbar {
                 : epics;
             if (selectedFeatures.size) {
                 activeEpics = activeEpics.filter(epic => selectedFeatures.has(epic.feature_ref));
+            }
+
+            // Filter by requirements (if any selected)
+            if (selectedRequirements.size) {
+                // Filter epics to those with matching requirement_refs in any version
+                activeEpics = activeEpics.filter(epic => epicHasMatchingRequirements(epic));
+                // Filter features to those with matching requirement_refs OR containing matching epics
+                const featureIdsWithMatchingEpics = new Set(activeEpics.map(epic => epic.feature_ref));
+                activeFeatures = activeFeatures.filter(feature =>
+                    featureHasMatchingRequirements(feature) || featureIdsWithMatchingEpics.has(feature.id)
+                );
             }
             const sortedReleases = [...releases]
                 .filter(release => !selectedReleases.size || selectedReleases.has(release.id))
@@ -1336,6 +1404,8 @@ body.has-version-banner .topbar {
             };
 
             const hasUnreleasedStories = stories.some(story => getVersionForLane(story.versions || [], null));
+            const hasUnreleasedEpics = epics.some(epic => getVersionForLane(epic.versions || [], null));
+            const hasUnreleasedContent = hasUnreleasedStories || hasUnreleasedEpics;
             const featureLookup = new Map(features.map(feature => [feature.id, feature]));
             if (features.length === 0) {
                 storyMapEl.innerHTML = `
@@ -1348,7 +1418,7 @@ body.has-version-banner .topbar {
                 return;
             }
 
-            if (sortedReleases.length === 0 && !hasUnreleasedStories) {
+            if (sortedReleases.length === 0 && !hasUnreleasedContent) {
                 storyMapEl.innerHTML = `
                     <div class="empty-state">
                         <h2>No releases defined yet</h2>
@@ -1390,12 +1460,15 @@ body.has-version-banner .topbar {
             const visibleReleases = new Set();
 
             const matchesByReleaseEpic = new Map();
+            const epicMatchesByReleaseEpic = new Set(); // Track which release-epic combos have epic-level matches
             lanes.forEach(lane => {
                 activeEpics.forEach(epic => {
                     const feature = featureLookup.get(epic.feature_ref);
                     const epicVersion = getVersionForLane(epic.versions || [], lane.releaseId);
                     const epicStories = storiesByEpic.get(epic.id) || [];
                     const matchingStories = [];
+
+                    // Check stories (existing logic)
                     epicStories.forEach(story => {
                         const storyVersion = getVersionForLane(story.versions || [], lane.releaseId);
                         if (!storyVersion) return;
@@ -1413,6 +1486,23 @@ body.has-version-banner .topbar {
                             matchingStories.push({ story, storyVersion });
                         }
                     });
+
+                    // Check if epic itself matches filters (hierarchy-aware filtering)
+                    // This allows epics to be visible even without stories
+                    if (epicVersion) {
+                        const epicMatches = epicMatchesFilters(epic, epicVersion, feature, lane.release);
+                        if (epicMatches) {
+                            visibleEpics.add(epic.id);
+                            if (feature && feature.id) {
+                                visibleFeatures.add(feature.id);
+                            }
+                            if (!lane.isUnreleased && lane.release && lane.release.id) {
+                                visibleReleases.add(lane.release.id);
+                            }
+                            epicMatchesByReleaseEpic.add(getReleaseEpicKey(lane.key, epic.id));
+                        }
+                    }
+
                     if (matchingStories.length) {
                         matchesByReleaseEpic.set(getReleaseEpicKey(lane.key, epic.id), matchingStories);
                     }
@@ -1464,7 +1554,7 @@ body.has-version-banner .topbar {
             html += '</tr></thead><tbody>';
 
             lanes.forEach(lane => {
-                let releaseHasVisibleStory = false;
+                let releaseHasVisibleContent = false; // Renamed: tracks both story and epic matches
                 const showEmptyReleaseRow = !hideEmptyGroups || (selectedReleases.size && selectedReleases.has(lane.releaseId));
                 const releaseTitle = lane.release.title ? `<div class="release-title">${escapeHtml(lane.release.title)}</div>` : '';
                 const releaseDate = lane.release.release_date ? `<div class="release-date">${escapeHtml(lane.release.release_date)}</div>` : '';
@@ -1487,9 +1577,13 @@ body.has-version-banner .topbar {
                     }
                     const epic = entry.epic;
                     const feature = entry.feature;
-                    const matchingStories = matchesByReleaseEpic.get(getReleaseEpicKey(lane.key, epic.id)) || [];
-                    if (matchingStories.length) {
-                        releaseHasVisibleStory = true;
+                    const releaseEpicKey = getReleaseEpicKey(lane.key, epic.id);
+                    const matchingStories = matchesByReleaseEpic.get(releaseEpicKey) || [];
+                    const hasEpicMatch = epicMatchesByReleaseEpic.has(releaseEpicKey);
+
+                    // Release row has visible content if it has stories OR epic-level matches
+                    if (matchingStories.length || hasEpicMatch) {
+                        releaseHasVisibleContent = true;
                     }
 
                     if (matchingStories.length === 0) {
@@ -1518,7 +1612,7 @@ body.has-version-banner .topbar {
                     rowHtml += '</td>';
                 });
                 rowHtml += '</tr>';
-                if (releaseHasVisibleStory || showEmptyReleaseRow) {
+                if (releaseHasVisibleContent || showEmptyReleaseRow) {
                     html += rowHtml;
                 }
             });

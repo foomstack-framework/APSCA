@@ -1,1 +1,1749 @@
-[]
+[
+  {
+    "id": "EPIC-001",
+    "title": "Exam Eligibility & Invoice Generation",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:19Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "Logic to determine if an auditor can purchase a specific exam (Part 1, 2, or 3). Includes prerequisites (status, sequencing), generating the invoice line item, capturing exam language preferences, and enforcing invoice validity periods.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-001",
+          "REQ-002",
+          "REQ-003",
+          "REQ-004",
+          "REQ-005",
+          "REQ-006",
+          "REQ-007"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:19Z",
+        "updated_at": "2026-01-20T07:13:19Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-002",
+    "title": "Firm Bulk Exam Purchasing",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:21Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "Workflow for Firm users to select multiple employed auditors, validate their eligibility in batch, and generate a single bulk invoice for multiple exams.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-008",
+          "REQ-009",
+          "REQ-010",
+          "REQ-011",
+          "REQ-012"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:21Z",
+        "updated_at": "2026-01-20T07:13:21Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-003",
+    "title": "Exam Scheduling & Integration",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:22Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "The API integration with ProctorU (for Part 1/2) and the hybrid Calendly-to-ProctorU flow (for Part 3). Includes enforcing lead times, mapping time zones, and creating/linking ProctorU accounts via API.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-013",
+          "REQ-014",
+          "REQ-015",
+          "REQ-016",
+          "REQ-017",
+          "REQ-018",
+          "REQ-019",
+          "REQ-020",
+          "REQ-021"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:22Z",
+        "updated_at": "2026-01-20T07:13:22Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-004",
+    "title": "Cancellations, Rescheduling & Fees",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:24Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "Logic for auditor self-service exam changes. Includes enforcing fee windows, reschedule limits, and determining payer based on original invoice ownership.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-022",
+          "REQ-023",
+          "REQ-024",
+          "REQ-025",
+          "REQ-026",
+          "REQ-027",
+          "REQ-028"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:24Z",
+        "updated_at": "2026-01-20T07:13:24Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-005",
+    "title": "Exam Change Requests (Firm-Initiated)",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:25Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "A ticketing workflow for Firms to request changes for exams they funded. Includes logic to transfer credits, cancel exams without auditor consent, and manage disputes.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-029",
+          "REQ-030",
+          "REQ-031",
+          "REQ-032",
+          "REQ-033",
+          "REQ-034"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:25Z",
+        "updated_at": "2026-01-20T07:13:25Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-006",
+    "title": "Exam Launch & Proctoring",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:26Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "The day-of workflow for exam delivery. Generating the unique launch link, managing status transitions, and providing backup access if the platform is inaccessible.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-035",
+          "REQ-036",
+          "REQ-037",
+          "REQ-038"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:26Z",
+        "updated_at": "2026-01-20T07:13:26Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-007",
+    "title": "Exam Results & Status Updates",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:28Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "Processing webhooks from ProctorU, mapping external statuses to APSCA statuses, and handling manual score entry.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-039",
+          "REQ-040",
+          "REQ-041",
+          "REQ-042",
+          "REQ-043",
+          "REQ-044",
+          "REQ-045",
+          "REQ-046"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:28Z",
+        "updated_at": "2026-01-20T07:13:28Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-008",
+    "title": "Exam Remediation Pathways",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:29Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "Automation of status changes and requirements based on failure counts. Enforces waiting periods and training/audit log redo requirements.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-047",
+          "REQ-048",
+          "REQ-049",
+          "REQ-050",
+          "REQ-051",
+          "REQ-052",
+          "REQ-053"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:29Z",
+        "updated_at": "2026-01-20T07:13:29Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-009",
+    "title": "Exam Template & Configuration Management",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:30Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "Backend management of exam type definitions containing metadata required by the ProctorU API (duration, allowed resources, proctor notes) for each exam type and language variant.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-054",
+          "REQ-055",
+          "REQ-056",
+          "REQ-057"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:30Z",
+        "updated_at": "2026-01-20T07:13:30Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-010",
+    "title": "Admin Exam Management",
+    "status": "active",
+    "feature_ref": "FEAT-001",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:13:32Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "summary": "Administrative interface to view, schedule, reschedule, or force-cancel exams on behalf of auditors, including the ability to override standard business rules.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [
+          "REQ-058",
+          "REQ-059",
+          "REQ-060",
+          "REQ-061",
+          "REQ-062",
+          "REQ-063"
+        ],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:13:32Z",
+        "updated_at": "2026-01-20T07:13:32Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-011",
+    "title": "Enrollment & Onboarding",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:18Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Firm submits new auditor, admin review, member number assignment, login activation. Visibility rules during draft/pending states.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:18Z",
+        "updated_at": "2026-01-20T07:52:18Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-012",
+    "title": "Employment Management",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:19Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Auditor-firm associations, active/inactive employments, visibility permissions, duplicate prevention, disassociation workflows.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:19Z",
+        "updated_at": "2026-01-20T07:52:19Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-013",
+    "title": "Audit Log Submission",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:20Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Auditor submits individual audit activity records (dates, firm, country, standard). Progress tracking toward 20-day requirement. Date collision blocking, 5-year age limit, 10-day cap on second-party audits.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:20Z",
+        "updated_at": "2026-01-20T07:52:20Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-014",
+    "title": "Audit Log Verification",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:21Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Firm supervisor approval workflow. Per-entry approve/reject. External delegate verification via unique links. Confidentiality masking for third-party audits.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:21Z",
+        "updated_at": "2026-01-20T07:52:21Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-015",
+    "title": "Status Automation",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:22Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Rules engine for automatic status transitions (e.g., unpaid fees -> lapsed, lapsed > 24 months -> expired). Daily/weekly cron jobs.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:22Z",
+        "updated_at": "2026-01-20T07:52:22Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-016",
+    "title": "Level Progression",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:24Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "ASCA to CSCA transition upon Part 3 pass. Level assignment, certificate generation, digital ID updates.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:24Z",
+        "updated_at": "2026-01-20T07:52:24Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-017",
+    "title": "Lapse & Expiration",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:25Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Logic for membership lapse triggers (unpaid invoices, unsigned FOA, CPD non-compliance). Expiration after extended lapse period.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:25Z",
+        "updated_at": "2026-01-20T07:52:25Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-018",
+    "title": "Status Restoration",
+    "status": "active",
+    "feature_ref": "FEAT-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:26Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Checklist-based restoration (pay fees, sign FOA, complete CPD). Automated status update upon checklist completion.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:26Z",
+        "updated_at": "2026-01-20T07:52:26Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-019",
+    "title": "CPD Submission & Tracking",
+    "status": "active",
+    "feature_ref": "FEAT-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:39Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Auditors submit CPD records (course, hours, date). Progress visualization toward annual requirement.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:39Z",
+        "updated_at": "2026-01-20T07:52:39Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-020",
+    "title": "Firm CPD Approval",
+    "status": "active",
+    "feature_ref": "FEAT-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:41Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Firm supervisors review and approve auditor CPD submissions.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:41Z",
+        "updated_at": "2026-01-20T07:52:41Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-021",
+    "title": "Training Course Recognition",
+    "status": "active",
+    "feature_ref": "FEAT-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:42Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Firms submit courses for APSCA recognition. Admin review workflow. Public/private course designation. Badge generation upon approval.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:42Z",
+        "updated_at": "2026-01-20T07:52:42Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-022",
+    "title": "Annual CPD Compliance",
+    "status": "active",
+    "feature_ref": "FEAT-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:43Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Year-end compliance check. Status impacts (lapse trigger if non-compliant). CPD override for auditors who passed exams in current year.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:43Z",
+        "updated_at": "2026-01-20T07:52:43Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-023",
+    "title": "CPD Reporting",
+    "status": "active",
+    "feature_ref": "FEAT-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:52:44Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Dashboards showing compliance rates, submissions pending review, auditor progress.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:52:44Z",
+        "updated_at": "2026-01-20T07:52:44Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-024",
+    "title": "Invoice Generation",
+    "status": "active",
+    "feature_ref": "FEAT-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:10Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Creation of invoices for exams, membership, cancellation fees, etc. Line item management.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:10Z",
+        "updated_at": "2026-01-20T07:53:10Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-025",
+    "title": "Payment Processing",
+    "status": "active",
+    "feature_ref": "FEAT-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:11Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Stripe integration for credit card payments. Payment status tracking. Receipt generation.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:11Z",
+        "updated_at": "2026-01-20T07:53:11Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-026",
+    "title": "QuickBooks Integration",
+    "status": "active",
+    "feature_ref": "FEAT-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:12Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Two-way sync of invoices, payments, and customer records with QuickBooks Online.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:12Z",
+        "updated_at": "2026-01-20T07:53:12Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-027",
+    "title": "Firm Self-Invoicing",
+    "status": "active",
+    "feature_ref": "FEAT-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:14Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Firms report monthly audit totals and auto-generate their own invoices based on per-audit fee.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:14Z",
+        "updated_at": "2026-01-20T07:53:14Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-028",
+    "title": "Anomaly Detection",
+    "status": "active",
+    "feature_ref": "FEAT-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:15Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Flagging of unusual self-reported figures (e.g., significantly lower than historical average).",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:15Z",
+        "updated_at": "2026-01-20T07:53:15Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-029",
+    "title": "Bulk Credits & Drawdown",
+    "status": "active",
+    "feature_ref": "FEAT-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:16Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Firms pay lump sums; individual auditor fees draw down from credit balance.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:16Z",
+        "updated_at": "2026-01-20T07:53:16Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-030",
+    "title": "Membership Fee Processing",
+    "status": "active",
+    "feature_ref": "FEAT-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:17Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Annual membership fee invoicing. Inactive member discounts. Fee waivers and adjustments.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:17Z",
+        "updated_at": "2026-01-20T07:53:17Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-031",
+    "title": "Authentication & MFA",
+    "status": "active",
+    "feature_ref": "FEAT-005",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:30Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Login flow, multi-factor authentication, password reset, session management.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:30Z",
+        "updated_at": "2026-01-20T07:53:30Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-032",
+    "title": "Role-Based Access Control",
+    "status": "active",
+    "feature_ref": "FEAT-005",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:31Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Role definitions (Auditor, Firm Contact, Firm Supervisor, Admin, etc.). Permission matrices.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:31Z",
+        "updated_at": "2026-01-20T07:53:31Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-033",
+    "title": "Multi-Role Management",
+    "status": "active",
+    "feature_ref": "FEAT-005",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:32Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Users with multiple roles (e.g., auditor who is also firm contact). Role toggle within platform.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:32Z",
+        "updated_at": "2026-01-20T07:53:32Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-034",
+    "title": "Role-Specific Redirects",
+    "status": "active",
+    "feature_ref": "FEAT-005",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:33Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Dashboard routing based on active role. Homepage assignment per role.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:33Z",
+        "updated_at": "2026-01-20T07:53:33Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-035",
+    "title": "Profile Validation",
+    "status": "active",
+    "feature_ref": "FEAT-005",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:35Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Required fields enforcement (e.g., country of residence before exam scheduling). Profile completeness checks.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:35Z",
+        "updated_at": "2026-01-20T07:53:35Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-036",
+    "title": "Firm Membership Status",
+    "status": "active",
+    "feature_ref": "FEAT-006",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:47Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Active, suspended, terminated states. Status change workflows.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:47Z",
+        "updated_at": "2026-01-20T07:53:47Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-037",
+    "title": "Individual Membership Status",
+    "status": "active",
+    "feature_ref": "FEAT-006",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:48Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Auditor membership tiers and states (Provisional, Full, Lapsed, Expired).",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:48Z",
+        "updated_at": "2026-01-20T07:53:48Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-038",
+    "title": "Member Categories",
+    "status": "active",
+    "feature_ref": "FEAT-006",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:49Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Firm categorization (A/B/C). Category assignment and change logic.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:49Z",
+        "updated_at": "2026-01-20T07:53:49Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-039",
+    "title": "Agreements & Consent Tracking",
+    "status": "active",
+    "feature_ref": "FEAT-006",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:51Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Form of Acceptance, Code of Conduct, Confidentiality Framework. Signature tracking, expiration, renewal.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:51Z",
+        "updated_at": "2026-01-20T07:53:51Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-040",
+    "title": "Annual Renewal Processing",
+    "status": "active",
+    "feature_ref": "FEAT-006",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:53:52Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Yearly renewal workflow. FOA signature requirement. Fee generation. Status updates.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:53:52Z",
+        "updated_at": "2026-01-20T07:53:52Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-041",
+    "title": "Firm Profile Updates",
+    "status": "active",
+    "feature_ref": "FEAT-007",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:04Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Self-service editing of firm details (logo, contact info, website, addresses).",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:04Z",
+        "updated_at": "2026-01-20T07:54:04Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-042",
+    "title": "Auditor Association Management",
+    "status": "active",
+    "feature_ref": "FEAT-007",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:05Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "View associated auditors. Manage employment relationships. Access restrictions on PII for active/disassociated auditors.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:05Z",
+        "updated_at": "2026-01-20T07:54:05Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-043",
+    "title": "Accreditation Management",
+    "status": "active",
+    "feature_ref": "FEAT-007",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:06Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Programs/brands the firm is accredited for (SMETA, BSCI, Disney, etc.). Self-service updates.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:06Z",
+        "updated_at": "2026-01-20T07:54:06Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-044",
+    "title": "Geographic Coverage",
+    "status": "active",
+    "feature_ref": "FEAT-007",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:08Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Countries/regions where firm conducts audits. Self-service updates.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:08Z",
+        "updated_at": "2026-01-20T07:54:08Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-045",
+    "title": "Embeddable Public Lists",
+    "status": "active",
+    "feature_ref": "FEAT-007",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:09Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Auto-updating HTML embeds for public website (member firm lists, accredited programs).",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:09Z",
+        "updated_at": "2026-01-20T07:54:09Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-046",
+    "title": "Real-Time Dashboards",
+    "status": "active",
+    "feature_ref": "FEAT-008",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:20Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Live views of key metrics (auditor counts by level/region, exam pass rates, CPD compliance).",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:20Z",
+        "updated_at": "2026-01-20T07:54:20Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-047",
+    "title": "Geographic Visualizations",
+    "status": "active",
+    "feature_ref": "FEAT-008",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:22Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Map-based displays of auditor capacity by country. Interactive filtering.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:22Z",
+        "updated_at": "2026-01-20T07:54:22Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-048",
+    "title": "Custom Report Builder",
+    "status": "active",
+    "feature_ref": "FEAT-008",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:23Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Admin ability to create ad-hoc reports from available data sets.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:23Z",
+        "updated_at": "2026-01-20T07:54:23Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-049",
+    "title": "Metabase Integration",
+    "status": "active",
+    "feature_ref": "FEAT-008",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:24Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Connection to Metabase for advanced analytics and visualization.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:24Z",
+        "updated_at": "2026-01-20T07:54:24Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-050",
+    "title": "Progress Tracking Visualizations",
+    "status": "active",
+    "feature_ref": "FEAT-008",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:26Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Visual progress bars for audit log, CPD, certification journey. Color-coded status indicators.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:26Z",
+        "updated_at": "2026-01-20T07:54:26Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-051",
+    "title": "Audit Trail & Logging",
+    "status": "active",
+    "feature_ref": "FEAT-009",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:38Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Record of all status changes, data modifications, admin actions. Timestamp, user, before/after values.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:38Z",
+        "updated_at": "2026-01-20T07:54:38Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-052",
+    "title": "Data Encryption",
+    "status": "active",
+    "feature_ref": "FEAT-009",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:39Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Encryption at rest and in transit. Key management.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:39Z",
+        "updated_at": "2026-01-20T07:54:39Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-053",
+    "title": "Data Retention & Archiving",
+    "status": "active",
+    "feature_ref": "FEAT-009",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:41Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Retention policies by data category. Archival process. Secure deletion at end-of-life.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:41Z",
+        "updated_at": "2026-01-20T07:54:41Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-054",
+    "title": "Backup & Recovery",
+    "status": "active",
+    "feature_ref": "FEAT-009",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:42Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Automated backups. Disaster recovery procedures. Restore testing.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:42Z",
+        "updated_at": "2026-01-20T07:54:42Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-055",
+    "title": "Incident Response",
+    "status": "active",
+    "feature_ref": "FEAT-009",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:43Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Security monitoring. Failed login detection. Breach response procedures.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:43Z",
+        "updated_at": "2026-01-20T07:54:43Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-056",
+    "title": "Email Deliverability",
+    "status": "active",
+    "feature_ref": "FEAT-009",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:44Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "SendGrid authentication. CNAME/SPF/DKIM configuration. Spam filter avoidance.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:44Z",
+        "updated_at": "2026-01-20T07:54:44Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-057",
+    "title": "Partner Verification API",
+    "status": "active",
+    "feature_ref": "FEAT-010",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:55Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "REST API for partners (Sedex, BSCI) to verify auditor/firm status in real-time. Replaces manual CSV uploads.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:55Z",
+        "updated_at": "2026-01-20T07:54:55Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-058",
+    "title": "LMS Integration",
+    "status": "active",
+    "feature_ref": "FEAT-010",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:56Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Data exchange with Learning Management System for exam scheduling, CPD course completion, training records.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:56Z",
+        "updated_at": "2026-01-20T07:54:56Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-059",
+    "title": "Public Register Embeds",
+    "status": "active",
+    "feature_ref": "FEAT-010",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:58Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Auto-updating public website content (member firm list, recognized training courses, certified auditors).",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:58Z",
+        "updated_at": "2026-01-20T07:54:58Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-060",
+    "title": "ZenDesk Integration",
+    "status": "active",
+    "feature_ref": "FEAT-010",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:54:59Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "Knowledge base widget. Role-specific article display. Support ticket creation.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:54:59Z",
+        "updated_at": "2026-01-20T07:54:59Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-061",
+    "title": "Ethics Case Management",
+    "status": "active",
+    "feature_ref": "FEAT-011",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:55:06Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "TBD - requires dedicated discovery. Placeholder epic for ethics case management workflows.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:55:06Z",
+        "updated_at": "2026-01-20T07:55:06Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "EPIC-062",
+    "title": "Compliance Data Tracking",
+    "status": "active",
+    "feature_ref": "FEAT-011",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:55:07Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-12-01",
+        "summary": "TBD - requires dedicated discovery. Placeholder epic for compliance data tracking workflows.",
+        "assumptions": [],
+        "constraints": [],
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "supersedes": null,
+        "created_at": "2026-01-20T07:55:07Z",
+        "updated_at": "2026-01-20T07:55:07Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  }
+]

@@ -1,1 +1,157 @@
-[]
+[
+  {
+    "id": "STORY-001",
+    "title": "Auditor Schedules Part 1 Exam",
+    "status": "active",
+    "epic_ref": "EPIC-003",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:58:33Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "description": "As an auditor, I want to purchase and schedule my Part 1 certification exam, so that I can begin my certification journey with a confirmed exam date.",
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "acceptance_criteria": [],
+        "test_intent": {
+          "failure_modes": [],
+          "guarantees": [],
+          "exclusions": []
+        },
+        "supersedes": null,
+        "created_at": "2026-01-20T07:58:33Z",
+        "updated_at": "2026-01-20T07:58:33Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-002",
+    "title": "Firm Purchases Exams in Bulk",
+    "status": "active",
+    "epic_ref": "EPIC-002",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:58:35Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "description": "As a firm supervisor, I want to select multiple auditors and purchase their exams in a single transaction, so that I can efficiently manage exam costs for my team without processing individual invoices.",
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "acceptance_criteria": [],
+        "test_intent": {
+          "failure_modes": [],
+          "guarantees": [],
+          "exclusions": []
+        },
+        "supersedes": null,
+        "created_at": "2026-01-20T07:58:35Z",
+        "updated_at": "2026-01-20T07:58:35Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-003",
+    "title": "Auditor Reschedules Exam",
+    "status": "active",
+    "epic_ref": "EPIC-004",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:58:36Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "description": "As an auditor, I want to reschedule my exam to a different date, so that I can accommodate a scheduling conflict without losing my exam fee.",
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "acceptance_criteria": [],
+        "test_intent": {
+          "failure_modes": [],
+          "guarantees": [],
+          "exclusions": []
+        },
+        "supersedes": null,
+        "created_at": "2026-01-20T07:58:36Z",
+        "updated_at": "2026-01-20T07:58:36Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-004",
+    "title": "Auditor Launches Exam",
+    "status": "active",
+    "epic_ref": "EPIC-006",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:58:37Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "description": "As an auditor, I want to launch my proctored exam directly from my dashboard, so that I can access my exam session without manually logging into ProctorU.",
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "acceptance_criteria": [],
+        "test_intent": {
+          "failure_modes": [],
+          "guarantees": [],
+          "exclusions": []
+        },
+        "supersedes": null,
+        "created_at": "2026-01-20T07:58:37Z",
+        "updated_at": "2026-01-20T07:58:37Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "id": "STORY-005",
+    "title": "Admin Overrides Scheduling Rules",
+    "status": "active",
+    "epic_ref": "EPIC-010",
+    "tags": [],
+    "owner": "",
+    "created_at": "2026-01-20T07:58:39Z",
+    "versions": [
+      {
+        "version": 1,
+        "status": "backlog",
+        "approved": false,
+        "release_ref": "REL-2026-06-01",
+        "description": "As an APSCA administrator, I want to schedule an exam on behalf of an auditor while bypassing the standard lead time requirement, so that I can resolve special circumstances without the auditor being blocked by system rules.",
+        "requirement_refs": [],
+        "artifact_refs": [],
+        "acceptance_criteria": [],
+        "test_intent": {
+          "failure_modes": [],
+          "guarantees": [],
+          "exclusions": []
+        },
+        "supersedes": null,
+        "created_at": "2026-01-20T07:58:39Z",
+        "updated_at": "2026-01-20T07:58:39Z",
+        "owner": "",
+        "notes": ""
+      }
+    ]
+  }
+]

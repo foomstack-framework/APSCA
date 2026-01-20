@@ -1,1 +1,146 @@
-[]
+[
+  {
+    "id": "ART-001",
+    "title": "Fee Schedule",
+    "status": "draft",
+    "type": [
+      "rule"
+    ],
+    "source": "APSCA Policy",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/fee-schedule.md",
+    "description": "Matrix defining exam fees, cancellation/reschedule fees by time window, maximum reschedule attempts, and penalty amounts for no-shows. Covers Part 1, Part 2, and Part 3 exams.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:29Z",
+    "updated_at": "2026-01-20T07:18:29Z"
+  },
+  {
+    "id": "ART-002",
+    "title": "Exam Eligibility Rules",
+    "status": "draft",
+    "type": [
+      "rule"
+    ],
+    "source": "APSCA Policy",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/exam-eligibility-rules.md",
+    "description": "Prerequisites for each exam type including required auditor status, exam sequencing rules, and audit log requirements. Defines what 'In Good Standing' means in the exam context.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:31Z",
+    "updated_at": "2026-01-20T07:18:31Z"
+  },
+  {
+    "id": "ART-003",
+    "title": "Exam Template Data",
+    "status": "draft",
+    "type": [
+      "rule"
+    ],
+    "source": "APSCA Technical",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/exam-template-data.md",
+    "description": "Configuration data for each exam type and language variant including duration, permitted resources, proctor instructions, and exam platform details sent to ProctorU API.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:32Z",
+    "updated_at": "2026-01-20T07:18:32Z"
+  },
+  {
+    "id": "ART-004",
+    "title": "ProctorU Status Mapping",
+    "status": "draft",
+    "type": [
+      "rule"
+    ],
+    "source": "APSCA Technical",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/proctoru-status-mapping.md",
+    "description": "Mapping table between ProctorU webhook statuses and APSCA exam statuses. Defines which statuses allow rebooking vs. require new invoice vs. trigger penalties.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:34Z",
+    "updated_at": "2026-01-20T07:18:34Z"
+  },
+  {
+    "id": "ART-005",
+    "title": "Time Zone Mapping",
+    "status": "draft",
+    "type": [
+      "rule"
+    ],
+    "source": "APSCA Technical",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/time-zone-mapping.md",
+    "description": "Mapping table between APSCA/Calendly time zones and the 98 accepted ProctorU time zone IDs.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:35Z",
+    "updated_at": "2026-01-20T07:18:35Z"
+  },
+  {
+    "id": "ART-006",
+    "title": "Exam Scheduling Rules",
+    "status": "draft",
+    "type": [
+      "rule"
+    ],
+    "source": "APSCA Policy",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/exam-scheduling-rules.md",
+    "description": "Lead time requirements (14 days for Part 1/2, 30 days for Part 3), pre-exam launch window, invoice validity period, and other scheduling constraints.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:36Z",
+    "updated_at": "2026-01-20T07:18:36Z"
+  },
+  {
+    "id": "ART-007",
+    "title": "Remediation Policy",
+    "status": "draft",
+    "type": [
+      "policy"
+    ],
+    "source": "APSCA Policy",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/remediation-policy.md",
+    "description": "Failure thresholds, waiting period durations, training requirements for 3-5 failures, and audit log redo requirements for 6+ failures.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:38Z",
+    "updated_at": "2026-01-20T07:18:38Z"
+  },
+  {
+    "id": "ART-008",
+    "title": "Part 3 Interviewer Configuration",
+    "status": "draft",
+    "type": [
+      "rule"
+    ],
+    "source": "APSCA Technical",
+    "effective_date": null,
+    "doc_path": "docs/artifacts/part3-interviewer-config.md",
+    "description": "Calendly event type mappings by language, interviewer assignment rules, and booking constraints.",
+    "anchors": [],
+    "tags": [],
+    "owner": "",
+    "notes": "",
+    "created_at": "2026-01-20T07:18:40Z",
+    "updated_at": "2026-01-20T07:18:40Z"
+  }
+]
