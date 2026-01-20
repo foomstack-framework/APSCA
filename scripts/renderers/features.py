@@ -64,9 +64,9 @@ def render_feature(
     )
 
     artifact_rows = build_artifact_rows(
-        feat.get("domain_refs", []),
+        feat.get("artifact_refs", []),
         artifact_lookup or {},
-        "../domain/",
+        "../artifacts/",
     )
 
     tabs = [

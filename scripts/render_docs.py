@@ -3,7 +3,7 @@
 render_docs.py - Generate static HTML documentation for APSCA requirements repository.
 
 Generates HTML files in docs/ from canonical JSON data.
-Note: docs/domain/ contains authored content and is NOT overwritten.
+Note: docs/artifacts/ contains authored content and is NOT overwritten.
 
 Usage:
     python scripts/render_docs.py
@@ -14,16 +14,16 @@ from pathlib import Path
 
 from lib.config import DATA_FILES, DATA_DIR, DOCS_DIR, REPORTS_DIR, ROOT_DIR
 from lib.io import load_json
-from renderers.domain import render_domain_entry
+from renderers.artifacts import render_artifact_entry
 from renderers.epics import render_epic
 from renderers.features import render_feature
-from renderers.index_pages import render_domain_index, render_index, render_index_redirect
+from renderers.index_pages import render_artifacts_index, render_index, render_index_redirect
 from renderers.releases import render_release
 from renderers.requirements import render_requirement
 from renderers.stories import render_story
 from renderers.story_map import render_story_map
 
-# Output directories (script-specific, NOT domain/ - that's authored content)
+# Output directories (script-specific, NOT artifacts/ - that's authored content)
 OUTPUT_DIRS = {
     "releases": DOCS_DIR / "releases",
     "requirements": DOCS_DIR / "requirements",
@@ -41,27 +41,27 @@ OUTPUT_DIRS = {
 def main():
     # Load all data
     releases = load_json(DATA_FILES["releases"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
     requirements = load_json(DATA_FILES["requirements"])
     features = load_json(DATA_FILES["features"])
     epics = load_json(DATA_FILES["epics"])
     stories = load_json(DATA_FILES["stories"])
 
     # Build lookup tables
-    domain_lookup = {d['id']: d for d in domain}
+    artifact_lookup = {artifact['id']: artifact for artifact in artifacts}
     requirement_lookup = {r['id']: r for r in requirements}
 
     # Ensure output directories exist
     for output_dir in OUTPUT_DIRS.values():
         output_dir.mkdir(parents=True, exist_ok=True)
 
-    counts = {"releases": 0, "domain": 0, "requirements": 0, "features": 0, "epics": 0, "stories": 0}
+    counts = {"releases": 0, "artifacts": 0, "requirements": 0, "features": 0, "epics": 0, "stories": 0}
 
-    # Render domain entries and index
-    domain_dir = DOCS_DIR / "domain"
-    domain_dir.mkdir(parents=True, exist_ok=True)
-    for entry in domain:
-        content = render_domain_entry(
+    # Render business artifacts and index
+    artifacts_dir = DOCS_DIR / "artifacts"
+    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    for entry in artifacts:
+        content = render_artifact_entry(
             entry,
             features,
             epics,
@@ -69,10 +69,10 @@ def main():
             requirements,
             requirement_lookup=requirement_lookup,
         )
-        (domain_dir / f"{entry['id']}.html").write_text(content, encoding="utf-8")
-        counts["domain"] += 1
-    domain_index = render_domain_index(domain)
-    (domain_dir / "index.html").write_text(domain_index, encoding="utf-8")
+        (artifacts_dir / f"{entry['id']}.html").write_text(content, encoding="utf-8")
+        counts["artifacts"] += 1
+    artifacts_index = render_artifacts_index(artifacts)
+    (artifacts_dir / "index.html").write_text(artifacts_index, encoding="utf-8")
 
     # Render releases
     releases_sorted = sorted(
@@ -96,12 +96,12 @@ def main():
             features,
             epics,
             stories,
-            artifact_lookup=domain_lookup,
+            artifact_lookup=artifact_lookup,
         )
         (OUTPUT_DIRS["requirements"] / f"{req['id']}.html").write_text(content, encoding="utf-8")
         counts["requirements"] += 1
 
-    index_content = render_index("requirements", requirements, "Requirements", domain_lookup=domain_lookup)
+    index_content = render_index("requirements", requirements, "Requirements", artifact_lookup=artifact_lookup)
     (OUTPUT_DIRS["requirements"] / "index.html").write_text(index_content, encoding="utf-8")
 
     # Render features
@@ -111,7 +111,7 @@ def main():
             epics,
             stories,
             requirement_lookup=requirement_lookup,
-            artifact_lookup=domain_lookup,
+            artifact_lookup=artifact_lookup,
         )
         (OUTPUT_DIRS["features"] / f"{feat['id']}.html").write_text(content, encoding="utf-8")
         counts["features"] += 1
@@ -125,7 +125,7 @@ def main():
             epic,
             stories,
             requirement_lookup=requirement_lookup,
-            artifact_lookup=domain_lookup,
+            artifact_lookup=artifact_lookup,
         )
         (OUTPUT_DIRS["epics"] / f"{epic['id']}.html").write_text(content, encoding="utf-8")
         counts["epics"] += 1
@@ -140,7 +140,7 @@ def main():
             epics,
             features,
             requirement_lookup=requirement_lookup,
-            artifact_lookup=domain_lookup,
+            artifact_lookup=artifact_lookup,
         )
         (OUTPUT_DIRS["stories"] / f"{story['id']}.html").write_text(content, encoding="utf-8")
         counts["stories"] += 1

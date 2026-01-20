@@ -1012,7 +1012,7 @@ body.has-version-banner main {
         <span class="brand-name">APSCA Requirements Dashboard</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1" class="active">Requirements</a> <a href="../domain/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
+        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1" class="active">Requirements</a> <a href="../artifacts/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
     </nav>
 </header>
 
@@ -1020,61 +1020,7 @@ body.has-version-banner main {
         <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
         <h1>Requirements</h1>
 <p class="page-subtitle">Non-negotiable rules and obligations for the system.</p>
-
-<div class="index-toolbar">
-    <div class="toolbar-field">
-        <label for="search-input">Search</label>
-        <input type="search" id="search-input" placeholder="Search by ID, title, status, release..." />
-    </div>
-    <div class="toolbar-field">
-        <label for="status-filter">Status</label>
-        <select id="status-filter">
-            <option value="all">All statuses</option>
-            <option value="active">Active</option>
-        </select>
-    </div>
-    
-    <div class="toolbar-meta" id="results-count"></div>
-</div>
-<script>
-(function() {
-    var statusFilter = document.getElementById('status-filter');
-    if (statusFilter && 'all' !== 'all') {
-        statusFilter.value = 'all';
-    }
-})();
-</script>
-<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Type</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-search-text="req-002 exam invoice purchasing active auditors must be able to purchase exam invoices from their account based on eligibility rules domain: art-001: exam eligibility rules functional"><td class="record-cell"><a href="REQ-002.html">REQ-002</a><div class="cell-secondary">Exam Invoice Purchasing</div></td><td class="summary-cell"><div class="cell-primary">Auditors must be able to purchase exam invoices from their account based on eligibility rules</div><div class="cell-secondary">Domain: ART-001: Exam Eligibility Rules</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #3b82f6">Functional</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="req-003 exam eligibility enforcement active system must enforce exam eligibility rules strictly, preventing purchase of ineligible exams domain: art-001: exam eligibility rules functional"><td class="record-cell"><a href="REQ-003.html">REQ-003</a><div class="cell-secondary">Exam Eligibility Enforcement</div></td><td class="summary-cell"><div class="cell-primary">System must enforce exam eligibility rules strictly, preventing purchase of ineligible exams</div><div class="cell-secondary">Domain: ART-001: Exam Eligibility Rules</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #3b82f6">Functional</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="req-004 invoice payment clearance active auditors with unpaid invoices must clear all outstanding payments before purchasing new exam invoices functional"><td class="record-cell"><a href="REQ-004.html">REQ-004</a><div class="cell-secondary">Invoice Payment Clearance</div></td><td class="summary-cell"><div class="cell-primary">Auditors with unpaid invoices must clear all outstanding payments before purchasing new exam invoices</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #3b82f6">Functional</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span></div></td></tr><tr data-filter-item="true" data-status="active" data-search-text="req-005 re-sit designation and pricing active failed exams must be designated as re-sits with appropriate pricing and attempt tracking when re-purchased functional"><td class="record-cell"><a href="REQ-005.html">REQ-005</a><div class="cell-secondary">Re-sit Designation and Pricing</div></td><td class="summary-cell"><div class="cell-primary">Failed exams must be designated as re-sits with appropriate pricing and attempt tracking when re-purchased</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #3b82f6">Functional</span></div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span></div></td></tr></tbody></table>
-<script>
-(() => {
-    const searchInput = document.getElementById('search-input');
-    const statusFilter = document.getElementById('status-filter');
-    const items = Array.from(document.querySelectorAll('[data-filter-item]'));
-    const countEl = document.getElementById('results-count');
-    if (!searchInput || !statusFilter || !countEl) return;
-
-    function applyFilters() {
-        const term = searchInput.value.trim().toLowerCase();
-        const status = statusFilter.value.toLowerCase();
-        let visible = 0;
-        items.forEach((item) => {
-            const text = (item.dataset.searchText || '').toLowerCase();
-            const itemStatus = (item.dataset.status || '').toLowerCase();
-            const matchesTerm = !term || text.includes(term);
-            const matchesStatus = status === 'all' || itemStatus === status;
-            const show = matchesTerm && matchesStatus;
-            item.style.display = show ? '' : 'none';
-            if (show) visible += 1;
-        });
-        countEl.textContent = `${visible} of ${items.length} shown`;
-    }
-
-    searchInput.addEventListener('input', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-    applyFilters();
-})();
-</script>
-
+<p><em>No items yet.</em></p>
     </main>
     <script>
     (() => {
@@ -1139,12 +1085,12 @@ body.has-version-banner main {
             const filename = parts.pop() || 'index.html';
             const lastDir = parts.pop() || '';
 
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'artifacts', 'releases'];
             const dir = knownSections.includes(lastDir) ? lastDir : '';
 
             const sectionLabels = {
                 'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+                'requirements': 'Requirements', 'artifacts': 'Business Artifacts', 'releases': 'Releases'
             };
 
             let label;

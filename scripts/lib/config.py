@@ -20,5 +20,5 @@ DATA_FILES = {
     "features": DATA_DIR / "features.json",
     "epics": DATA_DIR / "epics.json",
     "stories": DATA_DIR / "stories.json",
-    "domain": DATA_DIR / "domain.json",
+    "artifacts": DATA_DIR / "artifacts.json",
 }

@@ -28,7 +28,7 @@ from lib.io import load_json
 # ID patterns
 ID_PATTERNS = {
     "releases": re.compile(r"^REL-\d{4}-\d{2}-\d{2}(-[a-z])?$"),
-    "domain": re.compile(r"^ART-\d{3,}$"),
+    "artifacts": re.compile(r"^ART-\d{3,}$"),
     "requirements": re.compile(r"^REQ-\d{3,}$"),
     "features": re.compile(r"^FEAT-\d{3,}$"),
     "epics": re.compile(r"^EPIC-\d{3,}$"),
@@ -127,42 +127,42 @@ def validate_releases(result: ValidationResult, releases: List[Dict]) -> None:
         validate_status(result, "releases", release, ["planned", "released"])
 
 
-def validate_domain(result: ValidationResult, domain: List[Dict]) -> None:
-    """Validate domain.json."""
-    validate_id_format(result, "domain", domain)
-    validate_id_uniqueness(result, "domain", domain)
+def validate_artifacts(result: ValidationResult, artifacts: List[Dict]) -> None:
+    """Validate artifacts.json."""
+    validate_id_format(result, "artifacts", artifacts)
+    validate_id_uniqueness(result, "artifacts", artifacts)
 
     valid_types = ["policy", "catalog", "classification", "rule"]
 
-    for entry in domain:
+    for entry in artifacts:
         entry_id = entry.get("id", "unknown")
-        validate_required_fields(result, "domain", entry, ["id", "title", "status", "type", "source", "doc_path"])
-        validate_status(result, "domain", entry, ["draft", "active", "deprecated"])
+        validate_required_fields(result, "artifacts", entry, ["id", "title", "status", "type", "source", "doc_path"])
+        validate_status(result, "artifacts", entry, ["draft", "active", "deprecated"])
 
         # Validate type is an array of valid types
         entry_type = entry.get("type")
         if entry_type is not None:
             if not isinstance(entry_type, list):
-                result.error(f"[domain] {entry_id}: type must be an array, got {type(entry_type).__name__}")
+                result.error(f"[artifacts] {entry_id}: type must be an array, got {type(entry_type).__name__}")
             else:
                 for t in entry_type:
                     if t not in valid_types:
-                        result.error(f"[domain] {entry_id}: Invalid type '{t}'. Must be one of {valid_types}")
+                        result.error(f"[artifacts] {entry_id}: Invalid type '{t}'. Must be one of {valid_types}")
 
 
-def validate_domain_doc_paths(result: ValidationResult, domain: List[Dict]) -> None:
-    """Warn if domain doc_path points to non-existent file."""
-    for entry in domain:
+def validate_artifact_doc_paths(result: ValidationResult, artifacts: List[Dict]) -> None:
+    """Warn if artifact doc_path points to non-existent file."""
+    for entry in artifacts:
         if entry.get("status") == "deprecated":
             continue
         doc_path = entry.get("doc_path")
         if doc_path:
             full_path = ROOT_DIR / doc_path
             if not full_path.exists():
-                result.warning(f"[domain] {entry.get('id')}: doc_path '{doc_path}' does not exist")
+                result.warning(f"[artifacts] {entry.get('id')}: doc_path '{doc_path}' does not exist")
 
 
-def validate_requirements(result: ValidationResult, requirements: List[Dict], domain_ids: Set[str]) -> None:
+def validate_requirements(result: ValidationResult, requirements: List[Dict], artifact_ids: Set[str]) -> None:
     """Validate requirements.json."""
     validate_id_format(result, "requirements", requirements)
     validate_id_uniqueness(result, "requirements", requirements)
@@ -172,7 +172,7 @@ def validate_requirements(result: ValidationResult, requirements: List[Dict], do
     for req in requirements:
         validate_required_fields(result, "requirements", req, ["id", "title", "status", "type", "statement", "rationale"])
         validate_status(result, "requirements", req, ["active", "deprecated", "provisional"])
-        validate_refs(result, "requirements", req, "domain_refs", domain_ids, "domain")
+        validate_refs(result, "requirements", req, "artifact_refs", artifact_ids, "artifacts")
 
         req_type = req.get("type")
         if req_type and req_type not in ["functional", "non-functional"]:
@@ -185,7 +185,7 @@ def validate_requirements(result: ValidationResult, requirements: List[Dict], do
 
 
 def validate_features(result: ValidationResult, features: List[Dict],
-                      requirement_ids: Set[str], domain_ids: Set[str]) -> None:
+                      requirement_ids: Set[str], artifact_ids: Set[str]) -> None:
     """Validate features.json."""
     validate_id_format(result, "features", features)
     validate_id_uniqueness(result, "features", features)
@@ -194,12 +194,12 @@ def validate_features(result: ValidationResult, features: List[Dict],
         validate_required_fields(result, "features", feat, ["id", "title", "status", "purpose", "business_value"])
         validate_status(result, "features", feat, ["active", "deprecated"])
         validate_refs(result, "features", feat, "requirement_refs", requirement_ids, "requirements")
-        validate_refs(result, "features", feat, "domain_refs", domain_ids, "domain")
+        validate_refs(result, "features", feat, "artifact_refs", artifact_ids, "artifacts")
 
 
 def validate_epics(result: ValidationResult, epics: List[Dict],
                    feature_ids: Set[str], release_ids: Set[str],
-                   releases: List[Dict], requirement_ids: Set[str], domain_ids: Set[str]) -> None:
+                   releases: List[Dict], requirement_ids: Set[str], artifact_ids: Set[str]) -> None:
     """Validate epics.json."""
     validate_id_format(result, "epics", epics)
     validate_id_uniqueness(result, "epics", epics)
@@ -258,7 +258,7 @@ def validate_epics(result: ValidationResult, epics: List[Dict],
 
             # Validate refs
             validate_refs(result, f"epics/{epic_id}/v{v_num}", version, "requirement_refs", requirement_ids, "requirements")
-            validate_refs(result, f"epics/{epic_id}/v{v_num}", version, "domain_refs", domain_ids, "domain")
+            validate_refs(result, f"epics/{epic_id}/v{v_num}", version, "artifact_refs", artifact_ids, "artifacts")
 
             # Validate supersedes
             supersedes = version.get("supersedes")
@@ -279,7 +279,7 @@ def validate_epics(result: ValidationResult, epics: List[Dict],
 
 def validate_stories(result: ValidationResult, stories: List[Dict],
                      epic_ids: Set[str], release_ids: Set[str],
-                     releases: List[Dict], requirement_ids: Set[str], domain_ids: Set[str]) -> None:
+                     releases: List[Dict], requirement_ids: Set[str], artifact_ids: Set[str]) -> None:
     """Validate stories.json."""
     validate_id_format(result, "stories", stories)
     validate_id_uniqueness(result, "stories", stories)
@@ -338,7 +338,7 @@ def validate_stories(result: ValidationResult, stories: List[Dict],
 
             # Validate refs
             validate_refs(result, f"stories/{story_id}/v{v_num}", version, "requirement_refs", requirement_ids, "requirements")
-            validate_refs(result, f"stories/{story_id}/v{v_num}", version, "domain_refs", domain_ids, "domain")
+            validate_refs(result, f"stories/{story_id}/v{v_num}", version, "artifact_refs", artifact_ids, "artifacts")
 
             # Validate completeness for approved versions
             if approved:
@@ -369,11 +369,11 @@ def validate_stories(result: ValidationResult, stories: List[Dict],
 
 
 def validate_deprecated_refs(result: ValidationResult, stories: List[Dict], epics: List[Dict],
-                             features: List[Dict], requirements: List[Dict], domain: List[Dict]) -> None:
+                             features: List[Dict], requirements: List[Dict], artifacts: List[Dict]) -> None:
     """Warn if current versions reference deprecated upstream artifacts."""
     # Build deprecated ID sets
     deprecated_reqs = {r.get("id") for r in requirements if r.get("status") == "deprecated"}
-    deprecated_domain = {d.get("id") for d in domain if d.get("status") == "deprecated"}
+    deprecated_artifacts = {artifact.get("id") for artifact in artifacts if artifact.get("status") == "deprecated"}
     deprecated_features = {f.get("id") for f in features if f.get("status") == "deprecated"}
 
     # Check epics
@@ -391,9 +391,9 @@ def validate_deprecated_refs(result: ValidationResult, stories: List[Dict], epic
             for ref in current.get("requirement_refs", []):
                 if ref in deprecated_reqs:
                     result.warning(f"[epics] {epic_id} v{current.get('version')}: References deprecated requirement '{ref}'")
-            for ref in current.get("domain_refs", []):
-                if ref in deprecated_domain:
-                    result.warning(f"[epics] {epic_id} v{current.get('version')}: References deprecated domain '{ref}'")
+            for ref in current.get("artifact_refs", []):
+                if ref in deprecated_artifacts:
+                    result.warning(f"[epics] {epic_id} v{current.get('version')}: References deprecated artifact '{ref}'")
 
     # Check stories
     for story in stories:
@@ -405,9 +405,9 @@ def validate_deprecated_refs(result: ValidationResult, stories: List[Dict], epic
             for ref in current.get("requirement_refs", []):
                 if ref in deprecated_reqs:
                     result.warning(f"[stories] {story_id} v{current.get('version')}: References deprecated requirement '{ref}'")
-            for ref in current.get("domain_refs", []):
-                if ref in deprecated_domain:
-                    result.warning(f"[stories] {story_id} v{current.get('version')}: References deprecated domain '{ref}'")
+            for ref in current.get("artifact_refs", []):
+                if ref in deprecated_artifacts:
+                    result.warning(f"[stories] {story_id} v{current.get('version')}: References deprecated artifact '{ref}'")
 
 
 # =============================================================================
@@ -421,7 +421,7 @@ def run_validation(include_warnings: bool = False) -> ValidationResult:
     # Load all data
     try:
         releases = load_json(DATA_FILES["releases"])
-        domain = load_json(DATA_FILES["domain"])
+        artifacts = load_json(DATA_FILES["artifacts"])
         requirements = load_json(DATA_FILES["requirements"])
         features = load_json(DATA_FILES["features"])
         epics = load_json(DATA_FILES["epics"])
@@ -432,23 +432,23 @@ def run_validation(include_warnings: bool = False) -> ValidationResult:
 
     # Build ID sets for cross-reference validation
     release_ids = build_id_set(releases)
-    domain_ids = build_id_set(domain)
+    artifact_ids = build_id_set(artifacts)
     requirement_ids = build_id_set(requirements)
     feature_ids = build_id_set(features)
     epic_ids = build_id_set(epics)
 
     # Run validations
     validate_releases(result, releases)
-    validate_domain(result, domain)
-    validate_requirements(result, requirements, domain_ids)
-    validate_features(result, features, requirement_ids, domain_ids)
-    validate_epics(result, epics, feature_ids, release_ids, releases, requirement_ids, domain_ids)
-    validate_stories(result, stories, epic_ids, release_ids, releases, requirement_ids, domain_ids)
+    validate_artifacts(result, artifacts)
+    validate_requirements(result, requirements, artifact_ids)
+    validate_features(result, features, requirement_ids, artifact_ids)
+    validate_epics(result, epics, feature_ids, release_ids, releases, requirement_ids, artifact_ids)
+    validate_stories(result, stories, epic_ids, release_ids, releases, requirement_ids, artifact_ids)
 
     # Optional warnings
     if include_warnings:
-        validate_domain_doc_paths(result, domain)
-        validate_deprecated_refs(result, stories, epics, features, requirements, domain)
+        validate_artifact_doc_paths(result, artifacts)
+        validate_deprecated_refs(result, stories, epics, features, requirements, artifacts)
 
     return result
 

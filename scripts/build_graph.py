@@ -28,7 +28,7 @@ def build_graph() -> Dict[str, Any]:
 
     # Load all data
     releases = load_json(DATA_FILES["releases"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
     requirements = load_json(DATA_FILES["requirements"])
     features = load_json(DATA_FILES["features"])
     epics = load_json(DATA_FILES["epics"])
@@ -48,14 +48,14 @@ def build_graph() -> Dict[str, Any]:
             "release_date": release.get("release_date"),
         })
 
-    # Domain nodes
-    for entry in domain:
+    # Artifact nodes
+    for entry in artifacts:
         nodes.append({
             "id": entry["id"],
-            "type": "domain",
+            "type": "artifact",
             "title": entry.get("title"),
             "status": entry.get("status"),
-            "domain_type": entry.get("type"),
+            "artifact_type": entry.get("type"),
         })
 
     # Requirement nodes
@@ -134,13 +134,13 @@ def build_graph() -> Dict[str, Any]:
     # Build Edges
     # ==========================================================================
 
-    # Requirements -> Domain (references_domain)
+    # Requirements -> Artifacts (references_artifact)
     for req in requirements:
-        for domain_ref in req.get("domain_refs", []):
+        for artifact_ref in req.get("artifact_refs", []):
             edges.append({
                 "source": req["id"],
-                "target": domain_ref,
-                "type": "references_domain",
+                "target": artifact_ref,
+                "type": "references_artifact",
             })
 
         # Requirement supersedes
@@ -161,11 +161,11 @@ def build_graph() -> Dict[str, Any]:
                 "type": "satisfies",
             })
 
-        for domain_ref in feat.get("domain_refs", []):
+        for artifact_ref in feat.get("artifact_refs", []):
             edges.append({
                 "source": feat["id"],
-                "target": domain_ref,
-                "type": "references_domain",
+                "target": artifact_ref,
+                "type": "references_artifact",
             })
 
     # Epics -> Features (scoped_by)
@@ -208,12 +208,12 @@ def build_graph() -> Dict[str, Any]:
                     "type": "satisfies",
                 })
 
-            # Version -> Domain (references_domain)
-            for domain_ref in version.get("domain_refs", []):
+            # Version -> Artifacts (references_artifact)
+            for artifact_ref in version.get("artifact_refs", []):
                 edges.append({
                     "source": version_id,
-                    "target": domain_ref,
-                    "type": "references_domain",
+                    "target": artifact_ref,
+                    "type": "references_artifact",
                 })
 
             # Version supersedes previous version
@@ -266,12 +266,12 @@ def build_graph() -> Dict[str, Any]:
                     "type": "satisfies",
                 })
 
-            # Version -> Domain (references_domain)
-            for domain_ref in version.get("domain_refs", []):
+            # Version -> Artifacts (references_artifact)
+            for artifact_ref in version.get("artifact_refs", []):
                 edges.append({
                     "source": version_id,
-                    "target": domain_ref,
-                    "type": "references_domain",
+                    "target": artifact_ref,
+                    "type": "references_artifact",
                 })
 
             # Version supersedes previous version

@@ -71,9 +71,12 @@ def render_story(
             if ac:
                 html += '<div class="section"><h2>Acceptance Criteria</h2><ul>'
                 for criterion in ac:
-                    html += f'<li><strong>{e(criterion.get("id", "AC"))}:</strong> {e(criterion.get("statement", ""))}'
-                    if criterion.get('notes'):
-                        html += f' <em>({e(criterion["notes"])})</em>'
+                    if isinstance(criterion, dict):
+                        html += f'<li><strong>{e(criterion.get("id", "AC"))}:</strong> {e(criterion.get("statement", ""))}'
+                        if criterion.get('notes'):
+                            html += f' <em>({e(criterion["notes"])})</em>'
+                    else:
+                        html += f'<li><strong>AC:</strong> {e(str(criterion))}'
                     html += '</li>'
                 html += '</ul></div>'
 
@@ -134,9 +137,9 @@ def render_story(
         "../requirements/",
     )
     artifact_rows = build_artifact_rows(
-        (current_version or {}).get("domain_refs", []),
+        (current_version or {}).get("artifact_refs", []),
         artifact_lookup or {},
-        "../domain/",
+        "../artifacts/",
     )
     tabs = [
         {

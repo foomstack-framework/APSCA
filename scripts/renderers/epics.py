@@ -115,9 +115,9 @@ def render_epic(
         "../requirements/",
     )
     artifact_rows = build_artifact_rows(
-        (current_version or {}).get("domain_refs", []),
+        (current_version or {}).get("artifact_refs", []),
         artifact_lookup or {},
-        "../domain/",
+        "../artifacts/",
     )
     epic_stories = [story for story in stories if story.get("epic_ref") == epic.get("id")]
     story_rows = build_story_rows(epic_stories, "../stories/", "../releases/")

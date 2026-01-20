@@ -25,7 +25,7 @@ def build_index() -> Dict[str, Any]:
     """Build the complete lookup index."""
     # Load all data
     releases = load_json(DATA_FILES["releases"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
     requirements = load_json(DATA_FILES["requirements"])
     features = load_json(DATA_FILES["features"])
     epics = load_json(DATA_FILES["epics"])
@@ -36,7 +36,7 @@ def build_index() -> Dict[str, Any]:
         "by_id": {},
         "by_type": {
             "release": [],
-            "domain": [],
+            "artifact": [],
             "requirement": [],
             "feature": [],
             "epic": [],
@@ -73,20 +73,20 @@ def build_index() -> Dict[str, Any]:
         index["summaries"][rid] = f"{rid}: {release.get('description', '')[:100]}"
 
     # ==========================================================================
-    # Index Domain
+    # Index Artifacts
     # ==========================================================================
-    for entry in domain:
+    for entry in artifacts:
         did = entry["id"]
         indexed = {
             "id": did,
-            "type": "domain",
+            "type": "artifact",
             "title": entry.get("title"),
             "status": entry.get("status"),
-            "domain_type": entry.get("type"),
+            "artifact_type": entry.get("type"),
             "doc_path": entry.get("doc_path"),
         }
         index["by_id"][did] = indexed
-        index["by_type"]["domain"].append(did)
+        index["by_type"]["artifact"].append(did)
 
         status = entry.get("status")
         if status:
@@ -106,7 +106,7 @@ def build_index() -> Dict[str, Any]:
             "status": req.get("status"),
             "req_type": req.get("type"),
             "invariant": req.get("invariant", False),
-            "domain_refs": req.get("domain_refs", []),
+            "artifact_refs": req.get("artifact_refs", []),
             "superseded_by": req.get("superseded_by"),
         }
         index["by_id"][rid] = entry
@@ -129,7 +129,7 @@ def build_index() -> Dict[str, Any]:
             "title": feat.get("title"),
             "status": feat.get("status"),
             "requirement_refs": feat.get("requirement_refs", []),
-            "domain_refs": feat.get("domain_refs", []),
+            "artifact_refs": feat.get("artifact_refs", []),
         }
         index["by_id"][fid] = entry
         index["by_type"]["feature"].append(fid)

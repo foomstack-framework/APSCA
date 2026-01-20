@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apsca-version" content="6695115aec738d9dda71f4110fdc1967b826de87">
-    <title>EPIC-005: Renewal Fee Invoicing - APSCA</title>
+    <title>REQ-001: Enforce exam eligibility before purchase - APSCA</title>
     <style>
 .topbar {
     position: sticky;
@@ -1012,63 +1012,31 @@ body.has-version-banner main {
         <span class="brand-name">APSCA Requirements Dashboard</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1" class="active">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../domain/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
+        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1" class="active">Requirements</a> <a href="../artifacts/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
     </nav>
 </header>
 
     <main>
         <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
         
-<h1>EPIC-005: Renewal Fee Invoicing</h1>
-
+<h1>REQ-001: Enforce exam eligibility before purchase</h1>
 <div class="meta">
-    <span><strong>Documentation Status:</strong> <span class="status-badge" style="background-color: #16a34a">Active</span></span>
-    <span><strong>Version:</strong>
-        <select id="version-select" class="version-select">
-            <option value="1" selected>v1 — REL-2026-05-01</option>
-        </select>
-    </span>
+    <strong>Status:</strong> <span class="status-badge" style="background-color: #16a34a">Active</span> &nbsp;
+    <strong>Type:</strong> functional
+    
 </div>
-<div class="version-panels">
-
-    <div class="version-panel" data-version="1">
-        <div class="version-meta">
-            <strong>Version:</strong> v1 &nbsp;
-            <strong>Release:</strong> <a href="../releases/REL-2026-05-01.html">REL-2026-05-01</a>
-        </div>
-        <div class="section">
-            <h2>Summary</h2>
-            <p>Generate renewal fee invoices with tiered pricing and late penalties</p>
-        </div>
-<div class="section"><h2>Assumptions</h2><ul><li>Pricing tiers are configured in the billing system</li></ul></div><div class="section"><h2>Constraints</h2><ul><li>Late penalties must apply after grace period expiration</li></ul></div></div>
+<div class="section">
+    <h2>Statement</h2>
+    <p>The system must block exam purchases when eligibility rules fail.</p>
 </div>
-<script>
-(() => {
-    const select = document.getElementById('version-select');
-    const panels = Array.from(document.querySelectorAll('.version-panel'));
-    if (!select || panels.length === 0) return;
-    const params = new URLSearchParams(window.location.search);
-    const requestedVersion = params.get('version');
-    if (requestedVersion) {
-        const option = Array.from(select.options).find(opt => opt.value === requestedVersion);
-        if (option) {
-            select.value = requestedVersion;
-        }
-    }
-    function show(version) {
-        panels.forEach(panel => {
-            panel.classList.toggle('active', panel.dataset.version === version);
-        });
-    }
-    select.addEventListener('change', () => show(select.value));
-    show(select.value);
-})();
-</script>
+<div class="section">
+    <h2>Rationale</h2>
+    <p>Ensure compliance with eligibility policy.</p>
+</div>
 
 <div class="section">
     <h2>Connected Records</h2>
-    <div class="connected-summary"><strong>Feature:</strong> <a href="../features/FEAT-002.html">FEAT-002</a></div>
-    <div class="tabs" data-tab-group="epic-connections"><div class="tab-list" role="tablist"><button class="tab-button active" type="button" role="tab" data-tab-target="epic-connections-stories" aria-selected="true">Stories</button><button class="tab-button" type="button" role="tab" data-tab-target="epic-connections-requirements" aria-selected="false">Requirements</button><button class="tab-button" type="button" role="tab" data-tab-target="epic-connections-business-artifacts" aria-selected="false">Business Artifacts</button></div><div class="tab-panels"><div class="tab-panel active" id="epic-connections-stories" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Summary</th><th>Release</th></tr></thead><tbody><tr><td class="record-cell"><a href="../stories/STORY-009.html">STORY-009</a><div class="cell-secondary">Generate Renewal Invoice</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want a renewal invoice generated so I can pay my renewal fee</div></td><td><a href="../releases/REL-2026-05-01.html">REL-2026-05-01</a></td></tr></tbody></table></div><div class="tab-panel" id="epic-connections-requirements" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Statement</th></tr></thead><tbody><tr><td class="record-cell"><a href="../requirements/REQ-002.html">REQ-002</a><div class="cell-secondary">Exam Invoice Purchasing</div></td><td class="summary-cell"><div class="cell-primary">Auditors must be able to purchase exam invoices from their account based on eligibility rules</div></td></tr><tr><td class="record-cell"><a href="../requirements/REQ-004.html">REQ-004</a><div class="cell-secondary">Invoice Payment Clearance</div></td><td class="summary-cell"><div class="cell-primary">Auditors with unpaid invoices must clear all outstanding payments before purchasing new exam invoices</div></td></tr></tbody></table></div><div class="tab-panel" id="epic-connections-business-artifacts" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td class="record-cell"><a href="../domain/ART-002.html">ART-002</a><div class="cell-secondary">Credential Renewal Policy</div></td><td class="summary-cell"><div class="cell-primary">Specifies renewal windows, required attestations, grace periods, and late fee policy. Renewal eligibility is driven by credential status, CPE compliance, and attestation completion. This policy is used to determine whether auditors can renew or continue purchasing exams.</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #3b82f6">Policy</span></div></td></tr></tbody></table></div></div></div>
+    <div class="tabs" data-tab-group="requirement-connections"><div class="tab-list" role="tablist"><button class="tab-button active" type="button" role="tab" data-tab-target="requirement-connections-features" aria-selected="true">Features</button><button class="tab-button" type="button" role="tab" data-tab-target="requirement-connections-epics" aria-selected="false">Epics</button><button class="tab-button" type="button" role="tab" data-tab-target="requirement-connections-stories" aria-selected="false">Stories</button><button class="tab-button" type="button" role="tab" data-tab-target="requirement-connections-business-artifacts" aria-selected="false">Business Artifacts</button></div><div class="tab-panels"><div class="tab-panel active" id="requirement-connections-features" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody><tr><td class="record-cell"><a href="../features/FEAT-001.html">FEAT-001</a><div class="cell-secondary">Exam Purchase Eligibility Checks</div></td><td class="summary-cell"><div class="cell-primary">Prevent ineligible exam purchases</div><div class="cell-secondary">High</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #16a34a">Active</span></div></td></tr></tbody></table></div><div class="tab-panel" id="requirement-connections-epics" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Summary</th><th>Release</th></tr></thead><tbody><tr><td class="record-cell"><a href="../epics/EPIC-001.html">EPIC-001</a><div class="cell-secondary">Eligibility Enforcement</div></td><td class="summary-cell"><div class="cell-primary">Enforce eligibility rules before exam purchase.</div></td><td><a href="../releases/REL-2026-06-01.html">REL-2026-06-01</a></td></tr></tbody></table></div><div class="tab-panel" id="requirement-connections-stories" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Summary</th><th>Release</th></tr></thead><tbody><tr><td class="record-cell"><a href="../stories/STORY-001.html">STORY-001</a><div class="cell-secondary">Block purchase when ineligible</div></td><td class="summary-cell"><div class="cell-primary">System blocks exam purchase if eligibility checks fail.</div></td><td><a href="../releases/REL-2026-06-01.html">REL-2026-06-01</a></td></tr></tbody></table></div><div class="tab-panel" id="requirement-connections-business-artifacts" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td class="record-cell"><a href="../artifacts/ART-001.html">ART-001</a><div class="cell-secondary">Exam Eligibility Rules</div></td><td class="summary-cell"><div class="cell-primary">Rules governing exam purchase eligibility.</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td></tr></tbody></table></div></div></div>
 </div>
 
     </main>
@@ -1135,12 +1103,12 @@ body.has-version-banner main {
             const filename = parts.pop() || 'index.html';
             const lastDir = parts.pop() || '';
 
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'artifacts', 'releases'];
             const dir = knownSections.includes(lastDir) ? lastDir : '';
 
             const sectionLabels = {
                 'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+                'requirements': 'Requirements', 'artifacts': 'Business Artifacts', 'releases': 'Releases'
             };
 
             let label;

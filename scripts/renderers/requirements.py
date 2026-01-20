@@ -70,9 +70,9 @@ def render_requirement(
         "../releases/",
     )
     artifact_rows = build_artifact_rows(
-        req.get("domain_refs", []),
+        req.get("artifact_refs", []),
         artifact_lookup or {},
-        "../domain/",
+        "../artifacts/",
     )
     tabs = [
         {

@@ -1012,7 +1012,7 @@ body.has-version-banner main {
         <span class="brand-name">APSCA Requirements Dashboard</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../domain/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1" class="active">Releases</a>
+        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../artifacts/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1" class="active">Releases</a>
     </nav>
 </header>
 
@@ -1020,61 +1020,7 @@ body.has-version-banner main {
         <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
         <h1>Releases</h1>
 <p class="page-subtitle">Release snapshots that bind versions to dates.</p>
-
-<div class="index-toolbar">
-    <div class="toolbar-field">
-        <label for="search-input">Search</label>
-        <input type="search" id="search-input" placeholder="Search by ID, title, status, release..." />
-    </div>
-    <div class="toolbar-field">
-        <label for="status-filter">Status</label>
-        <select id="status-filter">
-            <option value="all">All statuses</option>
-            <option value="planned">Planned</option>
-        </select>
-    </div>
-    
-    <div class="toolbar-meta" id="results-count"></div>
-</div>
-<script>
-(function() {
-    var statusFilter = document.getElementById('status-filter');
-    if (statusFilter && 'all' !== 'all') {
-        statusFilter.value = 'all';
-    }
-})();
-</script>
-<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Status</th></tr></thead><tbody><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-05-01 renewal &amp; cpe foundations planned release date: 2026-05-01 credential renewal workflows, renewal invoicing, and cpe tracking foundations credential renewal workflows, renewal invoicing, and cpe tracking foundations"><td class="record-cell"><a href="REL-2026-05-01.html">REL-2026-05-01</a><div class="cell-secondary">Renewal &amp; CPE Foundations</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-05-01</div><div class="cell-secondary">Credential renewal workflows, renewal invoicing, and CPE tracking foundations</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Planned</span></div></td></tr><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-03-15 eligibility expansion planned release date: 2026-03-15 expanded eligibility checks, invoice previews, and renewal-aware validations expanded eligibility checks, invoice previews, and renewal-aware validations"><td class="record-cell"><a href="REL-2026-03-15.html">REL-2026-03-15</a><div class="cell-secondary">Eligibility Expansion</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-03-15</div><div class="cell-secondary">Expanded eligibility checks, invoice previews, and renewal-aware validations</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Planned</span></div></td></tr><tr data-filter-item="true" data-status="planned" data-search-text="rel-2026-02-01 exam purchasing mvp planned release date: 2026-02-01 initial release of exam purchasing functionality for auditors initial release of exam purchasing functionality for auditors"><td class="record-cell"><a href="REL-2026-02-01.html">REL-2026-02-01</a><div class="cell-secondary">Exam Purchasing MVP</div></td><td class="summary-cell"><div class="cell-primary">Release Date: 2026-02-01</div><div class="cell-secondary">Initial release of exam purchasing functionality for auditors</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #64748b">Planned</span></div></td></tr></tbody></table>
-<script>
-(() => {
-    const searchInput = document.getElementById('search-input');
-    const statusFilter = document.getElementById('status-filter');
-    const items = Array.from(document.querySelectorAll('[data-filter-item]'));
-    const countEl = document.getElementById('results-count');
-    if (!searchInput || !statusFilter || !countEl) return;
-
-    function applyFilters() {
-        const term = searchInput.value.trim().toLowerCase();
-        const status = statusFilter.value.toLowerCase();
-        let visible = 0;
-        items.forEach((item) => {
-            const text = (item.dataset.searchText || '').toLowerCase();
-            const itemStatus = (item.dataset.status || '').toLowerCase();
-            const matchesTerm = !term || text.includes(term);
-            const matchesStatus = status === 'all' || itemStatus === status;
-            const show = matchesTerm && matchesStatus;
-            item.style.display = show ? '' : 'none';
-            if (show) visible += 1;
-        });
-        countEl.textContent = `${visible} of ${items.length} shown`;
-    }
-
-    searchInput.addEventListener('input', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-    applyFilters();
-})();
-</script>
-
+<p><em>No items yet.</em></p>
     </main>
     <script>
     (() => {
@@ -1139,12 +1085,12 @@ body.has-version-banner main {
             const filename = parts.pop() || 'index.html';
             const lastDir = parts.pop() || '';
 
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'artifacts', 'releases'];
             const dir = knownSections.includes(lastDir) ? lastDir : '';
 
             const sectionLabels = {
                 'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+                'requirements': 'Requirements', 'artifacts': 'Business Artifacts', 'releases': 'Releases'
             };
 
             let label;

@@ -18,7 +18,7 @@ def render_index(
     artifact_type: str,
     items: List[Dict],
     title: str,
-    domain_lookup: Dict[str, Dict] = None,
+    artifact_lookup: Dict[str, Dict] = None,
     epic_lookup: Dict[str, Dict] = None,
 ) -> str:
     """Render an index page for a collection."""
@@ -29,7 +29,7 @@ def render_index(
         "features": "Top-level capability boundaries that organize epics.",
         "epics": "Stable user intent groupings that organize stories.",
         "stories": "Atomic user capabilities with supporting criteria.",
-        "domain": "Business artifacts, policies, rules, and reference documentation.",
+        "artifacts": "Business artifacts, policies, rules, and reference documentation.",
     }
     subtitle = subtitle_map.get(artifact_type.lower())
     if subtitle:
@@ -133,19 +133,19 @@ def render_index(
             secondary = f"Release: {current.get('release_ref') or 'Unassigned'}" if current else ""
         elif kind == "requirements":
             primary = item.get("statement", "No statement")
-            domain_refs = item.get("domain_refs", [])
-            if domain_refs and domain_lookup:
-                domain_titles = []
-                for ref in domain_refs:
-                    dom = domain_lookup.get(ref, {})
-                    domain_titles.append(f"{ref}: {dom.get('title', ref)}")
-                secondary = f"Domain: {', '.join(domain_titles)}"
-            elif domain_refs:
-                secondary = f"Domain: {', '.join(domain_refs)}"
+            artifact_refs = item.get("artifact_refs", [])
+            if artifact_refs and artifact_lookup:
+                artifact_titles = []
+                for ref in artifact_refs:
+                    artifact = artifact_lookup.get(ref, {})
+                    artifact_titles.append(f"{ref}: {artifact.get('title', ref)}")
+                secondary = f"Artifacts: {', '.join(artifact_titles)}"
+            elif artifact_refs:
+                secondary = f"Artifacts: {', '.join(artifact_refs)}"
             else:
                 secondary = ""
-        elif kind == "domain":
-            primary = item.get("description") or "Domain reference document"
+        elif kind == "artifacts":
+            primary = item.get("description") or "Business artifact reference document"
             source = item.get("source", "unknown")
             effective = item.get("effective_date")
             secondary = f"Source: {source}"
@@ -215,7 +215,7 @@ def render_index(
         type_badge = ""
         if artifact_type.lower() == "requirements":
             type_badge = requirement_type_badge(item.get("type", "unknown"))
-        if artifact_type.lower() == "domain":
+        if artifact_type.lower() == "artifacts":
             type_badge = artifact_type_badge(item.get("type", "unknown"))
 
         if artifact_type.lower() == "requirements":
@@ -775,16 +775,16 @@ const storiesData = {stories_data_json};
     return html_page(title, html, artifact_type.lower(), depth=1)
 
 
-def render_domain_index(domain_entries: List[Dict]) -> str:
-    """Render a business artifacts index page listing all domain entries."""
+def render_artifacts_index(artifact_entries: List[Dict]) -> str:
+    """Render a business artifacts index page listing all business artifacts."""
     html = '<h1>Business Artifacts</h1>\n'
     html += '<p>Business artifacts, policies, rules, and reference documentation.</p>\n'
 
-    if not domain_entries:
-        html += '<p><em>No domain entries yet.</em></p>'
-        return html_page("Domain", html, "domain", depth=1)
+    if not artifact_entries:
+        html += '<p><em>No business artifacts yet.</em></p>'
+        return html_page("Business Artifacts", html, "artifacts", depth=1)
 
-    status_values = sorted({(entry.get("status") or "unknown") for entry in domain_entries})
+    status_values = sorted({(entry.get("status") or "unknown") for entry in artifact_entries})
     status_options = "\n".join(
         f'<option value="{e(status)}">{e(format_status_label(status))}</option>' for status in status_values
     )
@@ -807,12 +807,12 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
 
     html += '<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Type</th><th>Status</th></tr></thead><tbody>'
 
-    for item in sorted(domain_entries, key=lambda x: x.get('id', '')):
-        dom_type = item.get('type', 'unknown')
-        if isinstance(dom_type, list):
-            dom_type = dom_type[0] if dom_type else "unknown"
+    for item in sorted(artifact_entries, key=lambda x: x.get('id', '')):
+        artifact_type = item.get("type", "unknown")
+        if isinstance(artifact_type, list):
+            artifact_type = artifact_type[0] if artifact_type else "unknown"
         status = item.get("status") or "unknown"
-        description = item.get("description") or "Domain reference document"
+        description = item.get("description") or "Business artifact reference document"
         source = item.get("source", "unknown")
         effective = item.get("effective_date")
         secondary = f"Source: {source}"
@@ -825,7 +825,7 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
                 item.get("id"),
                 item.get("title"),
                 description,
-                dom_type,
+                artifact_type,
                 status,
                 source,
                 effective,
@@ -839,7 +839,7 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
             f'{format_secondary(item.get("title", ""))}</td>'
             f'<td class="summary-cell"><div class="cell-primary">{e(description)}</div>'
             f'{format_secondary(secondary)}</td>'
-            f'<td class="status-cell"><div class="badge-stack">{artifact_type_badge(dom_type)}</div></td>'
+            f'<td class="status-cell"><div class="badge-stack">{artifact_type_badge(artifact_type)}</div></td>'
             f'<td class="status-cell"><div class="badge-stack">{status_badge(status)}</div></td>'
             '</tr>'
         )
@@ -878,7 +878,7 @@ def render_domain_index(domain_entries: List[Dict]) -> str:
 </script>
 """
 
-    return html_page("Domain", html, "domain", depth=1)
+    return html_page("Business Artifacts", html, "artifacts", depth=1)
 
 
 def render_index_redirect() -> str:

@@ -9,18 +9,18 @@ APSCA is a requirements management repository that stores structured requirement
 ## Architecture
 
 **Canonical data** (`data/*.json`):
-- `domain.json` - Registry for business artifacts (ART-###)
+- `artifacts.json` - Registry for business artifacts (ART-###)
 - `requirements.json` - Declarative obligations (REQ-###)
 - `features.json` - Top-level capability boundaries (FEAT-###)
 - `epics.json` - Versioned groups of stories (EPIC-###)
 - `stories.json` - Versioned commitments with acceptance criteria (STORY-###)
 - `releases.json` - Delivery timeline events (REL-YYYY-MM-DD)
 
-**Authored content** (`docs/domain/*.md`):
-- Domain reference documents written by humans, not generated
+**Authored content** (`docs/artifacts/*.md`):
+- Artifact reference documents written by humans, not generated
 
 **Generated content**:
-- `docs/` (except `docs/domain/`) - GitLab Pages views rendered from JSON
+- `docs/` (except `docs/artifacts/`) - GitLab Pages views rendered from JSON
 - `reports/graph.json` - Structural relationship graph for traversal
 - `reports/index.json` - Denormalized lookup index
  - `scripts/templates/` - HTML templates used by `render_docs.py`
@@ -48,12 +48,12 @@ APSCA is a requirements management repository that stores structured requirement
 - `docs/epics/*.html` - Generated from `data/epics.json`
 - `docs/stories/*.html` - Generated from `data/stories.json`
 - `docs/requirements/*.html` - Generated from `data/requirements.json`
-- `docs/domain/*.html` - Generated from `data/domain.json`
+- `docs/artifacts/*.html` - Generated from `data/artifacts.json`
  - `docs/story-map.html` - Generated from `scripts/templates/story-map.html`
 
 **Safe to edit directly:**
 - `scripts/templates/story-map.html` - Story map layout/template (rendered into `docs/story-map.html`)
-- `docs/domain/*.md` - Authored markdown content (not generated)
+- `docs/artifacts/*.md` - Authored markdown content (not generated)
 - `scripts/render_docs.py` - Orchestrates rendering
 - `scripts/renderers/*.py` - Edit these to change generated page structure/layout
 - `scripts/lib/html_helpers.py` - Shared HTML/page layout helpers
@@ -65,7 +65,7 @@ APSCA is a requirements management repository that stores structured requirement
 | Data (titles, descriptions, refs) | `data/*.json` via `mutate.py` |
 | Page layout/styling for generated pages | `scripts/renderers/*.py`, `scripts/lib/html_helpers.py`, `scripts/templates/*.html` |
 | Story map functionality (filters, etc.) | `scripts/templates/story-map.html` |
-| Domain reference prose | `docs/domain/*.md` |
+| Artifact reference prose | `docs/artifacts/*.md` |
 
 ## Key Principles
 
@@ -81,7 +81,7 @@ APSCA is a requirements management repository that stores structured requirement
 
 **Core hierarchy (one-way):**
 ```
-Domain → Requirements → Features → Epics → Stories → Acceptance Criteria
+Artifacts → Requirements → Features → Epics → Stories → Acceptance Criteria
 ```
 
 **Cross-cutting delivery layer:**
@@ -112,8 +112,8 @@ Release IDs are date-based. If multiple releases occur on the same date, use suf
 | Artifact | Status Field | Valid Values |
 |----------|-------------|--------------|
 | **Releases** | status | `planned`, `released` |
-| **Domain** | status | `draft`, `active`, `deprecated` |
-| **Domain** | type | Array of strings (e.g., `["rule"]`, `["policy", "rule"]`) |
+| **Artifacts** | status | `draft`, `active`, `deprecated` |
+| **Artifacts** | type | Array of strings (e.g., `["rule"]`, `["policy", "rule"]`) |
 | **Requirements** | status | `active`, `deprecated`, `provisional` |
 | **Features** | status | `active`, `deprecated` |
 | **Epics** | status (artifact) | `active`, `deprecated` |
@@ -154,7 +154,7 @@ python scripts/mutate.py <operation> --payload-file <path>
 
 Key operations:
 - Releases: `create_release`, `set_release_status`
-- Domain: `add_domain_entry`, `update_domain_entry`, `activate_domain_entry`, `deprecate_domain_entry`
+- Artifacts: `add_domain_entry`, `update_domain_entry`, `activate_domain_entry`, `deprecate_domain_entry`
 - Requirements: `add_requirement`, `update_requirement`, `deprecate_requirement`, `supersede_requirement`
 - Features: `add_feature`, `update_feature`, `deprecate_feature`
 - Epics: `add_epic` (requires `release_ref`), `create_epic_version`, `set_epic_version_status`, `set_epic_approved`, `deprecate_epic`
@@ -169,7 +169,7 @@ Key operations:
 - Version lineage integrity (monotonic, no cycles)
 - Single backlog rule: Only one version per epic/story can have `status: "backlog"`
 - Approved field required: Epic/story versions must have `approved: boolean`
-- Domain type is array: `type` field must be an array of valid type strings
+- Artifact type is array: `type` field must be an array of valid type strings
 - Completeness for approved: Stories with `approved: true` must have `acceptance_criteria` and `test_intent`
 
 ## Test Intent
@@ -227,7 +227,7 @@ Key pages:
 - `docs/epics/*.html` - Epic detail pages
 - `docs/stories/*.html` - Story detail pages
 - `docs/requirements/*.html` - Requirement detail pages
-- `docs/domain/*.html` - Generated domain reference pages
+- `docs/artifacts/*.html` - Generated artifact reference pages
 
 ## AI Workflow Commands
 

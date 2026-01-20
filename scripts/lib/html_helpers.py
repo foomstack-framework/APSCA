@@ -323,7 +323,7 @@ def generate_navbar(active_section: str = "", depth: int = 1) -> str:
         ("epics", "Epics", "epics/index.html"),
         ("stories", "Stories", "stories/index.html"),
         ("requirements", "Requirements", "requirements/index.html"),
-        ("domain", "Business Artifacts", "domain/index.html"),
+        ("artifacts", "Business Artifacts", "artifacts/index.html"),
         ("releases", "Releases", "releases/index.html"),
     ]
 
@@ -430,12 +430,12 @@ def html_page(title: str, content: str, active_section: str = "", depth: int = 1
             const filename = parts.pop() || 'index.html';
             const lastDir = parts.pop() || '';
 
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'artifacts', 'releases'];
             const dir = knownSections.includes(lastDir) ? lastDir : '';
 
             const sectionLabels = {{
                 'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+                'requirements': 'Requirements', 'artifacts': 'Business Artifacts', 'releases': 'Releases'
             }};
 
             let label;

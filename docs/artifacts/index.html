@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apsca-version" content="6695115aec738d9dda71f4110fdc1967b826de87">
-    <title>EPIC-006: CPE Credit Validation - APSCA</title>
+    <title>Business Artifacts - APSCA</title>
     <style>
 .topbar {
     position: sticky;
@@ -1012,76 +1012,15 @@ body.has-version-banner main {
         <span class="brand-name">APSCA Requirements Dashboard</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1" class="active">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../domain/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
+        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../artifacts/index.html?nav=1" class="active">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
     </nav>
 </header>
 
     <main>
         <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
-        
-<h1>EPIC-006: CPE Credit Validation</h1>
-
-<div class="meta">
-    <span><strong>Documentation Status:</strong> <span class="status-badge" style="background-color: #16a34a">Active</span></span>
-    <span><strong>Version:</strong>
-        <select id="version-select" class="version-select">
-            <option value="2" selected>v2 — Unassigned</option>
-<option value="1">v1 — REL-2026-05-01</option>
-        </select>
-    </span>
-</div>
-<div class="version-panels">
-
-    <div class="version-panel" data-version="2">
-        <div class="version-meta">
-            <strong>Version:</strong> v2 &nbsp;
-            <strong>Release:</strong> Unassigned
-        </div>
-        <div class="section">
-            <h2>Summary</h2>
-            <p>Add automated CPE credit verification and bulk import capabilities</p>
-        </div>
-<div class="section"><h2>Assumptions</h2><ul><li>Third-party providers can export CPE data in standard format</li></ul></div><div class="section"><h2>Constraints</h2><ul><li>Bulk import must validate against policy rules</li></ul></div></div>
-    <div class="version-panel" data-version="1">
-        <div class="version-meta">
-            <strong>Version:</strong> v1 &nbsp;
-            <strong>Release:</strong> <a href="../releases/REL-2026-05-01.html">REL-2026-05-01</a>
-        </div>
-        <div class="section">
-            <h2>Summary</h2>
-            <p>Validate CPE credits against policy rules and highlight gaps</p>
-        </div>
-<div class="section"><h2>Assumptions</h2><ul><li>Course catalog data is synchronized nightly</li></ul></div><div class="section"><h2>Constraints</h2><ul><li>Credit calculations must align with policy definitions</li></ul></div></div>
-</div>
-<script>
-(() => {
-    const select = document.getElementById('version-select');
-    const panels = Array.from(document.querySelectorAll('.version-panel'));
-    if (!select || panels.length === 0) return;
-    const params = new URLSearchParams(window.location.search);
-    const requestedVersion = params.get('version');
-    if (requestedVersion) {
-        const option = Array.from(select.options).find(opt => opt.value === requestedVersion);
-        if (option) {
-            select.value = requestedVersion;
-        }
-    }
-    function show(version) {
-        panels.forEach(panel => {
-            panel.classList.toggle('active', panel.dataset.version === version);
-        });
-    }
-    select.addEventListener('change', () => show(select.value));
-    show(select.value);
-})();
-</script>
-
-<div class="section">
-    <h2>Connected Records</h2>
-    <div class="connected-summary"><strong>Feature:</strong> <a href="../features/FEAT-003.html">FEAT-003</a></div>
-    <div class="tabs" data-tab-group="epic-connections"><div class="tab-list" role="tablist"><button class="tab-button active" type="button" role="tab" data-tab-target="epic-connections-stories" aria-selected="true">Stories</button><button class="tab-button" type="button" role="tab" data-tab-target="epic-connections-requirements" aria-selected="false">Requirements</button><button class="tab-button" type="button" role="tab" data-tab-target="epic-connections-business-artifacts" aria-selected="false">Business Artifacts</button></div><div class="tab-panels"><div class="tab-panel active" id="epic-connections-stories" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Summary</th><th>Release</th></tr></thead><tbody><tr><td class="record-cell"><a href="../stories/STORY-010.html">STORY-010</a><div class="cell-secondary">Log CPE Activity</div></td><td class="summary-cell"><div class="cell-primary">As an auditor, I want to bulk import CPE activities from provider transcripts</div></td><td>Unassigned</td></tr></tbody></table></div><div class="tab-panel" id="epic-connections-requirements" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Statement</th></tr></thead><tbody><tr><td class="record-cell"><a href="../requirements/REQ-002.html">REQ-002</a><div class="cell-secondary">Exam Invoice Purchasing</div></td><td class="summary-cell"><div class="cell-primary">Auditors must be able to purchase exam invoices from their account based on eligibility rules</div></td></tr><tr><td class="record-cell"><a href="../requirements/REQ-003.html">REQ-003</a><div class="cell-secondary">Exam Eligibility Enforcement</div></td><td class="summary-cell"><div class="cell-primary">System must enforce exam eligibility rules strictly, preventing purchase of ineligible exams</div></td></tr></tbody></table></div><div class="tab-panel" id="epic-connections-business-artifacts" data-tab-panel="true" role="tabpanel"><table class="connected-table"><thead><tr><th>Record</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td class="record-cell"><a href="../domain/ART-003.html">ART-003</a><div class="cell-secondary">CPE Credit Rules</div></td><td class="summary-cell"><div class="cell-primary">Defines how continuing education credits are calculated, categorized, and validated. Credits are grouped by category with minimum thresholds for renewal. Activities must include audit metadata, provider information, and completion dates.</div></td><td class="status-cell"><div class="badge-stack"><span class="status-badge" style="background-color: #f59e0b">Rule</span></div></td></tr></tbody></table></div></div></div>
-</div>
-
+        <h1>Business Artifacts</h1>
+<p>Business artifacts, policies, rules, and reference documentation.</p>
+<p><em>No business artifacts yet.</em></p>
     </main>
     <script>
     (() => {
@@ -1146,12 +1085,12 @@ body.has-version-banner main {
             const filename = parts.pop() || 'index.html';
             const lastDir = parts.pop() || '';
 
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'artifacts', 'releases'];
             const dir = knownSections.includes(lastDir) ? lastDir : '';
 
             const sectionLabels = {
                 'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+                'requirements': 'Requirements', 'artifacts': 'Business Artifacts', 'releases': 'Releases'
             };
 
             let label;

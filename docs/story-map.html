@@ -521,7 +521,7 @@
             line-height: 1.35;
         }
 
-        .requirements-table .req-domain {
+        .requirements-table .req-artifact {
             font-size: 0.74rem;
             color: var(--text-muted);
             margin-top: 0.2rem;
@@ -1033,7 +1033,7 @@ body.has-version-banner .topbar {
         <span class="brand-name">APSCA Requirements Dashboard</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="story-map.html?nav=1" class="active">Story Map</a> <a href="features/index.html?nav=1">Features</a> <a href="epics/index.html?nav=1">Epics</a> <a href="stories/index.html?nav=1">Stories</a> <a href="requirements/index.html?nav=1">Requirements</a> <a href="domain/index.html?nav=1">Business Artifacts</a> <a href="releases/index.html?nav=1">Releases</a>
+        <a href="story-map.html?nav=1" class="active">Story Map</a> <a href="features/index.html?nav=1">Features</a> <a href="epics/index.html?nav=1">Epics</a> <a href="stories/index.html?nav=1">Stories</a> <a href="requirements/index.html?nav=1">Requirements</a> <a href="artifacts/index.html?nav=1">Business Artifacts</a> <a href="releases/index.html?nav=1">Releases</a>
     </nav>
 </header>
 
@@ -1161,9 +1161,9 @@ body.has-version-banner .topbar {
         let stories = [];
         let releases = [];
         let requirements = [];
-        let domain = [];
+        let artifacts = [];
         let requirementLookup = new Map();
-        let domainLookup = new Map();
+        let artifactLookup = new Map();
         let filters = { term: '', requirements: [], features: [], epics: [], releases: [] };
         let hideEmptyGroups = true;
         let currentVersionsOnly = true;
@@ -1633,20 +1633,20 @@ body.has-version-banner .topbar {
                 ).join(' ');
             }
 
-            function getDomainText(domainRefs) {
-                if (!domainRefs || domainRefs.length === 0) return null;
-                const domainEntries = domainRefs.map(ref => {
-                    const dom = domainLookup.get(ref);
-                    if (!dom) return ref;
-                    return `${ref}: ${dom.title || ref}`;
+            function getArtifactText(artifactRefs) {
+                if (!artifactRefs || artifactRefs.length === 0) return null;
+                const artifactEntries = artifactRefs.map(ref => {
+                    const artifact = artifactLookup.get(ref);
+                    if (!artifact) return ref;
+                    return `${ref}: ${artifact.title || ref}`;
                 });
-                return `Domain: ${domainEntries.join(', ')}`;
+                return `Artifacts: ${artifactEntries.join(', ')}`;
             }
             const items = requirements
                 .slice()
                 .sort((a, b) => (a.id || '').localeCompare(b.id || ''))
                 .map(req => {
-                    const domainText = getDomainText(req.domain_refs);
+                    const artifactText = getArtifactText(req.artifact_refs);
                     const typeClass = (req.type || 'functional').toLowerCase().replace('_', '-');
                     const statusClass = (req.status || 'active').toLowerCase();
                     return `
@@ -1658,7 +1658,7 @@ body.has-version-banner .topbar {
                         </td>
                         <td>
                             <div class="req-statement">${escapeHtml(req.statement || 'No statement')}</div>
-                            ${domainText ? `<div class="req-domain">${escapeHtml(domainText)}</div>` : ''}
+                            ${artifactText ? `<div class="req-artifact">${escapeHtml(artifactText)}</div>` : ''}
                         </td>
                         <td><span class="status-badge ${typeClass}">${escapeHtml(formatStatusLabel(req.type || 'functional'))}</span></td>
                         <td><span class="status-badge ${statusClass}">${escapeHtml(formatStatusLabel(req.status || 'active'))}</span></td>
@@ -2011,13 +2011,13 @@ body.has-version-banner .topbar {
 
         async function loadData() {
             try {
-                const [featuresRes, epicsRes, storiesRes, releasesRes, requirementsRes, domainRes] = await Promise.all([
+                const [featuresRes, epicsRes, storiesRes, releasesRes, requirementsRes, artifactsRes] = await Promise.all([
                     fetch('data/features.json').catch(() => fetch('../data/features.json')),
                     fetch('data/epics.json').catch(() => fetch('../data/epics.json')),
                     fetch('data/stories.json').catch(() => fetch('../data/stories.json')),
                     fetch('data/releases.json').catch(() => fetch('../data/releases.json')),
                     fetch('data/requirements.json').catch(() => fetch('../data/requirements.json')),
-                    fetch('data/domain.json').catch(() => fetch('../data/domain.json'))
+                    fetch('data/artifacts.json').catch(() => fetch('../data/artifacts.json'))
                 ]);
 
                 features = await featuresRes.json();
@@ -2025,9 +2025,9 @@ body.has-version-banner .topbar {
                 stories = await storiesRes.json();
                 releases = await releasesRes.json();
                 requirements = await requirementsRes.json();
-                domain = await domainRes.json();
+                artifacts = await artifactsRes.json();
                 requirementLookup = new Map(requirements.map(req => [req.id, req.title || req.id]));
-                domainLookup = new Map(domain.map(dom => [dom.id, dom]));
+                artifactLookup = new Map(artifacts.map(artifact => [artifact.id, artifact]));
 
                 populateRequirementFilter();
                 populateGenericFilter('features-list', features, (item) => `<strong>${escapeHtml(item.id)}</strong>: ${escapeHtml(item.title || '')}`);
@@ -2079,12 +2079,12 @@ body.has-version-banner .topbar {
             const filename = parts.pop() || 'index.html';
             const lastDir = parts.pop() || '';
 
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'artifacts', 'releases'];
             const dir = knownSections.includes(lastDir) ? lastDir : '';
 
             const sectionLabels = {
                 'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+                'requirements': 'Requirements', 'artifacts': 'Business Artifacts', 'releases': 'Releases'
             };
 
             let label;

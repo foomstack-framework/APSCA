@@ -53,7 +53,7 @@ User → /input-requirements input/transcript.txt
 User → /integrate-changes approvals/exam-purchasing.txt
     ↓
     Parse approval file sections:
-        - DOMAIN ARTIFACTS (DOM-###)
+        - ARTIFACTS (ART-###)
         - REQUIREMENTS (REQ-###)
         - FEATURES (FEAT-###)
         - MIGRATION ACTIONS
@@ -63,9 +63,9 @@ User → /integrate-changes approvals/exam-purchasing.txt
     AskUserQuestion: Execute / Show Commands / Cancel
     ↓
     Execute mutations via mutate.py (if approved):
-        1. Domain entries (no dependencies)
-        2. Requirements (may reference domain)
-        3. Features (may reference requirements and domain)
+        1. Business artifacts (no dependencies)
+        2. Requirements (may reference artifacts)
+        3. Features (may reference requirements and artifacts)
         4. Deprecations/migrations
     ↓
     Rebuild artifacts:
@@ -187,7 +187,7 @@ approvals/
 ### Repository Updates
 ```
 data/
-├── domain.json              # Domain entries added/updated
+├── artifacts.json           # Business artifacts added/updated
 ├── requirements.json        # Requirements added/updated
 ├── features.json            # Features added/updated
 ├── epics.json               # Epics added/updated
@@ -205,7 +205,7 @@ docs/
 ├── epics/*.html             # Epic pages regenerated
 ├── stories/*.html           # Story pages regenerated
 ├── requirements/*.html      # Requirement pages regenerated
-└── domain/                  # Domain docs (authored, not generated)
+└── artifacts/               # Artifact docs (authored, not generated)
 ```
 
 ---

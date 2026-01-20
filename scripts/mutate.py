@@ -24,7 +24,7 @@ from lib.io import load_json, save_json
 # ID prefixes
 ID_PREFIXES = {
     "releases": "REL",
-    "domain": "DOM",
+    "artifacts": "ART",
     "requirements": "REQ",
     "features": "FEAT",
     "epics": "EPIC",
@@ -196,12 +196,12 @@ def set_release_status(payload: Dict) -> Dict:
 
 
 # =============================================================================
-# Domain Operations
+# Artifact Operations
 # =============================================================================
 
 def add_domain_entry(payload: Dict) -> Dict:
-    """Add a new domain registry entry."""
-    domain = load_json(DATA_FILES["domain"])
+    """Add a new artifact registry entry."""
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     required = ["title", "type", "source", "doc_path"]
     for field in required:
@@ -219,11 +219,11 @@ def add_domain_entry(payload: Dict) -> Dict:
         if t not in valid_types:
             return error_response(f"Invalid type '{t}'. Must be one of {valid_types}")
 
-    dom_id = payload.get("id") or generate_id("domain", domain)
-    if not validate_id_format(dom_id, "domain"):
-        return error_response(f"Invalid domain ID format: {dom_id}")
-    if id_exists(dom_id, domain):
-        return error_response(f"Domain entry {dom_id} already exists")
+    dom_id = payload.get("id") or generate_id("artifacts", artifacts)
+    if not validate_id_format(dom_id, "artifacts"):
+        return error_response(f"Invalid artifact ID format: {dom_id}")
+    if id_exists(dom_id, artifacts):
+        return error_response(f"Business artifact {dom_id} already exists")
 
     timestamp = now_iso()
     record = {
@@ -243,26 +243,26 @@ def add_domain_entry(payload: Dict) -> Dict:
         "updated_at": timestamp,
     }
 
-    domain.append(record)
-    save_json(DATA_FILES["domain"], domain)
+    artifacts.append(record)
+    save_json(DATA_FILES["artifacts"], artifacts)
 
-    return success_response(f"Domain entry {dom_id} created successfully", {"id": dom_id})
+    return success_response(f"Business artifact {dom_id} created successfully", {"id": dom_id})
 
 
 def update_domain_entry(payload: Dict) -> Dict:
-    """Update metadata for existing domain entry."""
-    domain = load_json(DATA_FILES["domain"])
+    """Update metadata for existing business artifact."""
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "id" not in payload:
         return error_response("Missing required field: id")
 
     dom_id = payload["id"]
-    record = find_record_by_id(dom_id, domain)
+    record = find_record_by_id(dom_id, artifacts)
     if not record:
-        return error_response(f"Domain entry {dom_id} not found")
+        return error_response(f"Business artifact {dom_id} not found")
 
     if record["status"] == "deprecated":
-        return error_response(f"Cannot update deprecated domain entry {dom_id}")
+        return error_response(f"Cannot update deprecated business artifact {dom_id}")
 
     updatable = ["title", "type", "source", "effective_date", "doc_path", "anchors", "tags", "owner", "notes"]
     for field in updatable:
@@ -270,26 +270,26 @@ def update_domain_entry(payload: Dict) -> Dict:
             record[field] = payload[field]
 
     record["updated_at"] = now_iso()
-    save_json(DATA_FILES["domain"], domain)
+    save_json(DATA_FILES["artifacts"], artifacts)
 
-    return success_response(f"Domain entry {dom_id} updated successfully", {"id": dom_id})
+    return success_response(f"Business artifact {dom_id} updated successfully", {"id": dom_id})
 
 
 def deprecate_domain_entry(payload: Dict) -> Dict:
-    """Set domain entry status to deprecated."""
-    domain = load_json(DATA_FILES["domain"])
+    """Set business artifact status to deprecated."""
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "id" not in payload:
         return error_response("Missing required field: id")
 
     dom_id = payload["id"]
-    record = find_record_by_id(dom_id, domain)
+    record = find_record_by_id(dom_id, artifacts)
     if not record:
         return error_response(f"Domain entry {dom_id} not found")
 
     record["status"] = "deprecated"
     record["updated_at"] = now_iso()
-    save_json(DATA_FILES["domain"], domain)
+    save_json(DATA_FILES["artifacts"], artifacts)
 
     return success_response(f"Domain entry {dom_id} deprecated", {"id": dom_id})
 
@@ -301,7 +301,7 @@ def deprecate_domain_entry(payload: Dict) -> Dict:
 def add_requirement(payload: Dict) -> Dict:
     """Add a new requirement."""
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     required = ["title", "type", "statement", "rationale"]
     for field in required:
@@ -317,9 +317,9 @@ def add_requirement(payload: Dict) -> Dict:
     if id_exists(req_id, requirements):
         return error_response(f"Requirement {req_id} already exists")
 
-    domain_refs = payload.get("domain_refs", [])
-    if domain_refs:
-        err = validate_refs(domain_refs, domain, "Domain reference")
+    artifact_refs = payload.get("artifact_refs", [])
+    if artifact_refs:
+        err = validate_refs(artifact_refs, artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
@@ -332,7 +332,7 @@ def add_requirement(payload: Dict) -> Dict:
         "invariant": payload.get("invariant", False),
         "statement": payload["statement"],
         "rationale": payload["rationale"],
-        "domain_refs": domain_refs,
+        "artifact_refs": artifact_refs,
         "superseded_by": None,
         "tags": payload.get("tags", []),
         "owner": payload.get("owner", ""),
@@ -350,7 +350,7 @@ def add_requirement(payload: Dict) -> Dict:
 def update_requirement(payload: Dict) -> Dict:
     """Update requirement fields (minor fixes only)."""
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "id" not in payload:
         return error_response("Missing required field: id")
@@ -363,12 +363,12 @@ def update_requirement(payload: Dict) -> Dict:
     if record["status"] == "deprecated":
         return error_response(f"Cannot update deprecated requirement {req_id}")
 
-    if "domain_refs" in payload:
-        err = validate_refs(payload["domain_refs"], domain, "Domain reference")
+    if "artifact_refs" in payload:
+        err = validate_refs(payload["artifact_refs"], artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
-    updatable = ["title", "invariant", "statement", "rationale", "domain_refs", "tags", "owner", "notes"]
+    updatable = ["title", "invariant", "statement", "rationale", "artifact_refs", "tags", "owner", "notes"]
     for field in updatable:
         if field in payload:
             record[field] = payload[field]
@@ -401,7 +401,7 @@ def deprecate_requirement(payload: Dict) -> Dict:
 def supersede_requirement(payload: Dict) -> Dict:
     """Create new requirement that supersedes an existing one."""
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "old_id" not in payload or "new_requirement" not in payload:
         return error_response("Missing required fields: old_id, new_requirement")
@@ -427,9 +427,9 @@ def supersede_requirement(payload: Dict) -> Dict:
     if id_exists(new_id, requirements):
         return error_response(f"Requirement {new_id} already exists")
 
-    domain_refs = new_payload.get("domain_refs", [])
-    if domain_refs:
-        err = validate_refs(domain_refs, domain, "Domain reference")
+    artifact_refs = new_payload.get("artifact_refs", [])
+    if artifact_refs:
+        err = validate_refs(artifact_refs, artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
@@ -443,7 +443,7 @@ def supersede_requirement(payload: Dict) -> Dict:
         "invariant": new_payload.get("invariant", False),
         "statement": new_payload["statement"],
         "rationale": new_payload["rationale"],
-        "domain_refs": domain_refs,
+        "artifact_refs": artifact_refs,
         "superseded_by": None,
         "tags": new_payload.get("tags", []),
         "owner": new_payload.get("owner", ""),
@@ -473,7 +473,7 @@ def add_feature(payload: Dict) -> Dict:
     """Add a new feature."""
     features = load_json(DATA_FILES["features"])
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     required = ["title", "purpose", "business_value"]
     for field in required:
@@ -492,9 +492,9 @@ def add_feature(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    domain_refs = payload.get("domain_refs", [])
-    if domain_refs:
-        err = validate_refs(domain_refs, domain, "Domain reference")
+    artifact_refs = payload.get("artifact_refs", [])
+    if artifact_refs:
+        err = validate_refs(artifact_refs, artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
@@ -508,7 +508,7 @@ def add_feature(payload: Dict) -> Dict:
         "in_scope": payload.get("in_scope", []),
         "out_of_scope": payload.get("out_of_scope", []),
         "requirement_refs": requirement_refs,
-        "domain_refs": domain_refs,
+        "artifact_refs": artifact_refs,
         "tags": payload.get("tags", []),
         "owner": payload.get("owner", ""),
         "notes": payload.get("notes", ""),
@@ -526,7 +526,7 @@ def update_feature(payload: Dict) -> Dict:
     """Update feature fields."""
     features = load_json(DATA_FILES["features"])
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "id" not in payload:
         return error_response("Missing required field: id")
@@ -544,13 +544,13 @@ def update_feature(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    if "domain_refs" in payload:
-        err = validate_refs(payload["domain_refs"], domain, "Domain reference")
+    if "artifact_refs" in payload:
+        err = validate_refs(payload["artifact_refs"], artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
     updatable = ["title", "purpose", "business_value", "in_scope", "out_of_scope",
-                 "requirement_refs", "domain_refs", "tags", "owner", "notes"]
+                 "requirement_refs", "artifact_refs", "tags", "owner", "notes"]
     for field in updatable:
         if field in payload:
             record[field] = payload[field]
@@ -590,7 +590,7 @@ def add_epic(payload: Dict) -> Dict:
     features = load_json(DATA_FILES["features"])
     releases = load_json(DATA_FILES["releases"])
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     required = ["title", "feature_ref", "release_ref", "summary"]
     for field in required:
@@ -610,9 +610,9 @@ def add_epic(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    domain_refs = payload.get("domain_refs", [])
-    if domain_refs:
-        err = validate_refs(domain_refs, domain, "Domain reference")
+    artifact_refs = payload.get("artifact_refs", [])
+    if artifact_refs:
+        err = validate_refs(artifact_refs, artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
@@ -633,7 +633,7 @@ def add_epic(payload: Dict) -> Dict:
         "assumptions": payload.get("assumptions", []),
         "constraints": payload.get("constraints", []),
         "requirement_refs": requirement_refs,
-        "domain_refs": domain_refs,
+        "artifact_refs": artifact_refs,
         "supersedes": None,
         "created_at": timestamp,
         "updated_at": timestamp,
@@ -666,7 +666,7 @@ def create_epic_version(payload: Dict) -> Dict:
     epics = load_json(DATA_FILES["epics"])
     releases = load_json(DATA_FILES["releases"])
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "epic_id" not in payload or "release_ref" not in payload or "summary" not in payload:
         return error_response("Missing required fields: epic_id, release_ref, summary")
@@ -686,9 +686,9 @@ def create_epic_version(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    domain_refs = payload.get("domain_refs", [])
-    if domain_refs:
-        err = validate_refs(domain_refs, domain, "Domain reference")
+    artifact_refs = payload.get("artifact_refs", [])
+    if artifact_refs:
+        err = validate_refs(artifact_refs, artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
@@ -719,7 +719,7 @@ def create_epic_version(payload: Dict) -> Dict:
         "assumptions": payload.get("assumptions", current_version.get("assumptions", [])),
         "constraints": payload.get("constraints", current_version.get("constraints", [])),
         "requirement_refs": requirement_refs or current_version.get("requirement_refs", []),
-        "domain_refs": domain_refs or current_version.get("domain_refs", []),
+        "artifact_refs": artifact_refs or current_version.get("artifact_refs", []),
         "supersedes": current_version_num,
         "created_at": timestamp,
         "updated_at": timestamp,
@@ -799,7 +799,7 @@ def add_story(payload: Dict) -> Dict:
     epics = load_json(DATA_FILES["epics"])
     releases = load_json(DATA_FILES["releases"])
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     required = ["title", "epic_ref", "release_ref", "description"]
     for field in required:
@@ -819,9 +819,9 @@ def add_story(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    domain_refs = payload.get("domain_refs", [])
-    if domain_refs:
-        err = validate_refs(domain_refs, domain, "Domain reference")
+    artifact_refs = payload.get("artifact_refs", [])
+    if artifact_refs:
+        err = validate_refs(artifact_refs, artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
@@ -846,7 +846,7 @@ def add_story(payload: Dict) -> Dict:
         "release_ref": payload["release_ref"],
         "description": payload["description"],
         "requirement_refs": requirement_refs,
-        "domain_refs": domain_refs,
+        "artifact_refs": artifact_refs,
         "acceptance_criteria": payload.get("acceptance_criteria", []),
         "test_intent": test_intent,
         "supersedes": None,
@@ -881,7 +881,7 @@ def create_story_version(payload: Dict) -> Dict:
     stories = load_json(DATA_FILES["stories"])
     releases = load_json(DATA_FILES["releases"])
     requirements = load_json(DATA_FILES["requirements"])
-    domain = load_json(DATA_FILES["domain"])
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "story_id" not in payload or "release_ref" not in payload or "description" not in payload:
         return error_response("Missing required fields: story_id, release_ref, description")
@@ -901,9 +901,9 @@ def create_story_version(payload: Dict) -> Dict:
         if err:
             return error_response(err)
 
-    domain_refs = payload.get("domain_refs", [])
-    if domain_refs:
-        err = validate_refs(domain_refs, domain, "Domain reference")
+    artifact_refs = payload.get("artifact_refs", [])
+    if artifact_refs:
+        err = validate_refs(artifact_refs, artifacts, "Artifact reference")
         if err:
             return error_response(err)
 
@@ -932,7 +932,7 @@ def create_story_version(payload: Dict) -> Dict:
         "release_ref": payload["release_ref"],
         "description": payload["description"],
         "requirement_refs": requirement_refs or current_version.get("requirement_refs", []),
-        "domain_refs": domain_refs or current_version.get("domain_refs", []),
+        "artifact_refs": artifact_refs or current_version.get("artifact_refs", []),
         "acceptance_criteria": payload.get("acceptance_criteria", current_version.get("acceptance_criteria", [])),
         "test_intent": payload.get("test_intent", current_version.get("test_intent", {})),
         "supersedes": current_version_num,
@@ -1005,25 +1005,25 @@ def set_story_status(payload: Dict) -> Dict:
 
 
 def activate_domain_entry(payload: Dict) -> Dict:
-    """Transition domain entry status from draft to active."""
-    domain = load_json(DATA_FILES["domain"])
+    """Transition business artifact status from draft to active."""
+    artifacts = load_json(DATA_FILES["artifacts"])
 
     if "id" not in payload:
         return error_response("Missing required field: id")
 
     dom_id = payload["id"]
-    entry = find_record_by_id(dom_id, domain)
+    entry = find_record_by_id(dom_id, artifacts)
     if not entry:
-        return error_response(f"Domain entry {dom_id} not found")
+        return error_response(f"Business artifact {dom_id} not found")
 
     if entry.get("status") != "draft":
-        return error_response(f"Domain entry {dom_id} is not in draft status (current: {entry.get('status')})")
+        return error_response(f"Business artifact {dom_id} is not in draft status (current: {entry.get('status')})")
 
     entry["status"] = "active"
     entry["updated_at"] = now_iso()
-    save_json(DATA_FILES["domain"], domain)
+    save_json(DATA_FILES["artifacts"], artifacts)
 
-    return success_response(f"Domain entry {dom_id} activated", {"id": dom_id})
+    return success_response(f"Business artifact {dom_id} activated", {"id": dom_id})
 
 
 def set_epic_approved(payload: Dict) -> Dict:

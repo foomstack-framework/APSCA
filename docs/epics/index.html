@@ -1012,7 +1012,7 @@ body.has-version-banner main {
         <span class="brand-name">APSCA Requirements Dashboard</span>
     </a>
     <nav class="topbar-nav" aria-label="Primary">
-        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1" class="active">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../domain/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
+        <a href="../story-map.html?nav=1">Story Map</a> <a href="../features/index.html?nav=1">Features</a> <a href="../epics/index.html?nav=1" class="active">Epics</a> <a href="../stories/index.html?nav=1">Stories</a> <a href="../requirements/index.html?nav=1">Requirements</a> <a href="../artifacts/index.html?nav=1">Business Artifacts</a> <a href="../releases/index.html?nav=1">Releases</a>
     </nav>
 </header>
 
@@ -1020,62 +1020,7 @@ body.has-version-banner main {
         <nav id="breadcrumb-nav" class="breadcrumb-nav" aria-label="Breadcrumb"></nav>
         <h1>Epics</h1>
 <p class="page-subtitle">Stable user intent groupings that organize stories.</p>
-
-<div class="index-toolbar">
-    <div class="toolbar-field">
-        <label for="search-input">Search</label>
-        <input type="search" id="search-input" placeholder="Search by ID, title, status, release..." />
-    </div>
-    <div class="toolbar-field">
-        <label for="status-filter">Epic Status</label>
-        <select id="status-filter">
-            <option value="all">All statuses</option>
-            <option value="active">Active</option>
-<option value="deprecated">Deprecated</option>
-        </select>
-    </div>
-    
-    <div class="toolbar-meta" id="results-count"></div>
-</div>
-<script>
-(function() {
-    var statusFilter = document.getElementById('status-filter');
-    if (statusFilter && 'all' !== 'all') {
-        statusFilter.value = 'all';
-    }
-})();
-</script>
-<table class="index-table"><thead><tr><th>Record</th><th>Summary</th><th>Version</th><th>Epic Status</th><th>Version Status</th><th>Version Approval</th></tr></thead><tbody><tr data-filter-item="true" data-status="active" data-search-text="epic-002 exam eligibility verification active rel-2026-03-15 extend eligibility checks to include renewal status, outstanding invoices, and required attestations release: rel-2026-03-15"><td class="record-cell"><a href="EPIC-002.html">EPIC-002</a><div class="cell-secondary">Exam Eligibility Verification</div></td><td class="summary-cell"><div class="cell-primary">Extend eligibility checks to include renewal status, outstanding invoices, and required attestations</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-003 exam invoice purchase flow active rel-2026-03-15 add invoice preview, pricing breakdown, and post-purchase confirmation with next steps release: rel-2026-03-15"><td class="record-cell"><a href="EPIC-003.html">EPIC-003</a><div class="cell-secondary">Exam Invoice Purchase Flow</div></td><td class="summary-cell"><div class="cell-primary">Add invoice preview, pricing breakdown, and post-purchase confirmation with next steps</div><div class="cell-secondary">Release: REL-2026-03-15</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-004 renewal eligibility checks active rel-2026-05-01 add conditional eligibility for auditors with pending documentation and grace periods release: rel-2026-05-01"><td class="record-cell"><a href="EPIC-004.html">EPIC-004</a><div class="cell-secondary">Renewal Eligibility Checks</div></td><td class="summary-cell"><div class="cell-primary">Add conditional eligibility for auditors with pending documentation and grace periods</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #059669">Approved</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-005 renewal fee invoicing active rel-2026-05-01 generate renewal fee invoices with tiered pricing and late penalties release: rel-2026-05-01"><td class="record-cell"><a href="EPIC-005.html">EPIC-005</a><div class="cell-secondary">Renewal Fee Invoicing</div></td><td class="summary-cell"><div class="cell-primary">Generate renewal fee invoices with tiered pricing and late penalties</div><div class="cell-secondary">Release: REL-2026-05-01</div></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-006 cpe credit validation active add automated cpe credit verification and bulk import capabilities release: unassigned"><td class="record-cell"><a href="EPIC-006.html">EPIC-006</a><div class="cell-secondary">CPE Credit Validation</div></td><td class="summary-cell"><div class="cell-primary">Add automated CPE credit verification and bulk import capabilities</div><div class="cell-secondary">Release: Unassigned</div></td><td class="status-cell">v2</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr><tr data-filter-item="true" data-status="active" data-search-text="epic-007 cpe reporting dashboard active build dashboard for auditors to view cpe credit status, compliance gaps, and reporting period summaries release: unassigned"><td class="record-cell"><a href="EPIC-007.html">EPIC-007</a><div class="cell-secondary">CPE Reporting Dashboard</div></td><td class="summary-cell"><div class="cell-primary">Build dashboard for auditors to view CPE credit status, compliance gaps, and reporting period summaries</div><div class="cell-secondary">Release: Unassigned</div></td><td class="status-cell">v1</td><td class="status-cell"><span class="status-badge" style="background-color: #16a34a">Active</span></td><td class="status-cell"><span class="status-badge" style="background-color: #2563eb">Backlog</span></td><td class="status-cell"><span class="status-badge" style="background-color: #9ca3af">Pending Approval</span></td></tr></tbody></table>
-<script>
-(() => {
-    const searchInput = document.getElementById('search-input');
-    const statusFilter = document.getElementById('status-filter');
-    const items = Array.from(document.querySelectorAll('[data-filter-item]'));
-    const countEl = document.getElementById('results-count');
-    if (!searchInput || !statusFilter || !countEl) return;
-
-    function applyFilters() {
-        const term = searchInput.value.trim().toLowerCase();
-        const status = statusFilter.value.toLowerCase();
-        let visible = 0;
-        items.forEach((item) => {
-            const text = (item.dataset.searchText || '').toLowerCase();
-            const itemStatus = (item.dataset.status || '').toLowerCase();
-            const matchesTerm = !term || text.includes(term);
-            const matchesStatus = status === 'all' || itemStatus === status;
-            const show = matchesTerm && matchesStatus;
-            item.style.display = show ? '' : 'none';
-            if (show) visible += 1;
-        });
-        countEl.textContent = `${visible} of ${items.length} shown`;
-    }
-
-    searchInput.addEventListener('input', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-    applyFilters();
-})();
-</script>
-
+<p><em>No items yet.</em></p>
     </main>
     <script>
     (() => {
@@ -1140,12 +1085,12 @@ body.has-version-banner main {
             const filename = parts.pop() || 'index.html';
             const lastDir = parts.pop() || '';
 
-            const knownSections = ['features', 'epics', 'stories', 'requirements', 'domain', 'releases'];
+            const knownSections = ['features', 'epics', 'stories', 'requirements', 'artifacts', 'releases'];
             const dir = knownSections.includes(lastDir) ? lastDir : '';
 
             const sectionLabels = {
                 'features': 'Features', 'epics': 'Epics', 'stories': 'Stories',
-                'requirements': 'Requirements', 'domain': 'Business Artifacts', 'releases': 'Releases'
+                'requirements': 'Requirements', 'artifacts': 'Business Artifacts', 'releases': 'Releases'
             };
 
             let label;

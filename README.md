@@ -52,7 +52,7 @@ If you are working with other PMs, you may encounter "Merge Conflicts" if you bo
 
 ### 1. Canonical Storage (The Truth)
 All data lives in `data/`. These are JSON files that act as our database.
-*   `data/domain.json`: Registry of business policies and rules.
+*   `data/artifacts.json`: Registry of business policies and rules.
 *   `data/requirements.json`: High-level system requirements.
 *   `data/features.json`: Major capabilities.
 *   `data/epics.json`: Large groupings of work.
@@ -60,7 +60,7 @@ All data lives in `data/`. These are JSON files that act as our database.
 *   `data/releases.json`: Delivery timeline.
 
 ### 2. Generated Documentation (The View)
-The `docs/` folder contains the HTML dashboard. **Do not edit files in `docs/` manually** (except `docs/domain/*.md`). They are overwritten every time the scripts run.
+The `docs/` folder contains the HTML dashboard. **Do not edit files in `docs/` manually** (except `docs/artifacts/*.md`). They are overwritten every time the scripts run.
 
 ### 3. Scripts
 *   `scripts/mutate.py`: The safe way to edit data.
@@ -72,7 +72,7 @@ The `docs/` folder contains the HTML dashboard. **Do not edit files in `docs/` m
 ## 🧩 Artifact Taxonomy
 
 **Hierarchy:**
-`Domain` → `Requirements` → `Features` → `Epics` → `Stories`
+`Artifacts` → `Requirements` → `Features` → `Epics` → `Stories`
 
 **Delivery:**
 `Releases` bind specific versions of Epics and Stories to a date.
